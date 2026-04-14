@@ -1,25 +1,17 @@
-import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee, getCourseImage, type Tournament } from '../data'
-
-type Tab = 'gross' | 'putt'
 
 // 获取球场头图URL
 function getCourseImageUrl(tournament: Tournament): string {
   return getCourseImage(tournament.courseName)
 }
 
-// 判断是否记录推杆数（2026年4月及以后的比赛才记录推杆，3月及以前不记录）
-function hasPuttData(date: string): boolean {
-  return date >= '2026-04-01'
-}
-
 export default function GameDetailPage() {
   const { id } = useParams<{ id: string }>()
   const {
-    tournaments, games, getMemberById,
-    getGrossRanking, getPuttRanking,
+    tournaments, games,
+    getGrossRanking,
     getMemberGames,
   } = useStore()
 
@@ -27,14 +19,7 @@ export default function GameDetailPage() {
   if (!tournament || !id) return <div className="text-center py-20 text-gray-400">未找到该比赛</div>
 
   const game = games.find(g => g.tournamentId === id)
-  const [tab, setTab] = useState<Tab>('gross')
-
   const grossRanking = getGrossRanking(id)
-  const puttRanking = getPuttRanking(id)
-
-  const showPuttTab = hasPuttData(tournament.date)
-
-  const currentData = tab === 'putt' ? puttRanking : grossRanking
 
   // 提取月份
   const monthMatch = tournament.name.match(/(\d+)月/)
@@ -110,47 +95,19 @@ export default function GameDetailPage() {
         </div>
       </div>
 
-      {/* 推杆排名Tab - 仅当有推杆数据时显示 */}
-      {showPuttTab && (
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          <button
-            onClick={() => setTab('gross')}
-            className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
-              tab === 'gross'
-                ? 'bg-golf-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            <span className="mr-1">🏆</span>杆数排名
-          </button>
-          <button
-            onClick={() => setTab('putt')}
-            className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
-              tab === 'putt'
-                ? 'bg-golf-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            <span className="mr-1">⛳</span>推杆排名
-          </button>
-        </div>
-      )}
-
       {/* Ranking Table */}
       <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        {currentData.length === 0 && (
+        {grossRanking.length === 0 && (
           <div className="px-4 sm:px-5 py-8 sm:py-10 text-center text-gray-400 text-sm">暂无数据</div>
         )}
         {/* 表头 */}
-        {tab !== 'putt' && (
-          <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 bg-gray-50 text-xs text-gray-500 border-b border-gray-100">
-            <span className="w-6 sm:w-7 text-center">排名</span>
-            <span className="flex-1 ml-8 sm:ml-11">球员</span>
-            <span className="text-right w-12 sm:w-16">杆数</span>
-          </div>
-        )}
+        <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 bg-gray-50 text-xs text-gray-500 border-b border-gray-100">
+          <span className="w-6 sm:w-7 text-center">排名</span>
+          <span className="flex-1 ml-8 sm:ml-11">球员</span>
+          <span className="text-right w-12 sm:w-16">杆数</span>
+        </div>
         <div className="divide-y divide-gray-50">
-          {currentData.map((item: any) => (
+          {grossRanking.map((item: any) => (
             <Link
               key={item.member.id}
               to={`/member/${item.member.id}`}
@@ -167,11 +124,7 @@ export default function GameDetailPage() {
                 <div className="text-xs sm:text-sm font-medium text-gray-800 truncate">{item.member.name}</div>
                 <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(item.member, getMemberGames(item.member.id).length)}</div>
               </div>
-              {tab === 'putt' ? (
-                <span className="text-xs sm:text-sm font-bold text-gray-900">{item.putts} 推</span>
-              ) : (
-                <span className="text-xs sm:text-sm font-bold text-gray-900">{item.grossScore} 杆</span>
-              )}
+              <span className="text-xs sm:text-sm font-bold text-gray-900">{item.grossScore} 杆</span>
             </Link>
           ))}
         </div>
