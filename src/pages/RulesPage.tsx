@@ -110,18 +110,6 @@ export default function RulesPage() {
               <li>女士：始终打红TEE</li>
             </ul>
           </div>
-
-          <div>
-            <h3 className="font-medium text-gray-800 mb-2 flex items-center gap-2">
-              <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-golf-100 text-golf-700 flex items-center justify-center text-[10px] sm:text-xs">4</span>
-              违规和罚杆
-            </h3>
-            <ul className="space-y-1 sm:space-y-1.5 list-disc list-inside pl-2">
-              <li><strong>罚1杆（补救/程序）：</strong>界外球/丢球、进入水障碍、不可打之球、提球未标记、触动自然物致球移动、意外动球未放回</li>
-              <li><strong>罚2杆（一般处罚）：</strong>击错球、果岭撞球、错误地点打球、违规建议</li>
-              <li>详细罚杆规则请查看下方「违规与罚杆速查表」</li>
-            </ul>
-          </div>
         </div>
       </div>
 
