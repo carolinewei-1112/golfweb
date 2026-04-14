@@ -1,3 +1,14 @@
+// ============ COS 图片代理 ============
+// 通过 Vite proxy / Nginx 代理将 COS 图片转为同源请求，解决截图跨域问题
+// COS 源站: https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com
+
+const COS_PROXY_PREFIX = '/cos-images';
+
+/** 将 COS 绝对 URL 转为同源代理路径 */
+export function cosUrl(path: string): string {
+  return `${COS_PROXY_PREFIX}${path}`;
+}
+
 // ============ 类型定义 ============
 
 export interface Member {
@@ -89,18 +100,18 @@ export interface Expense {
 
 // 成员列表（带昵称）- id改为昵称，name改为昵称用于展示
 export const members: Member[] = [
-  { id: '新来的托', name: '新来的托', realName: '托米', nickname: '新来的托', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/xinlaidetuo.png', background: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/backgrounds/xinlaidetuo.jpg' },
-  { id: '大面', name: '大面', realName: '凉面', nickname: '大面', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/damian.png', background: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/backgrounds/damian.jpg' },
-  { id: 'Raachael', name: 'Raachael', realName: '丽洁', nickname: 'Raachael', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/lijie.png' },
-  { id: 'lulu酱', name: 'lulu酱', realName: '璐璐', nickname: 'lulu酱', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/lulujiang.png', background: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/backgrounds/lulujiang.jpg' },
-  { id: 'NiKi', name: 'NiKi', realName: '颖青', nickname: 'NiKi', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/niki.png', background: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/backgrounds/niki.jpg' },
-  { id: '潇湉', name: '潇湉', realName: '潇湉', nickname: '潇湉', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/xiaotian.png' },
-  { id: 'Archer', name: 'Archer', realName: '欣哲', nickname: 'Archer', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/archer.png' },
-  { id: '纯情浩克', name: '纯情浩克', realName: '思能', nickname: '纯情浩克', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/sineng.png' },
-  { id: '国弘', name: '国弘', realName: '国弘', nickname: '国弘', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/guohong.png', background: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/backgrounds/guohong.jpg' },
-  { id: '康序', name: '康序', realName: '康序', nickname: '康序', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/kangxu.png' },
-  { id: '颖琪', name: '颖琪', realName: '颖琪', nickname: '颖琪', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/yingqi.png' },
-  { id: '小明', name: '小明', realName: '小明', nickname: '小明', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/avatars/xiaoming.png' },
+  { id: '新来的托', name: '新来的托', realName: '托米', nickname: '新来的托', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/xinlaidetuo.png'), background: cosUrl('/images/backgrounds/xinlaidetuo.jpg') },
+  { id: '大面', name: '大面', realName: '凉面', nickname: '大面', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: cosUrl('/images/avatars/damian.png'), background: cosUrl('/images/backgrounds/damian.jpg') },
+  { id: 'Raachael', name: 'Raachael', realName: '丽洁', nickname: 'Raachael', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: cosUrl('/images/avatars/lijie.png') },
+  { id: 'lulu酱', name: 'lulu酱', realName: '璐璐', nickname: 'lulu酱', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: cosUrl('/images/avatars/lulujiang.png'), background: cosUrl('/images/backgrounds/lulujiang.jpg') },
+  { id: 'NiKi', name: 'NiKi', realName: '颖青', nickname: 'NiKi', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: cosUrl('/images/avatars/niki.png'), background: cosUrl('/images/backgrounds/niki.jpg') },
+  { id: '潇湉', name: '潇湉', realName: '潇湉', nickname: '潇湉', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: cosUrl('/images/avatars/xiaotian.png') },
+  { id: 'Archer', name: 'Archer', realName: '欣哲', nickname: 'Archer', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/archer.png') },
+  { id: '纯情浩克', name: '纯情浩克', realName: '思能', nickname: '纯情浩克', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/sineng.png') },
+  { id: '国弘', name: '国弘', realName: '国弘', nickname: '国弘', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/guohong.png'), background: cosUrl('/images/backgrounds/guohong.jpg') },
+  { id: '康序', name: '康序', realName: '康序', nickname: '康序', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/kangxu.png') },
+  { id: '颖琪', name: '颖琪', realName: '颖琪', nickname: '颖琪', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: cosUrl('/images/avatars/yingqi.png') },
+  { id: '小明', name: '小明', realName: '小明', nickname: '小明', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/xiaoming.png') },
 ];
 
 /** 球场名称 → 图片文件名映射 */
@@ -113,10 +124,10 @@ export const courseImageMap: Record<string, string> = {
   '广州南沙': 'guangzhou-nansha',
 };
 
-/** 根据球场名称获取图片URL */
+/** 根据球场名称获取图片URL（通过同源代理） */
 export function getCourseImage(courseName: string): string {
   const key = courseImageMap[courseName];
-  return key ? `https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/courses/${key}.png` : '';
+  return key ? cosUrl(`/images/courses/${key}.png`) : '';
 }
 
 // 比赛列表（2025-2026年）

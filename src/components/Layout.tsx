@@ -26,7 +26,7 @@ export default function Layout() {
       <header className="bg-gradient-to-r from-golf-700 to-golf-600 text-white shadow-lg sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-1.5 sm:gap-2 font-bold text-base sm:text-lg tracking-wide">
-            <img src="https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/logos/logo.png" alt="百鸟会" className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white" />
+            <img src="/cos-images/images/logos/logo.png" alt="百鸟会" className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white" />
             <span>百鸟会</span>
           </Link>
           
