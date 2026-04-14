@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
-import { getMemberTee, type Tournament } from '../data'
+import { getMemberTee, getCourseImage, type Tournament } from '../data'
 
 type Tab = 'gross' | 'putt' | 'progress'
 type SortBy = 'gross' | 'progress'
 
-// 获取球场头图URL - 使用PIC2文件夹中的本地图片
+// 获取球场头图URL
 function getCourseImageUrl(tournament: Tournament): string {
-  return `/PIC2/${tournament.courseName}.png`
+  return getCourseImage(tournament.courseName)
 }
 
 // 判断是否记录推杆数（2026年4月及以后的比赛才记录推杆，3月及以前不记录）

@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store'
-import type { Tournament } from '../data'
+import { getCourseImage, type Tournament } from '../data'
 
-// 获取球场头图URL - 使用PIC2文件夹中的本地图片
+// 获取球场头图URL
 function getCourseImageUrl(tournament: Tournament): string {
-  return `/PIC2/${tournament.courseName}.png`
+  return getCourseImage(tournament.courseName)
 }
 
 export default function HistoryPage() {

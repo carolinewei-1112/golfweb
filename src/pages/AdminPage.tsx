@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useStore } from '../store'
 import type { ScoreEntry } from '../data'
-import { getMemberTee } from '../data'
+import { getMemberTee, getCourseImage } from '../data'
 import type { Course } from '../courses'
 import { searchCourses } from '../courses'
 import { Link } from 'react-router-dom'
@@ -136,9 +136,9 @@ function MemberManager() {
                 value={form.avatar}
                 onChange={e => setForm({ ...form, avatar: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-golf-500"
-                placeholder="如：/pic/昵称.png（可选，留空自动生成）"
+                placeholder="如：/pic/nickname.png（可选，留空自动生成）"
               />
-              <p className="text-xs text-gray-400 mt-1">支持本地图片路径如 /pic/xxx.png 或网络图片URL</p>
+              <p className="text-xs text-gray-400 mt-1">支持本地图片路径如 /pic/name.png 或网络图片URL</p>
             </div>
           </div>
           <button type="submit" className="px-4 py-1.5 bg-golf-700 text-white rounded-lg text-sm hover:bg-golf-800">
@@ -368,9 +368,9 @@ function TournamentCreator() {
                 value={form.image}
                 onChange={e => setForm({ ...form, image: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-golf-500"
-                placeholder="如：/PIC2/球场名称.png 或图片URL（可选）"
+                placeholder="如：/PIC2/course-name.png 或图片URL（可选）"
               />
-              <p className="text-xs text-gray-400 mt-1">支持本地图片路径如 /PIC2/xxx.png 或网络图片URL</p>
+              <p className="text-xs text-gray-400 mt-1">支持本地图片路径如 /PIC2/course-name.png 或网络图片URL</p>
             </div>
             <div>
               <label className="text-xs text-gray-500 mb-1 block">比赛日期</label>

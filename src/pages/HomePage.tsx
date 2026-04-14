@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useStore } from '../store'
+import { getCourseImage } from '../data'
 import type { ReactNode } from 'react'
 
 function Card({ to, icon, title, children, accent }: {
@@ -39,7 +40,7 @@ export default function HomePage() {
       <div className="bg-gradient-to-r from-golf-700 via-golf-600 to-emerald-600 rounded-2xl p-4 sm:p-6 text-white">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
           <div className="flex items-center gap-2">
-            <img src="/A_minimalist_line_art_logo_for_2026-04-14T05-48-05.png" alt="百鸟会" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white" />
+            <img src="/logo.png" alt="百鸟会" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white" />
             <h1 className="text-xl sm:text-2xl font-bold">百鸟会</h1>
           </div>
           {/* 统计信息 - 右对齐 */}
@@ -86,7 +87,7 @@ export default function HomePage() {
               const monthMatch = t.name.match(/(\d+)月/)
               const monthLabel = monthMatch ? `${monthMatch[1]}月` : t.name
               // 使用PIC2文件夹中的本地球场图片
-              const imageUrl = `/PIC2/${t.courseName}.png`
+              const imageUrl = getCourseImage(t.courseName)
               // 获取该比赛的参赛数据
               const game = games.find(g => g.tournamentId === t.id)
               const participantCount = game?.scores.length ?? 0

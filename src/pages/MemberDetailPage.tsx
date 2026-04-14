@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
-import { getMemberTee } from '../data'
+import { getMemberTee, getCourseImage } from '../data'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 // 判断是否记录推杆数（2026年4月及以后的比赛才记录推杆，3月及以前不记录）
@@ -155,7 +155,7 @@ export default function MemberDetailPage() {
               {/* 球场缩略图 */}
               <div className="w-12 h-9 sm:w-16 sm:h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
                 <img
-                  src={`/PIC2/${d.tournament.courseName}.png`}
+                  src={getCourseImage(d.tournament.courseName)}
                   alt={d.tournament.courseName}
                   className="w-full h-full object-cover"
                   onError={(e) => {
