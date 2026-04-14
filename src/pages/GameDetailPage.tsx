@@ -113,7 +113,7 @@ export default function GameDetailPage() {
                   key={index}
                   className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg overflow-hidden border-2 border-white/50 shadow-lg cursor-pointer hover:scale-110 transition-transform"
                   onClick={() => window.open(photo, '_blank')}
-                  style={{ marginLeft: index > 0 ? '-8px' : '0', zIndex: game.photos.length - index }}
+                  style={{ marginLeft: index > 0 ? '-8px' : '0', zIndex: (game.photos?.length ?? 0) - index }}
                 >
                   <img
                     src={photo}

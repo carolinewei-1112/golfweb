@@ -13,6 +13,8 @@ interface RankingItem {
     avatar: string
     gender: '男' | '女'
     joinDate: string
+    initialHandicap: number
+    tee?: string
   }
   handicapIndex?: number
   avgProgress?: number
