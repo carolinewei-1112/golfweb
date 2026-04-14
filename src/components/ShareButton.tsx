@@ -12,6 +12,99 @@ interface ShareButtonProps {
   label?: string
 }
 
+/** 将远程图片 URL 转为 base64 data URL */
+async function urlToBase64(url: string): Promise<string> {
+  try {
+    const resp = await fetch(url, { mode: 'cors' })
+    const blob = await resp.blob()
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onloadend = () => resolve(reader.result as string)
+      reader.onerror = reject
+      reader.readAsDataURL(blob)
+    })
+  } catch {
+    // fetch 也失败时，用 canvas 代理方式尝试
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      img.crossOrigin = 'anonymous'
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        canvas.width = img.naturalWidth
+        canvas.height = img.naturalHeight
+        const ctx = canvas.getContext('2d')!
+        ctx.drawImage(img, 0, 0)
+        try {
+          resolve(canvas.toDataURL('image/png'))
+        } catch {
+          reject(new Error('Canvas tainted'))
+        }
+      }
+      img.onerror = reject
+      img.src = url + (url.includes('?') ? '&' : '?') + '_t=' + Date.now()
+    })
+  }
+}
+
+/** 判断是否为跨域 URL */
+function isCrossOrigin(url: string): boolean {
+  if (!url || url.startsWith('data:') || url.startsWith('blob:')) return false
+  try {
+    const u = new URL(url, window.location.href)
+    return u.origin !== window.location.origin
+  } catch {
+    return false
+  }
+}
+
+/** 将 DOM 中所有跨域图片和背景图转为 base64，返回恢复函数 */
+async function inlineAllCrossOriginImages(root: HTMLElement): Promise<() => void> {
+  const restoreTasks: Array<() => void> = []
+
+  // 1. 处理 <img> 标签
+  const imgs = root.querySelectorAll<HTMLImageElement>('img')
+  const imgPromises = Array.from(imgs).map(async (img) => {
+    const src = img.src
+    if (!isCrossOrigin(src)) return
+    try {
+      const base64 = await urlToBase64(src)
+      const origSrc = img.src
+      img.src = base64
+      restoreTasks.push(() => { img.src = origSrc })
+    } catch {
+      // 跳过无法转换的图片
+    }
+  })
+
+  // 2. 处理 CSS background-image
+  const allElements = root.querySelectorAll<HTMLElement>('*')
+  const bgPromises = Array.from(allElements).map(async (el) => {
+    const style = window.getComputedStyle(el)
+    const bgImage = style.backgroundImage
+    if (!bgImage || bgImage === 'none') return
+
+    const urlMatch = bgImage.match(/url\(["']?(.*?)["']?\)/)
+    if (!urlMatch) return
+    const bgUrl = urlMatch[1]
+    if (!isCrossOrigin(bgUrl)) return
+
+    try {
+      const base64 = await urlToBase64(bgUrl)
+      const origBg = el.style.backgroundImage
+      el.style.backgroundImage = `url(${base64})`
+      restoreTasks.push(() => { el.style.backgroundImage = origBg })
+    } catch {
+      // 跳过无法转换的背景
+    }
+  })
+
+  await Promise.all([...imgPromises, ...bgPromises])
+
+  return () => {
+    restoreTasks.forEach(fn => fn())
+  }
+}
+
 export default function ShareButton({ targetRef, fileName = 'share', className, label = '分享图片' }: ShareButtonProps) {
   const [generating, setGenerating] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
@@ -21,22 +114,24 @@ export default function ShareButton({ targetRef, fileName = 'share', className, 
     if (!targetRef.current || generating) return
 
     setGenerating(true)
+    let restoreImages: (() => void) | null = null
     try {
       const node = targetRef.current
 
-      // 多次渲染以确保图片加载完成（html-to-image 的已知问题）
+      // 先将所有跨域图片内联为 base64
+      restoreImages = await inlineAllCrossOriginImages(node)
+
+      // 多次渲染以确保字体等资源加载完成
       let dataUrl = ''
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 2; i++) {
         dataUrl = await toPng(node, {
-          cacheBust: true,
+          cacheBust: false,
           pixelRatio: 2,
           backgroundColor: '#f8fafc',
           style: {
             padding: '16px',
           },
-          includeQueryParams: true,
           filter: (domNode) => {
-            // 过滤掉分享按钮本身
             if (domNode instanceof HTMLElement) {
               return !domNode.classList?.contains('share-btn-exclude')
             }
@@ -44,6 +139,10 @@ export default function ShareButton({ targetRef, fileName = 'share', className, 
           },
         })
       }
+
+      // 恢复原始图片 URL
+      restoreImages()
+      restoreImages = null
 
       // 添加百鸟会水印
       const img = new Image()
@@ -54,12 +153,9 @@ export default function ShareButton({ targetRef, fileName = 'share', className, 
           canvas.width = img.width
           canvas.height = img.height + 60
           const ctx = canvas.getContext('2d')!
-          // 画白色底部区域
           ctx.fillStyle = '#f8fafc'
           ctx.fillRect(0, 0, canvas.width, canvas.height)
-          // 画原图
           ctx.drawImage(img, 0, 0)
-          // 画底部水印区域
           ctx.fillStyle = '#f0fdf4'
           ctx.fillRect(0, img.height, canvas.width, 60)
           ctx.fillStyle = '#16a34a'
@@ -77,6 +173,8 @@ export default function ShareButton({ targetRef, fileName = 'share', className, 
       console.error('生成图片失败:', err)
       alert('生成图片失败，请重试')
     } finally {
+      // 确保任何情况下都恢复原始图片
+      if (restoreImages) restoreImages()
       setGenerating(false)
     }
   }, [targetRef, generating])
