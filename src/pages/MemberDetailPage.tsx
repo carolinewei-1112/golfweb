@@ -1,9 +1,7 @@
-import { useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee, getCourseImage } from '../data'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import ShareButton from '../components/ShareButton'
 
 // 判断是否记录推杆数（2026年4月及以后的比赛才记录推杆，3月及以前不记录）
 function hasPuttData(date: string): boolean {
@@ -59,18 +57,15 @@ export default function MemberDetailPage() {
 
 
 
-  const shareRef = useRef<HTMLDivElement>(null)
-
   return (
     <div className="animate-fade-in space-y-4 sm:space-y-6">
-      <div className="flex items-center justify-between share-btn-exclude">
+      <div className="flex items-center justify-between">
         <Link to="/ranking" className="inline-flex items-center gap-1 text-xs sm:text-sm text-gray-400 hover:text-golf-600">
           ← 返回排行榜
         </Link>
-        <ShareButton targetRef={shareRef} fileName={`会员-${member.name}`} />
       </div>
 
-      <div ref={shareRef} className="space-y-4 sm:space-y-6">
+      <div className="space-y-4 sm:space-y-6">
       {/* Profile Card with Full Background */}
       <div className="relative rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {/* 全屏背景图片 - 优先使用background，否则使用头像高斯模糊 */}
