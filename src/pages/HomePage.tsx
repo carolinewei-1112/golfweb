@@ -66,7 +66,7 @@ export default function HomePage() {
               ))}
               {announcements.length === 0 && (
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm text-white/90 break-words">
-                  暂无公告
+                  4月月赛时间4月18日，请各位会员预留时间。
                 </div>
               )}
               {announcements.length > 2 && (
