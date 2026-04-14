@@ -3,7 +3,8 @@ import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee, getCourseImage, type Tournament } from '../data'
 
-type Tab = 'gross' | 'putt'
+type Tab = 'gross' | 'putt' | 'progress'
+type SortBy = 'gross' | 'progress'
 
 // 获取球场头图URL
 function getCourseImageUrl(tournament: Tournament): string {
@@ -20,7 +21,8 @@ export default function GameDetailPage() {
   const {
     tournaments, games, getMemberById,
     getGrossRanking, getPuttRanking,
-    getMemberGames,
+    getProgressStar,
+    getProgressScore, getMemberGames,
   } = useStore()
 
   const tournament = tournaments.find(t => t.id === id)
@@ -28,13 +30,47 @@ export default function GameDetailPage() {
 
   const game = games.find(g => g.tournamentId === id)
   const [tab, setTab] = useState<Tab>('gross')
+  const [sortBy, setSortBy] = useState<SortBy>('gross')
 
   const grossRanking = getGrossRanking(id)
   const puttRanking = getPuttRanking(id)
+  const progressStar = getProgressStar(id)
 
-  const showPuttTab = hasPuttData(tournament.date)
+  // 获取完整数据（包含杆数和进步系数）
+  const fullRanking = (game?.scores ?? [])
+    .map(s => {
+      const member = getMemberById(s.memberId)!
+      const progress = getProgressScore(s.memberId, id)
+      return { member, score: s, progress, grossScore: s.grossScore }
+    })
+    .filter(r => r.member)
 
-  const currentData = tab === 'putt' ? puttRanking : grossRanking
+  // 根据排序方式计算排名
+  const sortedRanking = [...fullRanking].sort((a, b) => {
+    if (sortBy === 'gross') {
+      return a.grossScore - b.grossScore // 杆数升序（越少越好）
+    } else {
+      return (b.progress ?? -999) - (a.progress ?? -999) // 进步系数降序
+    }
+  }).map((r, i) => ({ ...r, rank: i + 1 }))
+
+  const tabs: { key: Tab; label: string; icon: string }[] = [
+    { key: 'gross', label: '总排名', icon: '🏆' },
+    ...(hasPuttData(tournament.date) ? [{ key: 'putt' as Tab, label: '推杆排名', icon: '⛳' }] : []),
+    { key: 'progress', label: '进步系数', icon: '📈' },
+  ]
+
+  // 切换tab时自动设置合适的排序方式
+  const handleTabChange = (newTab: Tab) => {
+    setTab(newTab)
+    if (newTab === 'gross') {
+      setSortBy('gross')
+    } else if (newTab === 'progress') {
+      setSortBy('progress')
+    }
+  }
+
+  const currentData = tab === 'putt' ? puttRanking : sortedRanking
 
   // 提取月份
   const monthMatch = tournament.name.match(/(\d+)月/)
@@ -110,28 +146,63 @@ export default function GameDetailPage() {
         </div>
       </div>
 
-      {/* 推杆排名Tab - 仅当有推杆数据时显示 */}
-      {showPuttTab && (
-        <div className="flex gap-2 overflow-x-auto pb-1">
+      {/* Stars */}
+      {progressStar && (
+        <div className="bg-gradient-to-r from-golf-50 to-emerald-50 rounded-xl sm:rounded-2xl border border-golf-200 p-3 sm:p-4">
+          <div className="text-xs sm:text-sm font-bold text-golf-700 mb-2">🐎 进步之星</div>
+          <Link to={`/member/${progressStar.member.id}`} className="flex items-center gap-2 sm:gap-3">
+            <img src={progressStar.member.avatar} alt="" className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-100" />
+            <div>
+              <div className="text-sm sm:text-base font-bold text-gray-800">{progressStar.member.name}</div>
+              <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(progressStar.member, getMemberGames(progressStar.member.id).length)}</div>
+              <div className="text-[10px] sm:text-xs text-golf-600">
+                进步系数 ↑{progressStar.progress}
+              </div>
+            </div>
+          </Link>
+        </div>
+      )}
+
+      {/* Tab切换 */}
+      <div className="flex gap-2 overflow-x-auto pb-1">
+        {tabs.map(t => (
           <button
-            onClick={() => setTab('gross')}
+            key={t.key}
+            onClick={() => handleTabChange(t.key)}
             className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
-              tab === 'gross'
+              tab === t.key
                 ? 'bg-golf-600 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            <span className="mr-1">🏆</span>杆数排名
+            <span className="mr-1">{t.icon}</span>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {/* 排序切换 */}
+      {tab !== 'putt' && (
+        <div className="flex items-center gap-2 text-xs sm:text-sm">
+          <button
+            onClick={() => setSortBy('gross')}
+            className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              sortBy === 'gross'
+                ? 'bg-golf-100 text-golf-700'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            按杆数
           </button>
           <button
-            onClick={() => setTab('putt')}
-            className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
-              tab === 'putt'
-                ? 'bg-golf-600 text-white'
+            onClick={() => setSortBy('progress')}
+            className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              sortBy === 'progress'
+                ? 'bg-golf-100 text-golf-700'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            <span className="mr-1">⛳</span>推杆排名
+            按进步系数
           </button>
         </div>
       )}
@@ -141,12 +212,15 @@ export default function GameDetailPage() {
         {currentData.length === 0 && (
           <div className="px-4 sm:px-5 py-8 sm:py-10 text-center text-gray-400 text-sm">暂无数据</div>
         )}
-        {/* 表头 */}
+        {/* 表头 - 杆数、进步系数 */}
         {tab !== 'putt' && (
           <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 bg-gray-50 text-xs text-gray-500 border-b border-gray-100">
             <span className="w-6 sm:w-7 text-center">排名</span>
             <span className="flex-1 ml-8 sm:ml-11">球员</span>
-            <span className="text-right w-12 sm:w-16">杆数</span>
+            <div className="flex text-right gap-2 sm:gap-4">
+              <span className="w-12 sm:w-16">杆数</span>
+              <span className="w-10 sm:w-12">进步</span>
+            </div>
           </div>
         )}
         <div className="divide-y divide-gray-50">
@@ -170,7 +244,12 @@ export default function GameDetailPage() {
               {tab === 'putt' ? (
                 <span className="text-xs sm:text-sm font-bold text-gray-900">{item.putts} 推</span>
               ) : (
-                <span className="text-xs sm:text-sm font-bold text-gray-900">{item.grossScore} 杆</span>
+                <div className="flex text-right gap-2 sm:gap-4 flex-shrink-0">
+                  <span className="w-12 sm:w-16 text-xs sm:text-sm font-bold text-gray-900">{item.grossScore} 杆</span>
+                  <span className={`w-10 sm:w-12 text-[10px] sm:text-xs ${item.progress == null ? 'text-gray-400' : item.progress > 0 ? 'text-golf-600' : item.progress < 0 ? 'text-red-500' : 'text-gray-500'}`}>
+                    {item.progress == null ? '--' : `${item.progress > 0 ? '↑' : item.progress < 0 ? '↓' : ''}${Math.abs(item.progress)}`}
+                  </span>
+                </div>
               )}
             </Link>
           ))}
