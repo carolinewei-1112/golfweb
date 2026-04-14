@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee } from '../data'
+import ShareButton from '../components/ShareButton'
 
 type RankingType = 'handicap' | 'progress'
 
@@ -33,14 +34,18 @@ export default function RankingPage() {
 
   const isHandicapTab = activeTab === 'handicap'
   const currentRanking: RankingItem[] = isHandicapTab ? overallRanking : progressRanking
+  const shareRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div className="animate-fade-in">
-      <div className="mb-4">
-        <h1 className="text-lg sm:text-xl font-bold text-gray-900">🏆 总排行榜</h1>
-        <p className="text-xs sm:text-sm text-gray-500 mt-1">
-          {isHandicapTab ? '按平均差点排名，差点越低排名越高' : '按最近一场月赛进步系数排名，+表示进步，-表示退步'}
-        </p>
+    <div className="animate-fade-in" ref={shareRef}>
+      <div className="mb-4 flex items-start justify-between">
+        <div>
+          <h1 className="text-lg sm:text-xl font-bold text-gray-900">🏆 总排行榜</h1>
+          <p className="text-xs sm:text-sm text-gray-500 mt-1">
+            {isHandicapTab ? '按平均差点排名，差点越低排名越高' : '按最近一场月赛进步系数排名，+表示进步，-表示退步'}
+          </p>
+        </div>
+        <ShareButton targetRef={shareRef} fileName={`排行榜-${isHandicapTab ? '差点' : '进步'}`} />
       </div>
 
       {/* Tab切换 */}

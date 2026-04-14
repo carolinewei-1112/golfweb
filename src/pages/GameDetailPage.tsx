@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee, getCourseImage, type Tournament } from '../data'
+import ShareButton from '../components/ShareButton'
 
 type Tab = 'gross' | 'putt' | 'progress'
 type SortBy = 'gross' | 'progress'
@@ -76,12 +77,18 @@ export default function GameDetailPage() {
   const monthMatch = tournament.name.match(/(\d+)月/)
   const monthLabel = monthMatch ? `${monthMatch[1]}月` : tournament.name
 
+  const shareRef = useRef<HTMLDivElement>(null)
+
   return (
     <div className="animate-fade-in space-y-4 sm:space-y-6">
-      <Link to="/history" className="inline-flex items-center gap-1 text-xs sm:text-sm text-gray-400 hover:text-golf-600">
-        ← 返回历史比赛
-      </Link>
+      <div className="flex items-center justify-between share-btn-exclude">
+        <Link to="/history" className="inline-flex items-center gap-1 text-xs sm:text-sm text-gray-400 hover:text-golf-600">
+          ← 返回历史比赛
+        </Link>
+        <ShareButton targetRef={shareRef} fileName={`比赛-${tournament.name}`} />
+      </div>
 
+      <div ref={shareRef} className="space-y-4 sm:space-y-6">
       {/* Game Info with Course Image */}
       <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {/* 球场头图 */}
@@ -251,6 +258,7 @@ export default function GameDetailPage() {
             </Link>
           ))}
         </div>
+      </div>
       </div>
     </div>
   )
