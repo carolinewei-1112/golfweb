@@ -71,7 +71,7 @@ export default function GameDetailPage() {
 
       <div className="space-y-5 sm:space-y-7">
       {/* Game Info with Course Image */}
-      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(8px)' }}>
+      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
         {/* 球场头图 */}
         <div className="h-40 sm:h-52 overflow-hidden relative">
           <img
@@ -140,12 +140,12 @@ export default function GameDetailPage() {
       {/* Stars */}
       {progressStar && (
         <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-5 card-shadow" style={{
-          background: 'linear-gradient(135deg, rgba(240, 250, 244, 0.9) 0%, rgba(220, 245, 230, 0.9) 100%)',
-          backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(22, 110, 58, 0.1)',
+          background: 'linear-gradient(135deg, rgba(212, 238, 232, 0.5) 0%, rgba(238, 248, 242, 0.6) 100%)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(168, 226, 191, 0.3)',
         }}>
           <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-golf-700 mb-3">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(22, 168, 90, 0.12)' }}>🐎</div>
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>🐎</div>
             进步之星
           </div>
           <Link to={`/member/${progressStar.member.id}`} className="flex items-center gap-3 sm:gap-4 p-2 rounded-xl hover:bg-white/60 transition-colors">
@@ -169,9 +169,9 @@ export default function GameDetailPage() {
             className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
               tab === 'gross'
                 ? 'text-white shadow-md'
-                : 'bg-white text-gray-600 hover:bg-gray-50 card-shadow'
+                : 'text-gray-600 hover:bg-white/80 card-shadow'
             }`}
-            style={tab === 'gross' ? { background: 'linear-gradient(135deg, #166e3a 0%, #22a85a 100%)', boxShadow: '0 4px 12px rgba(22, 110, 58, 0.25)' } : undefined}
+            style={tab === 'gross' ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
             <span className="mr-1.5">🏆</span>杆数排名
           </button>
@@ -180,9 +180,9 @@ export default function GameDetailPage() {
             className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
               tab === 'putt'
                 ? 'text-white shadow-md'
-                : 'bg-white text-gray-600 hover:bg-gray-50 card-shadow'
+                : 'text-gray-600 hover:bg-white/80 card-shadow'
             }`}
-            style={tab === 'putt' ? { background: 'linear-gradient(135deg, #166e3a 0%, #22a85a 100%)', boxShadow: '0 4px 12px rgba(22, 110, 58, 0.25)' } : undefined}
+            style={tab === 'putt' ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
             <span className="mr-1.5">⛳</span>推杆排名
           </button>
@@ -196,9 +196,10 @@ export default function GameDetailPage() {
             onClick={() => setSortBy('gross')}
             className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
               sortBy === 'gross'
-                ? 'bg-golf-100 text-golf-700 shadow-sm'
-                : 'bg-white text-gray-500 hover:bg-gray-50 card-shadow'
+                ? 'text-golf-700 shadow-sm'
+                : 'text-gray-500 hover:bg-white/80 card-shadow'
             }`}
+            style={sortBy === 'gross' ? { background: 'rgba(212, 238, 232, 0.6)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
             按杆数
           </button>
@@ -206,9 +207,10 @@ export default function GameDetailPage() {
             onClick={() => setSortBy('progress')}
             className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
               sortBy === 'progress'
-                ? 'bg-golf-100 text-golf-700 shadow-sm'
-                : 'bg-white text-gray-500 hover:bg-gray-50 card-shadow'
+                ? 'text-golf-700 shadow-sm'
+                : 'text-gray-500 hover:bg-white/80 card-shadow'
             }`}
+            style={sortBy === 'progress' ? { background: 'rgba(212, 238, 232, 0.6)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
             按进步系数
           </button>
@@ -216,7 +218,7 @@ export default function GameDetailPage() {
       )}
 
       {/* Ranking Table */}
-      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(8px)' }}>
+      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
         {currentData.length === 0 && (
           <div className="px-4 sm:px-5 py-10 sm:py-12 text-center text-gray-400 text-sm">暂无数据</div>
         )}

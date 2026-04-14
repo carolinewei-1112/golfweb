@@ -24,37 +24,46 @@ export default function HistoryPage() {
 
   return (
     <div className="animate-fade-in space-y-5 sm:space-y-7">
-      {/* 页面标题区 - 渐变Banner */}
+      {/* 页面标题区 - 天蓝绿Banner */}
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-5 sm:p-7" style={{
-        background: 'linear-gradient(135deg, #145730 0%, #166e3a 30%, #1a8a47 60%, #22a85a 100%)',
-        boxShadow: '0 4px 20px rgba(22, 110, 58, 0.2)',
+        background: 'linear-gradient(180deg, #b8dfe8 0%, #9ed4c4 40%, #3a9e5c 80%, #2a8c4e 100%)',
+        boxShadow: '0 4px 24px rgba(19, 92, 51, 0.15)',
       }}>
-        <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full" style={{ background: 'radial-gradient(circle, rgba(75, 198, 135, 0.15) 0%, transparent 70%)' }} />
-        <div className="absolute -bottom-6 -left-6 w-28 h-28 rounded-full" style={{ background: 'radial-gradient(circle, rgba(250, 204, 21, 0.08) 0%, transparent 70%)' }} />
+        <div className="absolute top-3 left-[12%] animate-drift">
+          <div className="w-14 h-4 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.3)' }} />
+        </div>
+        <div className="absolute top-6 right-[10%] animate-drift" style={{ animationDelay: '2s' }}>
+          <div className="w-10 h-3 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.25)' }} />
+        </div>
+        <div className="absolute bottom-0 inset-x-0 h-10 overflow-hidden">
+          <svg viewBox="0 0 800 40" fill="none" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0 25 Q200 5 400 20 Q600 35 800 15 L800 40 L0 40 Z" fill="rgba(42, 140, 78, 0.2)" />
+          </svg>
+        </div>
         <div className="relative flex items-center justify-between">
           <div>
-            <h1 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
+            <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#0f4828' }}>
               <span className="text-xl sm:text-2xl">📋</span> 历史比赛
             </h1>
-            <p className="text-xs sm:text-sm text-white/70 mt-1.5">共 {tournaments.length} 场比赛 · 按时间从近到远</p>
+            <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(15, 72, 40, 0.65)' }}>共 {tournaments.length} 场比赛 · 按时间从近到远</p>
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm" style={{ background: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(4px)' }}>
-            <span className="text-white/90 font-medium">{sortedTournaments.length}</span>
-            <span className="text-white/60">场</span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm" style={{ background: 'rgba(253, 246, 227, 0.25)', border: '1px solid rgba(253, 246, 227, 0.2)' }}>
+            <span className="font-medium" style={{ color: '#0f4828' }}>{sortedTournaments.length}</span>
+            <span style={{ color: 'rgba(15, 72, 40, 0.5)' }}>场</span>
           </div>
         </div>
       </div>
 
-      {/* 年份筛选 Tab - 精致胶囊 */}
+      {/* 年份筛选 Tab */}
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button
           onClick={() => setSelectedYear('all')}
           className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
             selectedYear === 'all'
               ? 'text-white shadow-md'
-              : 'bg-white text-gray-600 hover:bg-gray-50 card-shadow'
+              : 'text-gray-600 hover:bg-white/80 card-shadow'
           }`}
-          style={selectedYear === 'all' ? { background: 'linear-gradient(135deg, #166e3a 0%, #22a85a 100%)', boxShadow: '0 4px 12px rgba(22, 110, 58, 0.25)' } : undefined}
+          style={selectedYear === 'all' ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
           全部
         </button>
@@ -65,9 +74,9 @@ export default function HistoryPage() {
             className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
               selectedYear === year
                 ? 'text-white shadow-md'
-                : 'bg-white text-gray-600 hover:bg-gray-50 card-shadow'
+                : 'text-gray-600 hover:bg-white/80 card-shadow'
             }`}
-            style={selectedYear === year ? { background: 'linear-gradient(135deg, #166e3a 0%, #22a85a 100%)', boxShadow: '0 4px 12px rgba(22, 110, 58, 0.25)' } : undefined}
+            style={selectedYear === year ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
             {year}年
           </button>
@@ -94,7 +103,7 @@ export default function HistoryPage() {
               key={t.id}
               to={`/game/${t.id}`}
               className="block rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 card-shadow hover:card-shadow-hover group"
-              style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(8px)' }}
+              style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}
             >
               {/* 球场头图 */}
               <div className="h-28 sm:h-36 overflow-hidden relative">
@@ -126,7 +135,7 @@ export default function HistoryPage() {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm flex-wrap">
                     {bestScore != null && (
-                      <div className="bg-golf-50 px-2.5 py-1 rounded-full">
+                      <div className="px-2.5 py-1 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.6)' }}>
                         <span className="text-gray-400">最佳</span>
                         <span className="ml-1 font-bold text-golf-700">{bestScore} 杆</span>
                       </div>
@@ -148,7 +157,7 @@ export default function HistoryPage() {
                         />
                       ))}
                       {participantCount > 3 && (
-                        <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-golf-50 border-2 border-white flex items-center justify-center text-[10px] sm:text-xs text-golf-700 font-medium shadow-sm">
+                        <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white flex items-center justify-center text-[10px] sm:text-xs text-golf-700 font-medium shadow-sm" style={{ background: '#eef8f2' }}>
                           +{participantCount - 3}
                         </div>
                       )}

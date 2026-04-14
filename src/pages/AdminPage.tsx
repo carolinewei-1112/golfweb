@@ -939,9 +939,10 @@ export default function AdminPage() {
               onClick={() => setTab(t.key)}
               className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
                 tab === t.key
-                  ? 'bg-golf-700 text-white shadow-sm'
-                  : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                  ? 'text-white shadow-sm'
+                  : 'text-gray-600 hover:bg-white/80 border border-white/50'
               }`}
+              style={tab === t.key ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
             >
               {t.icon} {t.label}
             </button>

@@ -10,11 +10,11 @@ function Card({ to, icon, title, children, accent }: {
     <Link
       to={to}
       className="block rounded-2xl overflow-hidden h-full transition-all duration-300 hover:-translate-y-1 card-shadow hover:card-shadow-hover"
-      style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(8px)' }}
+      style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}
     >
-      <div className={`px-4 sm:px-5 py-3.5 ${accent || 'bg-gradient-to-r from-golf-50/80 to-emerald-50/80'}`}>
+      <div className={`px-4 sm:px-5 py-3.5 ${accent || ''}`} style={!accent ? { background: 'linear-gradient(135deg, rgba(212, 238, 232, 0.5) 0%, rgba(238, 248, 242, 0.5) 100%)' } : undefined}>
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl flex items-center justify-center text-lg" style={{ background: 'rgba(22, 168, 90, 0.1)' }}>
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center text-lg" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>
             {icon}
           </div>
           <h2 className="font-bold text-gray-800 text-sm sm:text-base">{title}</h2>
@@ -27,9 +27,9 @@ function Card({ to, icon, title, children, accent }: {
 
 function StatBadge({ label, value, icon }: { label: string; value: string | number; icon: string }) {
   return (
-    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm" style={{ background: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(4px)' }}>
+    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm" style={{ background: 'rgba(253, 246, 227, 0.25)', backdropFilter: 'blur(4px)', border: '1px solid rgba(253, 246, 227, 0.2)' }}>
       <span>{icon}</span>
-      <span className="text-white/90 font-medium">{value}</span>
+      <span className="text-white/95 font-medium">{value}</span>
       <span className="text-white/65">{label}</span>
     </div>
   )
@@ -49,32 +49,49 @@ export default function HomePage() {
 
   return (
     <div className="space-y-5 sm:space-y-7 animate-fade-in">
-      {/* Hero Banner + 公告 */}
+      {/* Hero Banner - 扁平插画风 */}
       <div className="rounded-3xl overflow-hidden relative" style={{
-        background: 'linear-gradient(135deg, #145730 0%, #166e3a 30%, #1a8a47 60%, #22a85a 100%)',
-        boxShadow: '0 4px 20px rgba(22, 110, 58, 0.2), 0 1px 4px rgba(0, 0, 0, 0.06)',
+        background: 'linear-gradient(180deg, #b8dfe8 0%, #c2e3d8 40%, #68b87a 70%, #3a9e5c 85%, #2a8c4e 100%)',
+        boxShadow: '0 4px 24px rgba(19, 92, 51, 0.15), 0 1px 4px rgba(0, 0, 0, 0.04)',
       }}>
-        {/* 装饰性背景图案 */}
-        <div className="absolute inset-0 opacity-[0.07]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
-        {/* 装饰性光圈 */}
-        <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full" style={{ background: 'radial-gradient(circle, rgba(75, 198, 135, 0.15) 0%, transparent 70%)' }} />
-        <div className="absolute -bottom-8 -left-8 w-36 h-36 rounded-full" style={{ background: 'radial-gradient(circle, rgba(250, 204, 21, 0.08) 0%, transparent 70%)' }} />
+        {/* 天空装饰 - 云朵 */}
+        <div className="absolute top-4 left-[8%] animate-drift" style={{ animationDelay: '0s' }}>
+          <div className="flex gap-0.5">
+            <div className="w-14 h-5 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.35)' }} />
+            <div className="w-8 h-4 rounded-full mt-1" style={{ background: 'rgba(253, 246, 227, 0.25)' }} />
+          </div>
+        </div>
+        <div className="absolute top-8 right-[12%] animate-drift" style={{ animationDelay: '2s' }}>
+          <div className="flex gap-0.5">
+            <div className="w-10 h-4 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.3)' }} />
+            <div className="w-6 h-3 rounded-full mt-0.5" style={{ background: 'rgba(253, 246, 227, 0.2)' }} />
+          </div>
+        </div>
+        <div className="absolute top-3 right-[40%] animate-drift" style={{ animationDelay: '4s' }}>
+          <div className="w-12 h-4 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.2)' }} />
+        </div>
 
-        <div className="relative p-5 sm:p-7">
+        {/* 远景山丘装饰 */}
+        <div className="absolute bottom-0 inset-x-0 h-20 overflow-hidden">
+          <svg viewBox="0 0 800 80" fill="none" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0 50 Q100 20 200 35 Q350 55 500 30 Q650 10 800 40 L800 80 L0 80 Z" fill="rgba(42, 140, 78, 0.3)" />
+            <path d="M0 60 Q200 30 400 50 Q600 70 800 45 L800 80 L0 80 Z" fill="rgba(29, 143, 78, 0.2)" />
+          </svg>
+        </div>
+
+        <div className="relative p-5 sm:p-7 pb-8 sm:pb-10">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
             <div className="flex items-center gap-3">
               <div className="relative">
                 <img src="https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/logos/logo.png" alt="百鸟会" className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/90 p-1 shadow-lg" />
-                <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-400 rounded-full border-2 border-white/50" />
+                <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 border-white/50" style={{ background: '#3bb873' }} />
               </div>
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-white drop-shadow-sm">百鸟会</h1>
-                <p className="text-xs text-white/60 mt-0.5">高尔夫成绩管理</p>
+                <h1 className="text-xl sm:text-2xl font-extrabold drop-shadow-sm" style={{ color: '#135c33' }}>百鸟会</h1>
+                <p className="text-xs mt-0.5 px-2 py-0.5 rounded-md inline-block" style={{ background: 'rgba(253, 246, 227, 0.6)', color: '#135c33' }}>GOLF TIME ⛳</p>
               </div>
             </div>
-            {/* 统计信息 - 胶囊徽章 */}
+            {/* 统计信息 - 奶油色胶囊 */}
             <div className="flex flex-wrap gap-2">
               <StatBadge icon="🏌️" value={tournaments.length} label="场比赛" />
               <StatBadge icon="👤" value={members.length} label="位会员" />
@@ -83,21 +100,21 @@ export default function HomePage() {
           </div>
 
           {/* 公告区域 */}
-          <div className="mt-4 sm:mt-5 pt-4 border-t border-white/15">
+          <div className="mt-4 sm:mt-5 pt-4 border-t" style={{ borderColor: 'rgba(253, 246, 227, 0.2)' }}>
             <div className="flex items-start gap-2.5 sm:gap-3">
               <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
-                <div className="w-6 h-6 rounded-lg flex items-center justify-center text-xs" style={{ background: 'rgba(250, 204, 21, 0.2)' }}>
+                <div className="w-6 h-6 rounded-lg flex items-center justify-center text-xs" style={{ background: 'rgba(253, 246, 227, 0.3)' }}>
                   📢
                 </div>
               </div>
               <div className="flex-1 min-w-0">
                 {announcements.slice(0, 2).map(a => (
-                  <div key={a.id} className="rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-white/90 break-words leading-relaxed" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(8px)' }}>
+                  <div key={a.id} className="rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm break-words leading-relaxed" style={{ background: 'rgba(253, 246, 227, 0.2)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.92)' }}>
                     {a.content}
                   </div>
                 ))}
                 {announcements.length === 0 && (
-                  <div className="rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-white/90 break-words leading-relaxed" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(8px)' }}>
+                  <div className="rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm break-words leading-relaxed" style={{ background: 'rgba(253, 246, 227, 0.2)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.92)' }}>
                     4月月赛时间4月18日，请各位会员预留时间。
                   </div>
                 )}
@@ -161,7 +178,7 @@ export default function HomePage() {
                             />
                           ))}
                           {participantCount > 2 && (
-                            <div className="w-5 h-5 sm:w-5.5 sm:h-5.5 rounded-full bg-golf-50 border-2 border-white flex items-center justify-center text-[10px] text-golf-700 font-medium shadow-sm">
+                            <div className="w-5 h-5 sm:w-5.5 sm:h-5.5 rounded-full border-2 border-white flex items-center justify-center text-[10px] text-golf-700 font-medium shadow-sm" style={{ background: '#eef8f2' }}>
                               +{participantCount - 2}
                             </div>
                           )}
@@ -183,21 +200,26 @@ export default function HomePage() {
         </Card>
 
         {/* 进步排行榜入口 */}
-        <Card to="/ranking" icon="🏆" title="进步排行" accent="bg-gradient-to-r from-amber-50/80 to-yellow-50/80">
+        <Card to="/ranking" icon="🏆" title="进步排行" accent="bg-gradient-to-r from-amber-50/50 to-yellow-50/50">
           <div className="space-y-1.5 sm:space-y-2 max-h-[360px] overflow-y-auto pr-1">
             {progressRanking.map(r => (
-              <div key={r.member.id} className="flex items-center gap-2 sm:gap-3 py-1 rounded-xl px-1 hover:bg-gray-50/80 transition-colors">
+              <div key={r.member.id} className="flex items-center gap-2 sm:gap-3 py-1 rounded-xl px-1 hover:bg-golf-50/50 transition-colors">
                 <span className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 ${
-                  r.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm' :
-                  r.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-sm' :
-                  r.rank === 3 ? 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm' :
+                  r.rank === 1 ? 'text-white shadow-sm' :
+                  r.rank === 2 ? 'text-white shadow-sm' :
+                  r.rank === 3 ? 'text-white shadow-sm' :
                   'bg-gray-100 text-gray-500'
-                }`}>{r.rank}</span>
+                }`} style={
+                  r.rank === 1 ? { background: 'linear-gradient(135deg, #facc15, #eab308)' } :
+                  r.rank === 2 ? { background: 'linear-gradient(135deg, #9ca3af, #6b7280)' } :
+                  r.rank === 3 ? { background: 'linear-gradient(135deg, #d97706, #b45309)' } :
+                  undefined
+                }>{r.rank}</span>
                 <img src={r.member.avatar} alt="" className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gray-100 flex-shrink-0 shadow-sm" />
                 <span className="flex-1 text-xs sm:text-sm font-medium text-gray-700 truncate">{r.member.name}</span>
                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                   r.latestProgress >= 0 
-                    ? 'text-green-700 bg-green-50' 
+                    ? 'text-golf-700 bg-golf-50' 
                     : 'text-red-600 bg-red-50'
                 }`}>
                   {r.latestProgress >= 0 ? '+' : ''}{r.latestProgress.toFixed(1)}
@@ -212,20 +234,20 @@ export default function HomePage() {
       </div>
 
       {/* 百鸟记录入口 */}
-      <Card to="/birdie" icon="🐦" title="百鸟记录" accent="bg-gradient-to-r from-sky-50/80 to-blue-50/80">
+      <Card to="/birdie" icon="🐦" title="百鸟记录" accent="bg-gradient-to-r from-sky-50/50 to-blue-50/50">
         <div className="space-y-3">
           {/* 百鸟进度 */}
           <div className="flex items-center justify-between mb-2 sm:mb-3">
             <span className="text-xs sm:text-sm text-gray-600">百鸟进度</span>
             <span className="text-base sm:text-lg font-bold text-golf-700">{birdieRecords.length} <span className="text-gray-400 font-normal text-sm">/ 100</span></span>
           </div>
-          <div className="w-full bg-gray-100 rounded-full h-2.5 mb-3 sm:mb-4 overflow-hidden">
+          <div className="w-full rounded-full h-2.5 mb-3 sm:mb-4 overflow-hidden" style={{ background: 'rgba(212, 238, 232, 0.6)' }}>
             <div 
               className="h-2.5 rounded-full transition-all duration-700"
               style={{ 
                 width: `${Math.min((birdieRecords.length / 100) * 100, 100)}%`,
-                background: 'linear-gradient(90deg, #22a85a, #4bc687)',
-                boxShadow: '0 0 8px rgba(75, 198, 135, 0.4)',
+                background: 'linear-gradient(90deg, #1d8f4e, #3bb873)',
+                boxShadow: '0 0 8px rgba(59, 184, 115, 0.4)',
               }}
             />
           </div>
@@ -237,8 +259,8 @@ export default function HomePage() {
               {recentBirdies.map(record => {
                 const member = members.find(m => m.id === record.memberId)
                 return (
-                  <div key={record.id} className="flex items-center gap-2.5 sm:gap-3 py-1 px-1 rounded-xl hover:bg-gray-50/80 transition-colors">
-                    <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-golf-100 to-golf-200 text-golf-700 flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 shadow-sm">
+                  <div key={record.id} className="flex items-center gap-2.5 sm:gap-3 py-1 px-1 rounded-xl hover:bg-golf-50/50 transition-colors">
+                    <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 shadow-sm" style={{ background: 'linear-gradient(135deg, #d4f0df, #a8e2bf)', color: '#135c33' }}>
                       {record.number}
                     </span>
                     {member && (
@@ -246,7 +268,7 @@ export default function HomePage() {
                     )}
                     <span className="flex-1 text-xs sm:text-sm font-medium text-gray-700 truncate">{member?.name || '未知'}</span>
                     {record.location && record.location !== '-' && (
-                      <span className="text-[10px] sm:text-xs text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full truncate max-w-[80px] sm:max-w-[100px]">
+                      <span className="text-[10px] sm:text-xs text-gray-400 px-2 py-0.5 rounded-full truncate max-w-[80px] sm:max-w-[100px]" style={{ background: 'rgba(212, 238, 232, 0.4)' }}>
                         {record.location}
                       </span>
                     )}

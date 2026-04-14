@@ -22,12 +22,16 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col nature-pattern">
-      {/* Header - 毛玻璃导航栏 */}
+      {/* Header - 天蓝绿色导航栏 */}
       <header className="sticky top-0 z-50" style={{
-        background: 'linear-gradient(135deg, #166e3a 0%, #1a8a47 40%, #22a85a 100%)',
-        boxShadow: '0 2px 16px rgba(22, 110, 58, 0.2), 0 1px 3px rgba(0, 0, 0, 0.08)',
+        background: 'linear-gradient(135deg, #135c33 0%, #17753f 40%, #1d8f4e 80%, #2a9d5c 100%)',
+        boxShadow: '0 2px 20px rgba(19, 92, 51, 0.25), 0 1px 3px rgba(0, 0, 0, 0.06)',
       }}>
-        <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
+        {/* 装饰性云朵 */}
+        <div className="absolute top-1 right-16 w-12 h-4 rounded-full opacity-10" style={{ background: '#fdf6e3' }} />
+        <div className="absolute top-2 right-32 w-8 h-3 rounded-full opacity-8" style={{ background: '#fdf6e3' }} />
+        
+        <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between relative">
           <Link to="/" className="flex items-center gap-2 sm:gap-2.5 font-bold text-base sm:text-lg tracking-wide group">
             <div className="relative">
               <img src="https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/logos/logo.png" alt="百鸟会" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/90 p-0.5 group-hover:scale-105 transition-transform" />
@@ -43,9 +47,10 @@ export default function Layout() {
                 to={item.path}
                 className={`px-3.5 py-2 rounded-xl text-sm transition-all duration-200 ${
                   isActive(item.path)
-                    ? 'bg-white/25 font-semibold text-white shadow-sm'
-                    : 'text-white/85 hover:bg-white/15 hover:text-white'
+                    ? 'font-semibold text-white shadow-sm'
+                    : 'text-white/80 hover:text-white'
                 }`}
+                style={isActive(item.path) ? { background: 'rgba(253, 246, 227, 0.2)' } : undefined}
               >
                 <span className="mr-1">{item.icon}</span>
                 {item.label}
@@ -55,9 +60,10 @@ export default function Layout() {
               to="/admin"
               className={`px-3.5 py-2 rounded-xl text-sm transition-all duration-200 ${
                 location.pathname === '/admin'
-                  ? 'bg-white/25 font-semibold text-white shadow-sm'
-                  : 'text-white/85 hover:bg-white/15 hover:text-white'
+                  ? 'font-semibold text-white shadow-sm'
+                  : 'text-white/80 hover:text-white'
               }`}
+              style={location.pathname === '/admin' ? { background: 'rgba(253, 246, 227, 0.2)' } : undefined}
             >
               <span className="mr-1">🔧</span>
               管理
@@ -70,15 +76,16 @@ export default function Layout() {
               to="/admin"
               className={`p-2 rounded-xl transition-all duration-200 ${
                 location.pathname === '/admin'
-                  ? 'bg-white/25 font-medium'
-                  : 'hover:bg-white/15'
+                  ? 'font-medium'
+                  : ''
               }`}
+              style={location.pathname === '/admin' ? { background: 'rgba(253, 246, 227, 0.2)' } : undefined}
             >
               <span>🔧</span>
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl hover:bg-white/15 transition-all duration-200"
+              className="p-2 rounded-xl hover:bg-white/10 transition-all duration-200"
             >
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {mobileMenuOpen ? (
@@ -93,7 +100,7 @@ export default function Layout() {
 
         {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-white/15" style={{ background: 'rgba(20, 87, 48, 0.95)', backdropFilter: 'blur(12px)' }}>
+          <div className="md:hidden border-t border-white/10" style={{ background: 'rgba(15, 72, 40, 0.96)', backdropFilter: 'blur(16px)' }}>
             <nav className="max-w-4xl mx-auto px-4 py-2">
               {navItems.map(item => (
                 <Link
@@ -102,9 +109,10 @@ export default function Layout() {
                   onClick={() => setMobileMenuOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all duration-200 ${
                     isActive(item.path)
-                      ? 'bg-white/20 font-semibold text-white'
-                      : 'text-white/85 hover:bg-white/10 hover:text-white'
+                      ? 'font-semibold text-white'
+                      : 'text-white/80 hover:text-white'
                   }`}
+                  style={isActive(item.path) ? { background: 'rgba(253, 246, 227, 0.15)' } : undefined}
                 >
                   <span className="text-lg">{item.icon}</span>
                   {item.label}
@@ -122,9 +130,16 @@ export default function Layout() {
         </div>
       </main>
 
-      {/* Footer - 更精致 */}
-      <footer className="py-4 sm:py-5 text-center text-xs px-4" style={{ background: 'linear-gradient(to top, rgba(22, 110, 58, 0.04), transparent)' }}>
-        <div className="text-gray-400">
+      {/* Footer - 山丘波浪装饰 */}
+      <footer className="relative py-4 sm:py-5 text-center text-xs px-4">
+        {/* SVG 山丘装饰 */}
+        <div className="absolute inset-x-0 -top-6 h-8 overflow-hidden">
+          <svg viewBox="0 0 1440 40" fill="none" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0 40 Q240 10 480 25 Q720 40 960 20 Q1200 0 1440 15 L1440 40 Z" fill="rgba(29, 143, 78, 0.04)" />
+            <path d="M0 40 Q360 20 720 30 Q1080 40 1440 25 L1440 40 Z" fill="rgba(59, 184, 115, 0.03)" />
+          </svg>
+        </div>
+        <div className="relative text-gray-400">
           <span className="inline-flex items-center gap-1.5">
             <span className="text-golf-500">⛳</span>
             <span className="hidden sm:inline text-gray-500">百鸟会 · </span>

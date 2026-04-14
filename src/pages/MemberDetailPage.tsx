@@ -60,14 +60,14 @@ export default function MemberDetailPage() {
   return (
     <div className="animate-fade-in space-y-5 sm:space-y-7">
       <div className="flex items-center justify-between">
-        <Link to="/ranking" className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-gray-400 hover:text-golf-600 transition-colors px-3 py-1.5 rounded-xl hover:bg-golf-50">
+        <Link to="/ranking" className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-gray-400 hover:text-golf-600 transition-colors px-3 py-1.5 rounded-xl hover:bg-golf-50/50">
           ← 返回排行榜
         </Link>
       </div>
 
       <div className="space-y-5 sm:space-y-7">
       {/* Profile Card with Full Background */}
-      <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ border: '1px solid rgba(255,255,255,0.2)' }}>
+      <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ border: '1px solid rgba(255,255,255,0.3)' }}>
         {/* 全屏背景图片 - 优先使用background，否则使用头像高斯模糊 */}
         <div className="absolute inset-0">
           <img
@@ -85,17 +85,17 @@ export default function MemberDetailPage() {
         {/* 内容区域 */}
         <div className="relative p-5 sm:p-7 text-white">
           <div className="flex items-center gap-3 sm:gap-5">
-            <div className="relative p-0.5 rounded-full bg-gradient-to-br from-golf-400 to-golf-600 shadow-xl">
+            <div className="relative p-0.5 rounded-full shadow-xl" style={{ background: 'linear-gradient(135deg, #3bb873, #1d8f4e)' }}>
               <img src={member.avatar} alt="" className="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-gray-100 border-2 sm:border-3 border-white" />
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-lg sm:text-2xl font-bold text-white truncate">{member.name}</h1>
               <div className="flex flex-wrap gap-x-3 sm:gap-x-5 gap-y-0.5 sm:gap-y-1 mt-1.5 sm:mt-2.5 text-xs sm:text-sm text-white/75">
                 <span className="truncate">{member.realName || member.name}</span>
-                <span className="bg-white/15 px-2 py-0.5 rounded-full">{member.gender}</span>
+                <span className="px-2 py-0.5 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.2)' }}>{member.gender}</span>
                 <span className="hidden sm:inline">入会 {joinDate}</span>
                 <span className="sm:hidden">{joinDate.slice(5)}</span>
-                <span className="bg-white/15 px-2 py-0.5 rounded-full">{getMemberTee(member, memberGames.length)}</span>
+                <span className="px-2 py-0.5 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.2)' }}>{getMemberTee(member, memberGames.length)}</span>
               </div>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function MemberDetailPage() {
               { label: '最佳/最差', value: `${bestScore}/${worstScore}`, color: 'text-white' },
               ...(hasAnyPuttData ? [{ label: '平均推杆', value: avgPutts || '-', color: 'text-purple-300' }] : []),
             ].map(s => (
-              <div key={s.label} className="rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 text-center" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.15)' }}>
+              <div key={s.label} className="rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 text-center" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.12)' }}>
                 <div className="text-[10px] sm:text-xs text-white/55 mb-0.5 sm:mb-1">{s.label}</div>
                 <div className={`text-sm sm:text-lg font-bold ${s.color}`}>{s.value}</div>
               </div>
@@ -118,15 +118,15 @@ export default function MemberDetailPage() {
 
       {/* Chart - 杆数变化趋势 */}
       {chartData.length > 0 && (
-        <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 card-shadow" style={{ background: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(8px)' }}>
+        <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
           <h2 className="text-sm sm:text-base font-bold text-gray-800 mb-4 sm:mb-5 flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(22, 168, 90, 0.1)' }}>📈</div>
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>📈</div>
             杆数变化趋势
           </h2>
           <div className="h-48 sm:h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="date" tick={{ fontSize: 10 }} stroke="#94a3b8" />
                 <YAxis domain={['dataMin - 4', 'dataMax + 4']} tick={{ fontSize: 10 }} stroke="#94a3b8" />
                 <Tooltip
@@ -137,7 +137,7 @@ export default function MemberDetailPage() {
                   }}
                   labelFormatter={(_label: any, payload: any) => payload?.[0]?.payload?.name ?? ''}
                 />
-                <Line type="monotone" dataKey="gross" stroke="#16a34a" strokeWidth={2.5} dot={{ r: 4, fill: '#16a34a', strokeWidth: 2, stroke: '#fff' }} name="总杆数" />
+                <Line type="monotone" dataKey="gross" stroke="#1d8f4e" strokeWidth={2.5} dot={{ r: 4, fill: '#1d8f4e', strokeWidth: 2, stroke: '#fff' }} name="总杆数" />
                 <Line type="monotone" dataKey="putts" stroke="#8b5cf6" strokeWidth={2} dot={{ r: 3, fill: '#8b5cf6', strokeWidth: 2, stroke: '#fff' }} name="推杆数" strokeDasharray="5 5" connectNulls={false} />
               </LineChart>
             </ResponsiveContainer>
@@ -146,10 +146,10 @@ export default function MemberDetailPage() {
       )}
 
       {/* Game History */}
-      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(8px)' }}>
-        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100" style={{ background: 'rgba(249, 250, 251, 0.8)' }}>
+      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100" style={{ background: 'rgba(212, 238, 232, 0.3)' }}>
           <h2 className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(22, 168, 90, 0.1)' }}>📊</div>
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>📊</div>
             比赛记录与系数分析
           </h2>
         </div>
@@ -161,7 +161,7 @@ export default function MemberDetailPage() {
             <Link
               key={d.tournament.id}
               to={`/game/${d.tournament.id}`}
-              className="flex items-center gap-2.5 sm:gap-3.5 px-4 sm:px-6 py-3 sm:py-4 hover:bg-golf-50/50 transition-all duration-200"
+              className="flex items-center gap-2.5 sm:gap-3.5 px-4 sm:px-6 py-3 sm:py-4 hover:bg-golf-50/40 transition-all duration-200"
             >
               {/* 球场缩略图 */}
               <div className="w-12 h-9 sm:w-16 sm:h-12 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100 shadow-sm">
@@ -179,7 +179,7 @@ export default function MemberDetailPage() {
                   <span className="text-xs sm:text-sm font-medium text-gray-800">
                     {d.tournament.name.match(/(\d+)月/)?.[1] ?? d.tournament.name}月
                   </span>
-                  <span className="text-[10px] sm:text-xs text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded-full">{d.tournament.date}</span>
+                  <span className="text-[10px] sm:text-xs text-gray-400 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.4)' }}>{d.tournament.date}</span>
                 </div>
                 <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 truncate">{d.tournament.courseName}</div>
               </div>
@@ -205,7 +205,7 @@ export default function MemberDetailPage() {
                 )}
                 <div className="text-center min-w-[50px] sm:min-w-[70px]">
                   <div className="text-[10px] sm:text-xs text-gray-400">进步系数</div>
-                  <div className={`text-xs sm:text-sm font-bold px-1.5 py-0.5 rounded-full ${d.progress == null ? 'text-gray-400' : d.progress > 0 ? 'text-green-700 bg-green-50' : d.progress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
+                  <div className={`text-xs sm:text-sm font-bold px-1.5 py-0.5 rounded-full ${d.progress == null ? 'text-gray-400' : d.progress > 0 ? 'text-golf-700 bg-golf-50' : d.progress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
                     {d.progress == null ? '--' : `${d.progress > 0 ? '↑' : d.progress < 0 ? '↓' : ''}${Math.abs(d.progress)}`}
                   </div>
                 </div>

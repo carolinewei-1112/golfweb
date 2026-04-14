@@ -24,41 +24,50 @@ export default function BirdiePage() {
 
   return (
     <div className="animate-fade-in space-y-5 sm:space-y-7">
-      {/* 页面标题区 - 渐变Banner */}
+      {/* 页面标题区 - 天蓝绿Banner */}
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-5 sm:p-7" style={{
-        background: 'linear-gradient(135deg, #145730 0%, #166e3a 30%, #1a8a47 60%, #22a85a 100%)',
-        boxShadow: '0 4px 20px rgba(22, 110, 58, 0.2)',
+        background: 'linear-gradient(180deg, #b8dfe8 0%, #9ed4c4 40%, #3a9e5c 80%, #2a8c4e 100%)',
+        boxShadow: '0 4px 24px rgba(19, 92, 51, 0.15)',
       }}>
-        <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full" style={{ background: 'radial-gradient(circle, rgba(75, 198, 135, 0.15) 0%, transparent 70%)' }} />
-        <div className="absolute -bottom-6 -left-6 w-28 h-28 rounded-full" style={{ background: 'radial-gradient(circle, rgba(250, 204, 21, 0.08) 0%, transparent 70%)' }} />
+        <div className="absolute top-3 right-[15%] animate-drift">
+          <div className="w-12 h-4 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.3)' }} />
+        </div>
+        <div className="absolute top-6 left-[8%] animate-drift" style={{ animationDelay: '3s' }}>
+          <div className="w-10 h-3 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.2)' }} />
+        </div>
+        <div className="absolute bottom-0 inset-x-0 h-10 overflow-hidden">
+          <svg viewBox="0 0 800 40" fill="none" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0 25 Q200 5 400 20 Q600 35 800 15 L800 40 L0 40 Z" fill="rgba(42, 140, 78, 0.2)" />
+          </svg>
+        </div>
         <div className="relative">
-          <h1 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#0f4828' }}>
             <span className="text-xl sm:text-2xl">🐦</span> 百鸟记录
           </h1>
-          <p className="text-xs sm:text-sm text-white/70 mt-1.5">记录百鸟会会员的每一次打鸟瞬间</p>
+          <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(15, 72, 40, 0.65)' }}>记录百鸟会会员的每一次打鸟瞬间</p>
         </div>
       </div>
 
-      {/* 进度条 - 毛玻璃卡片 */}
+      {/* 进度条 */}
       <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 card-shadow" style={{
-        background: 'linear-gradient(135deg, rgba(240, 250, 244, 0.95) 0%, rgba(220, 245, 230, 0.95) 100%)',
-        backdropFilter: 'blur(8px)',
-        border: '1px solid rgba(22, 110, 58, 0.1)',
+        background: 'linear-gradient(135deg, rgba(212, 238, 232, 0.6) 0%, rgba(238, 248, 242, 0.8) 100%)',
+        backdropFilter: 'blur(12px)',
+        border: '1px solid rgba(255, 255, 255, 0.5)',
       }}>
         <div className="flex items-center justify-between mb-3 sm:mb-4">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center text-base" style={{ background: 'rgba(22, 168, 90, 0.12)' }}>🎯</div>
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center text-base" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>🎯</div>
             <span className="text-sm sm:text-base font-semibold text-gray-700">百鸟进度</span>
           </div>
           <span className="text-lg sm:text-2xl font-bold text-golf-700">{progress} <span className="text-gray-400 font-normal text-sm sm:text-base">/ 100</span></span>
         </div>
-        <div className="h-3.5 sm:h-4 bg-white rounded-full overflow-hidden border border-golf-200/50 shadow-inner">
+        <div className="h-3.5 sm:h-4 bg-white rounded-full overflow-hidden shadow-inner" style={{ border: '1px solid rgba(212, 238, 232, 0.8)' }}>
           <div
             className="h-full rounded-full transition-all duration-700"
             style={{
               width: `${progressPercent}%`,
-              background: 'linear-gradient(90deg, #22a85a, #4bc687)',
-              boxShadow: '0 0 12px rgba(75, 198, 135, 0.4)',
+              background: 'linear-gradient(90deg, #1d8f4e, #3bb873)',
+              boxShadow: '0 0 12px rgba(59, 184, 115, 0.4)',
             }}
           />
         </div>
@@ -67,16 +76,16 @@ export default function BirdiePage() {
         </p>
       </div>
 
-      {/* Tab 切换 - 精致胶囊 */}
+      {/* Tab 切换 */}
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button
           onClick={() => setActiveTab('wall')}
           className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
             activeTab === 'wall'
               ? 'text-white shadow-md'
-              : 'bg-white text-gray-600 hover:bg-gray-50 card-shadow'
+              : 'text-gray-600 hover:bg-white/80 card-shadow'
           }`}
-          style={activeTab === 'wall' ? { background: 'linear-gradient(135deg, #166e3a 0%, #22a85a 100%)', boxShadow: '0 4px 12px rgba(22, 110, 58, 0.25)' } : undefined}
+          style={activeTab === 'wall' ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
           <span className="mr-1.5">🏆</span>百鸟墙
         </button>
@@ -85,9 +94,9 @@ export default function BirdiePage() {
           className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
             activeTab === 'members'
               ? 'text-white shadow-md'
-              : 'bg-white text-gray-600 hover:bg-gray-50 card-shadow'
+              : 'text-gray-600 hover:bg-white/80 card-shadow'
           }`}
-          style={activeTab === 'members' ? { background: 'linear-gradient(135deg, #166e3a 0%, #22a85a 100%)', boxShadow: '0 4px 12px rgba(22, 110, 58, 0.25)' } : undefined}
+          style={activeTab === 'members' ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
           <span className="mr-1.5">👥</span>个人统计
         </button>
@@ -97,7 +106,7 @@ export default function BirdiePage() {
       {activeTab === 'wall' && (
         <>
           {sortedRecords.length === 0 ? (
-            <div className="text-center py-16 rounded-2xl card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)' }}>
+            <div className="text-center py-16 rounded-2xl card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)' }}>
               <div className="text-5xl mb-3">🐦</div>
               <p className="text-sm text-gray-400">还没有打鸟记录，快来创造历史！</p>
             </div>
@@ -112,11 +121,11 @@ export default function BirdiePage() {
                     <div
                       key={num}
                       className="rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 transition-all duration-300 hover:-translate-y-0.5 card-shadow hover:card-shadow-hover"
-                      style={{ background: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(4px)', border: '1px solid rgba(22, 110, 58, 0.12)' }}
+                      style={{ background: 'rgba(255, 255, 255, 0.88)', backdropFilter: 'blur(8px)', border: '1px solid rgba(212, 238, 232, 0.6)' }}
                     >
                       <div className="flex items-center justify-between mb-1.5 sm:mb-2">
                         <div className="flex items-center gap-1">
-                          <span className="text-[10px] sm:text-xs font-bold text-golf-600 px-2 sm:px-2.5 py-0.5 rounded-full" style={{ background: 'rgba(22, 168, 90, 0.1)' }}>
+                          <span className="text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-0.5 rounded-full" style={{ background: 'rgba(29, 143, 78, 0.1)', color: '#135c33' }}>
                             第{num}鸟
                           </span>
                           {record.type === 'simulator' && (
@@ -136,7 +145,7 @@ export default function BirdiePage() {
                         <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">{member.name}</span>
                       </div>
                       {record.location && record.location !== '-' && (
-                        <div className="text-[10px] sm:text-xs text-gray-500 truncate bg-gray-50 px-2 py-0.5 rounded-full">
+                        <div className="text-[10px] sm:text-xs text-gray-500 truncate px-2 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.4)' }}>
                           📍 {record.location}
                         </div>
                       )}
@@ -154,7 +163,7 @@ export default function BirdiePage() {
                   <div
                     key={num}
                     className="rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 opacity-50"
-                    style={{ background: 'rgba(249, 250, 251, 0.8)', border: '1px dashed rgba(209, 213, 219, 0.6)' }}
+                    style={{ background: 'rgba(249, 250, 251, 0.6)', border: '1px dashed rgba(209, 213, 219, 0.5)' }}
                   >
                     <div className="flex items-center justify-center h-full min-h-[60px] sm:min-h-[80px]">
                       <span className="text-xl sm:text-2xl text-gray-300">🥚</span>
@@ -174,7 +183,7 @@ export default function BirdiePage() {
       {activeTab === 'members' && (
         <>
           {memberStats.length === 0 ? (
-            <div className="text-center py-16 rounded-2xl card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)' }}>
+            <div className="text-center py-16 rounded-2xl card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)' }}>
               <div className="text-5xl mb-3">🐦</div>
               <p className="text-sm text-gray-400">还没有打鸟记录，快来创造历史！</p>
             </div>
@@ -184,15 +193,20 @@ export default function BirdiePage() {
                 <div
                   key={stat.member.id}
                   className="rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 card-shadow transition-all duration-300 hover:-translate-y-0.5 hover:card-shadow-hover"
-                  style={{ background: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(8px)' }}
+                  style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}
                 >
                   <div className="flex items-center gap-2.5 sm:gap-3 mb-3 sm:mb-4">
                     <span className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 ${
-                      index === 0 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm' :
-                      index === 1 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-sm' :
-                      index === 2 ? 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm' :
+                      index === 0 ? 'text-white shadow-sm' :
+                      index === 1 ? 'text-white shadow-sm' :
+                      index === 2 ? 'text-white shadow-sm' :
                       'bg-gray-100 text-gray-500'
-                    }`}>
+                    }`} style={
+                      index === 0 ? { background: 'linear-gradient(135deg, #facc15, #eab308)' } :
+                      index === 1 ? { background: 'linear-gradient(135deg, #9ca3af, #6b7280)' } :
+                      index === 2 ? { background: 'linear-gradient(135deg, #d97706, #b45309)' } :
+                      undefined
+                    }>
                       {index + 1}
                     </span>
                     <img
@@ -216,9 +230,9 @@ export default function BirdiePage() {
                         className={`text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full font-medium ${
                           birdie.type === 'simulator'
                             ? 'bg-purple-50 text-purple-600 border border-purple-100'
-                            : 'text-golf-600 border border-golf-100'
+                            : 'text-golf-600'
                         }`}
-                        style={birdie.type !== 'simulator' ? { background: 'rgba(22, 168, 90, 0.06)' } : undefined}
+                        style={birdie.type !== 'simulator' ? { background: 'rgba(212, 238, 232, 0.5)', border: '1px solid rgba(168, 226, 191, 0.4)' } : undefined}
                       >
                         {birdie.type === 'simulator' && '🎯 '}
                         第{birdie.number}鸟

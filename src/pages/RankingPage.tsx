@@ -36,33 +36,44 @@ export default function RankingPage() {
 
   return (
     <div className="animate-fade-in space-y-5 sm:space-y-7">
-      {/* 页面标题区 */}
+      {/* 页面标题区 - 天蓝绿渐变 */}
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-5 sm:p-7" style={{
-        background: 'linear-gradient(135deg, #145730 0%, #166e3a 30%, #1a8a47 60%, #22a85a 100%)',
-        boxShadow: '0 4px 20px rgba(22, 110, 58, 0.2)',
+        background: 'linear-gradient(180deg, #b8dfe8 0%, #9ed4c4 40%, #3a9e5c 80%, #2a8c4e 100%)',
+        boxShadow: '0 4px 24px rgba(19, 92, 51, 0.15)',
       }}>
-        <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full" style={{ background: 'radial-gradient(circle, rgba(75, 198, 135, 0.15) 0%, transparent 70%)' }} />
-        <div className="absolute -bottom-6 -left-6 w-28 h-28 rounded-full" style={{ background: 'radial-gradient(circle, rgba(250, 204, 21, 0.08) 0%, transparent 70%)' }} />
+        {/* 云朵 */}
+        <div className="absolute top-3 left-[10%] animate-drift">
+          <div className="w-12 h-4 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.3)' }} />
+        </div>
+        <div className="absolute top-5 right-[15%] animate-drift" style={{ animationDelay: '3s' }}>
+          <div className="w-10 h-3 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.25)' }} />
+        </div>
+        {/* 山丘 */}
+        <div className="absolute bottom-0 inset-x-0 h-10 overflow-hidden">
+          <svg viewBox="0 0 800 40" fill="none" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0 25 Q200 5 400 20 Q600 35 800 15 L800 40 L0 40 Z" fill="rgba(42, 140, 78, 0.2)" />
+          </svg>
+        </div>
         <div className="relative">
-          <h1 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#0f4828' }}>
             <span className="text-xl sm:text-2xl">🏆</span> 总排行榜
           </h1>
-          <p className="text-xs sm:text-sm text-white/70 mt-1.5">
+          <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(15, 72, 40, 0.65)' }}>
             {isHandicapTab ? '按平均差点排名，差点越低排名越高' : '按最近一场月赛进步系数排名'}
           </p>
         </div>
       </div>
 
-      {/* Tab切换 - 精致胶囊样式 */}
+      {/* Tab切换 */}
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button
           onClick={() => setActiveTab('handicap')}
           className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
             isHandicapTab
               ? 'text-white shadow-md'
-              : 'bg-white text-gray-600 hover:bg-gray-50 card-shadow'
+              : 'text-gray-600 hover:bg-white/80 card-shadow'
           }`}
-          style={isHandicapTab ? { background: 'linear-gradient(135deg, #166e3a 0%, #22a85a 100%)', boxShadow: '0 4px 12px rgba(22, 110, 58, 0.25)' } : undefined}
+          style={isHandicapTab ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
           <span className="mr-1.5">📊</span>平均差点总排行
         </button>
@@ -71,16 +82,16 @@ export default function RankingPage() {
           className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
             !isHandicapTab
               ? 'text-white shadow-md'
-              : 'bg-white text-gray-600 hover:bg-gray-50 card-shadow'
+              : 'text-gray-600 hover:bg-white/80 card-shadow'
           }`}
-          style={!isHandicapTab ? { background: 'linear-gradient(135deg, #166e3a 0%, #22a85a 100%)', boxShadow: '0 4px 12px rgba(22, 110, 58, 0.25)' } : undefined}
+          style={!isHandicapTab ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
           <span className="mr-1.5">🐎</span>最近月赛进步排行
         </button>
       </div>
 
-      {/* Top 3 Podium - 毛玻璃效果 */}
-      <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(8px)' }}>
+      {/* Top 3 Podium */}
+      <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
         <div className="grid grid-cols-3 gap-2 sm:gap-4">
           {currentRanking.slice(0, 3).map((r, i) => {
             const order = i === 0 ? 0 : i === 1 ? 2 : 1;
@@ -100,9 +111,9 @@ export default function RankingPage() {
                   </div>
                   <div className="text-xs sm:text-sm font-bold text-gray-800 truncate max-w-[80px] mt-2">{r.member.name}</div>
                   {isHandicapTab ? (
-                    <div className="text-[10px] sm:text-xs text-gray-500 mt-0.5 bg-gray-50 px-2 py-0.5 rounded-full">{r.handicapIndex} 差点</div>
+                    <div className="text-[10px] sm:text-xs text-gray-500 mt-0.5 px-2 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.6)' }}>{r.handicapIndex} 差点</div>
                   ) : (
-                    <div className={`text-[10px] sm:text-xs mt-0.5 px-2 py-0.5 rounded-full font-medium ${r.latestProgress == null ? 'text-gray-400 bg-gray-50' : r.latestProgress > 0 ? 'text-green-700 bg-green-50' : r.latestProgress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500 bg-gray-50'}`}>
+                    <div className={`text-[10px] sm:text-xs mt-0.5 px-2 py-0.5 rounded-full font-medium ${r.latestProgress == null ? 'text-gray-400 bg-gray-50' : r.latestProgress > 0 ? 'text-golf-700 bg-golf-50' : r.latestProgress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500 bg-gray-50'}`}>
                       {r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
                     </div>
                   )}
@@ -116,10 +127,10 @@ export default function RankingPage() {
         </div>
       </div>
 
-      {/* Full Ranking List - 精致卡片 */}
-      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(8px)' }}>
+      {/* Full Ranking List */}
+      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
         {/* Desktop Header */}
-        <div className="hidden sm:grid grid-cols-12 gap-2 px-5 py-3 text-xs font-medium text-gray-400 border-b border-gray-100" style={{ background: 'rgba(249, 250, 251, 0.8)' }}>
+        <div className="hidden sm:grid grid-cols-12 gap-2 px-5 py-3 text-xs font-medium text-gray-400 border-b border-gray-100" style={{ background: 'rgba(212, 238, 232, 0.3)' }}>
           <div className="col-span-1">排名</div>
           <div className="col-span-3">会员</div>
           <div className="col-span-2 text-center">
@@ -132,7 +143,7 @@ export default function RankingPage() {
         </div>
         
         {/* Mobile Header */}
-        <div className="sm:hidden grid grid-cols-10 gap-1 px-3 py-2.5 text-[10px] font-medium text-gray-400 border-b border-gray-100" style={{ background: 'rgba(249, 250, 251, 0.8)' }}>
+        <div className="sm:hidden grid grid-cols-10 gap-1 px-3 py-2.5 text-[10px] font-medium text-gray-400 border-b border-gray-100" style={{ background: 'rgba(212, 238, 232, 0.3)' }}>
           <div className="col-span-1">排名</div>
           <div className="col-span-4">会员</div>
           <div className="col-span-2 text-center">
@@ -147,22 +158,27 @@ export default function RankingPage() {
           <Link
             key={r.member.id}
             to={`/member/${r.member.id}`}
-            className="block sm:grid sm:grid-cols-12 sm:gap-2 sm:px-5 sm:py-3.5 px-3 py-3 border-b border-gray-50/80 hover:bg-golf-50/50 transition-all duration-200"
+            className="block sm:grid sm:grid-cols-12 sm:gap-2 sm:px-5 sm:py-3.5 px-3 py-3 border-b border-gray-50/80 hover:bg-golf-50/40 transition-all duration-200"
           >
             {/* Mobile Layout */}
             <div className="sm:hidden flex items-center gap-2">
               <span className={`inline-flex w-6 h-6 items-center justify-center rounded-lg text-[10px] font-bold flex-shrink-0 ${
-                r.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm' :
-                r.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-sm' :
-                r.rank === 3 ? 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm' :
+                r.rank === 1 ? 'text-white shadow-sm' :
+                r.rank === 2 ? 'text-white shadow-sm' :
+                r.rank === 3 ? 'text-white shadow-sm' :
                 'bg-gray-100 text-gray-500'
-              }`}>{r.rank}</span>
+              }`} style={
+                r.rank === 1 ? { background: 'linear-gradient(135deg, #facc15, #eab308)' } :
+                r.rank === 2 ? { background: 'linear-gradient(135deg, #9ca3af, #6b7280)' } :
+                r.rank === 3 ? { background: 'linear-gradient(135deg, #d97706, #b45309)' } :
+                undefined
+              }>{r.rank}</span>
               <img src={r.member.avatar} alt="" className="w-7 h-7 rounded-xl bg-gray-100 flex-shrink-0 shadow-sm" />
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-medium text-gray-800 truncate">{r.member.name}</div>
                 <div className="text-[10px] text-gray-400">{getMemberTee(r.member, r.gameCount)}</div>
               </div>
-              <div className={`text-right text-xs font-bold px-2 py-0.5 rounded-full ${isHandicapTab ? 'text-golf-700 bg-golf-50' : r.latestProgress == null ? 'text-gray-400' : r.latestProgress > 0 ? 'text-green-700 bg-green-50' : r.latestProgress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
+              <div className={`text-right text-xs font-bold px-2 py-0.5 rounded-full ${isHandicapTab ? 'text-golf-700 bg-golf-50' : r.latestProgress == null ? 'text-gray-400' : r.latestProgress > 0 ? 'text-golf-700 bg-golf-50' : r.latestProgress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
                 {isHandicapTab ? r.handicapIndex : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
               </div>
               <div className="text-right text-[10px] text-gray-600 min-w-[50px]">
@@ -178,11 +194,16 @@ export default function RankingPage() {
             <div className="hidden sm:contents">
               <div className="col-span-1">
                 <span className={`inline-flex w-7 h-7 items-center justify-center rounded-lg text-xs font-bold ${
-                  r.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm' :
-                  r.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-sm' :
-                  r.rank === 3 ? 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm' :
+                  r.rank === 1 ? 'text-white shadow-sm' :
+                  r.rank === 2 ? 'text-white shadow-sm' :
+                  r.rank === 3 ? 'text-white shadow-sm' :
                   'bg-gray-100 text-gray-500'
-                }`}>{r.rank}</span>
+                }`} style={
+                  r.rank === 1 ? { background: 'linear-gradient(135deg, #facc15, #eab308)' } :
+                  r.rank === 2 ? { background: 'linear-gradient(135deg, #9ca3af, #6b7280)' } :
+                  r.rank === 3 ? { background: 'linear-gradient(135deg, #d97706, #b45309)' } :
+                  undefined
+                }>{r.rank}</span>
               </div>
               <div className="col-span-3 flex items-center gap-2.5">
                 <img src={r.member.avatar} alt="" className="w-9 h-9 rounded-xl bg-gray-100 shadow-sm" />
@@ -192,16 +213,16 @@ export default function RankingPage() {
                 </div>
               </div>
               <div className={`col-span-2 flex items-center justify-center`}>
-                <span className={`text-sm font-bold px-2.5 py-0.5 rounded-full ${isHandicapTab ? 'text-golf-700 bg-golf-50' : r.latestProgress == null ? 'text-gray-400' : r.latestProgress > 0 ? 'text-green-700 bg-green-50' : r.latestProgress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
+                <span className={`text-sm font-bold px-2.5 py-0.5 rounded-full ${isHandicapTab ? 'text-golf-700 bg-golf-50' : r.latestProgress == null ? 'text-gray-400' : r.latestProgress > 0 ? 'text-golf-700 bg-golf-50' : r.latestProgress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
                   {isHandicapTab ? r.handicapIndex : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
                 </span>
               </div>
               <div className="col-span-4 text-center flex items-center justify-center">
                 {isHandicapTab ? (
-                  <span className="text-xs text-gray-600 bg-gray-50 px-2.5 py-0.5 rounded-full">{r.avgScore}</span>
+                  <span className="text-xs text-gray-600 px-2.5 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.5)' }}>{r.avgScore}</span>
                 ) : (
                   <div className="flex items-center gap-1">
-                    <span className="text-xs text-gray-600 bg-gray-50 px-2 py-0.5 rounded-full">{r.latestScore}</span>
+                    <span className="text-xs text-gray-600 px-2 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.5)' }}>{r.latestScore}</span>
                     <span className="text-xs text-gray-300">/</span>
                     <span className="text-xs text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">{r.avgScore}</span>
                   </div>
@@ -209,7 +230,7 @@ export default function RankingPage() {
               </div>
               <div className="col-span-2 text-center flex items-center justify-center">
                 <div className="text-sm text-gray-600">
-                  <span className="bg-gray-50 px-2.5 py-0.5 rounded-full">{r.participationRate}%</span>
+                  <span className="px-2.5 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.4)' }}>{r.participationRate}%</span>
                 </div>
               </div>
             </div>
