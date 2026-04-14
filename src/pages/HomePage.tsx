@@ -40,7 +40,7 @@ export default function HomePage() {
       <div className="bg-gradient-to-r from-golf-700 via-golf-600 to-emerald-600 rounded-2xl p-4 sm:p-6 text-white">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
           <div className="flex items-center gap-2">
-            <img src="/images/logos/logo.png" alt="百鸟会" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white" />
+            <img src="https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/logos/logo.png" alt="百鸟会" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white" />
             <h1 className="text-xl sm:text-2xl font-bold">百鸟会</h1>
           </div>
           {/* 统计信息 - 右对齐 */}
