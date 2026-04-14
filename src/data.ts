@@ -89,18 +89,18 @@ export interface Expense {
 
 // 成员列表（带昵称）- id改为昵称，name改为昵称用于展示
 export const members: Member[] = [
-  { id: '新来的托', name: '新来的托', realName: '托米', nickname: '新来的托', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/pic/xinlaidetuo.png', background: '/good/xinlaidetuo.jpg' },
-  { id: '大面', name: '大面', realName: '凉面', nickname: '大面', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/pic/damian.png', background: '/good/damian.jpg' },
-  { id: 'Raachael', name: 'Raachael', realName: '丽洁', nickname: 'Raachael', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/pic/lijie.png' },
-  { id: 'lulu酱', name: 'lulu酱', realName: '璐璐', nickname: 'lulu酱', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/pic/lulujiang.png', background: '/good/lulujiang.jpg' },
-  { id: 'NiKi', name: 'NiKi', realName: '颖青', nickname: 'NiKi', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/pic/niki.png', background: '/good/niki.jpg' },
-  { id: '潇湉', name: '潇湉', realName: '潇湉', nickname: '潇湉', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/pic/xiaotian.png' },
-  { id: 'Archer', name: 'Archer', realName: '欣哲', nickname: 'Archer', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/pic/archer.png' },
-  { id: '纯情浩克', name: '纯情浩克', realName: '思能', nickname: '纯情浩克', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/pic/sineng.png' },
-  { id: '国弘', name: '国弘', realName: '国弘', nickname: '国弘', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/pic/guohong.png', background: '/good/guohong.jpg' },
-  { id: '康序', name: '康序', realName: '康序', nickname: '康序', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/pic/kangxu.png' },
-  { id: '颖琪', name: '颖琪', realName: '颖琪', nickname: '颖琪', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/pic/yingqi.png' },
-  { id: '小明', name: '小明', realName: '小明', nickname: '小明', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/pic/xiaoming.png' },
+  { id: '新来的托', name: '新来的托', realName: '托米', nickname: '新来的托', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/images/avatars/xinlaidetuo.png', background: '/images/backgrounds/xinlaidetuo.jpg' },
+  { id: '大面', name: '大面', realName: '凉面', nickname: '大面', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/images/avatars/damian.png', background: '/images/backgrounds/damian.jpg' },
+  { id: 'Raachael', name: 'Raachael', realName: '丽洁', nickname: 'Raachael', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/images/avatars/lijie.png' },
+  { id: 'lulu酱', name: 'lulu酱', realName: '璐璐', nickname: 'lulu酱', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/images/avatars/lulujiang.png', background: '/images/backgrounds/lulujiang.jpg' },
+  { id: 'NiKi', name: 'NiKi', realName: '颖青', nickname: 'NiKi', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/images/avatars/niki.png', background: '/images/backgrounds/niki.jpg' },
+  { id: '潇湉', name: '潇湉', realName: '潇湉', nickname: '潇湉', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/images/avatars/xiaotian.png' },
+  { id: 'Archer', name: 'Archer', realName: '欣哲', nickname: 'Archer', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/images/avatars/archer.png' },
+  { id: '纯情浩克', name: '纯情浩克', realName: '思能', nickname: '纯情浩克', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/images/avatars/sineng.png' },
+  { id: '国弘', name: '国弘', realName: '国弘', nickname: '国弘', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/images/avatars/guohong.png', background: '/images/backgrounds/guohong.jpg' },
+  { id: '康序', name: '康序', realName: '康序', nickname: '康序', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/images/avatars/kangxu.png' },
+  { id: '颖琪', name: '颖琪', realName: '颖琪', nickname: '颖琪', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: '/images/avatars/yingqi.png' },
+  { id: '小明', name: '小明', realName: '小明', nickname: '小明', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: '/images/avatars/xiaoming.png' },
 ];
 
 /** 球场名称 → 图片文件名映射 */
@@ -116,7 +116,7 @@ export const courseImageMap: Record<string, string> = {
 /** 根据球场名称获取图片URL */
 export function getCourseImage(courseName: string): string {
   const key = courseImageMap[courseName];
-  return key ? `/PIC2/${key}.png` : '';
+  return key ? `/images/courses/${key}.png` : '';
 }
 
 // 比赛列表（2025-2026年）

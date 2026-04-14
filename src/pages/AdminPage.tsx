@@ -136,9 +136,9 @@ function MemberManager() {
                 value={form.avatar}
                 onChange={e => setForm({ ...form, avatar: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-golf-500"
-                placeholder="如：/pic/nickname.png（可选，留空自动生成）"
+                placeholder="如：/images/avatars/nickname.png（可选，留空自动生成）"
               />
-              <p className="text-xs text-gray-400 mt-1">支持本地图片路径如 /pic/name.png 或网络图片URL</p>
+              <p className="text-xs text-gray-400 mt-1">支持本地图片路径如 /images/avatars/name.png 或网络图片URL</p>
             </div>
           </div>
           <button type="submit" className="px-4 py-1.5 bg-golf-700 text-white rounded-lg text-sm hover:bg-golf-800">
@@ -266,7 +266,7 @@ function TournamentCreator() {
   const [courseMatched, setCourseMatched] = useState(false)
 
   const handleCourseSelect = (course: Course) => {
-    setForm(f => ({ ...f, courseName: course.name, slope: course.slope, rating: course.rating, image: `/PIC2/${course.name}.png` }))
+    setForm(f => ({ ...f, courseName: course.name, slope: course.slope, rating: course.rating, image: getCourseImage(course.name) }))
     setCourseMatched(true)
   }
 
@@ -368,9 +368,9 @@ function TournamentCreator() {
                 value={form.image}
                 onChange={e => setForm({ ...form, image: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-golf-500"
-                placeholder="如：/PIC2/course-name.png 或图片URL（可选）"
+                placeholder="如：/images/courses/course-name.png 或图片URL（可选）"
               />
-              <p className="text-xs text-gray-400 mt-1">支持本地图片路径如 /PIC2/course-name.png 或网络图片URL</p>
+              <p className="text-xs text-gray-400 mt-1">支持本地图片路径如 /images/courses/course-name.png 或网络图片URL</p>
             </div>
             <div>
               <label className="text-xs text-gray-500 mb-1 block">比赛日期</label>
