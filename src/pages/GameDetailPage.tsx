@@ -4,6 +4,7 @@ import { useStore } from '../store'
 import { getMemberTee, getCourseImage, type Tournament } from '../data'
 
 type Tab = 'gross' | 'putt'
+type SortBy = 'gross' | 'progress'
 
 // 获取球场头图URL
 function getCourseImageUrl(tournament: Tournament): string {
@@ -29,12 +30,13 @@ export default function GameDetailPage() {
 
   const game = games.find(g => g.tournamentId === id)
   const [tab, setTab] = useState<Tab>('gross')
+  const [sortBy, setSortBy] = useState<SortBy>('gross')
 
   const grossRanking = getGrossRanking(id)
   const puttRanking = getPuttRanking(id)
   const progressStar = getProgressStar(id)
 
-  // 获取完整数据（包含杆数和进步系数），按杆数排序
+  // 获取完整数据（包含杆数和进步系数）
   const fullRanking = (game?.scores ?? [])
     .map(s => {
       const member = getMemberById(s.memberId)!
@@ -42,7 +44,13 @@ export default function GameDetailPage() {
       return { member, score: s, progress, grossScore: s.grossScore }
     })
     .filter(r => r.member)
-    .sort((a, b) => a.grossScore - b.grossScore)
+    .sort((a, b) => {
+      if (sortBy === 'gross') {
+        return a.grossScore - b.grossScore
+      } else {
+        return (b.progress ?? -999) - (a.progress ?? -999)
+      }
+    })
     .map((r, i) => ({ ...r, rank: i + 1 }))
 
   const showPuttTab = hasPuttData(tournament.date)
@@ -162,6 +170,32 @@ export default function GameDetailPage() {
             }`}
           >
             <span className="mr-1">⛳</span>推杆排名
+          </button>
+        </div>
+      )}
+
+      {/* 排序切换 */}
+      {tab !== 'putt' && (
+        <div className="flex items-center gap-2 text-xs sm:text-sm">
+          <button
+            onClick={() => setSortBy('gross')}
+            className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              sortBy === 'gross'
+                ? 'bg-golf-100 text-golf-700'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            按杆数
+          </button>
+          <button
+            onClick={() => setSortBy('progress')}
+            className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              sortBy === 'progress'
+                ? 'bg-golf-100 text-golf-700'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            按进步系数
           </button>
         </div>
       )}
