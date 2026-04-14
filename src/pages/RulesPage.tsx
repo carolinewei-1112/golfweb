@@ -67,11 +67,11 @@ export default function RulesPage() {
         </div>
       </div>
 
-      {/* 百鸟会比赛和算分规则 */}
+      {/* 百鸟会算分规则 */}
       <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="px-4 sm:px-5 py-3 sm:py-4 border-b border-gray-100 bg-gradient-to-r from-golf-50 to-white">
           <h2 className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-2">
-            <span>⛳</span> 比赛和算分规则
+            <span>⛳</span> 算分规则
           </h2>
         </div>
         <div className="p-4 sm:p-5 space-y-4 sm:space-y-5 text-xs sm:text-sm text-gray-600">

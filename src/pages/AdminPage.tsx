@@ -635,9 +635,9 @@ function ScoreInput() {
         </select>
       </div>
 
-      {/* 添加球员 */}
+      {/* 添加会员 */}
       <div className="mb-4">
-        <label className="text-xs text-gray-500 mb-1 block">添加参赛球员</label>
+        <label className="text-xs text-gray-500 mb-1 block">添加参赛会员</label>
         <div className="relative">
           <input
             type="text"

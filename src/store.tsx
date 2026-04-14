@@ -85,7 +85,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const members: Member[] = saved?.members ?? initMembers
   const tournaments: Tournament[] = saved?.tournaments ?? initTournaments
   const games: Game[] = saved?.games ?? initGames
-  const announcements: Announcement[] = saved?.announcements ?? []
+  const announcements: Announcement[] = saved?.announcements ?? [
+    { id: 'A001', content: '4月月赛：4月18日，会员们预留时间。', createTime: '2026-04-15T00:00:00.000Z' }
+  ]
   const birdieRecords: BirdieRecord[] = saved?.birdieRecords ?? initialBirdieRecords
   const membershipFees: MembershipFee[] = saved?.membershipFees ?? []
   const expenses: Expense[] = saved?.expenses ?? []

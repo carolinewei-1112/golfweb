@@ -209,7 +209,7 @@ export default function GameDetailPage() {
         {tab !== 'putt' && (
           <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 bg-gray-50 text-xs text-gray-500 border-b border-gray-100">
             <span className="w-6 sm:w-7 text-center">排名</span>
-            <span className="flex-1 ml-8 sm:ml-11">球员</span>
+            <span className="flex-1 ml-8 sm:ml-11">会员</span>
             <div className="flex text-right gap-2 sm:gap-4">
               <span className="w-12 sm:w-16">杆数</span>
               <span className="w-10 sm:w-12">进步</span>
