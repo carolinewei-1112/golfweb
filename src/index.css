@@ -1,30 +1,115 @@
 @import "tailwindcss";
 
 @theme {
-  --color-golf-50: #f0fdf4;
-  --color-golf-100: #dcfce7;
-  --color-golf-200: #bbf7d0;
-  --color-golf-500: #22c55e;
-  --color-golf-600: #16a34a;
-  --color-golf-700: #15803d;
-  --color-golf-800: #166534;
+  --color-golf-50: #f0faf4;
+  --color-golf-100: #ddf5e6;
+  --color-golf-200: #b8edd0;
+  --color-golf-300: #7fdcaa;
+  --color-golf-400: #4bc687;
+  --color-golf-500: #22a85a;
+  --color-golf-600: #1a8a47;
+  --color-golf-700: #166e3a;
+  --color-golf-800: #145730;
   --color-gold-400: #facc15;
   --color-gold-500: #eab308;
   --color-gold-600: #ca8a04;
+  --color-cream-50: #fefdf8;
+  --color-cream-100: #fdf9ed;
+  --color-cream-200: #f8f0d8;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-  background-color: #f8fafc;
+  background: linear-gradient(135deg, #f5f9f4 0%, #faf9f5 50%, #f0f7f1 100%);
+  background-attachment: fixed;
   color: #1e293b;
   margin: 0;
+  min-height: 100vh;
 }
 
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
 .animate-fade-in {
-  animation: fade-in 0.4s ease-out;
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* 自然纹理背景 */
+.nature-pattern {
+  background-image: radial-gradient(circle at 20% 50%, rgba(34, 168, 90, 0.03) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(22, 110, 58, 0.03) 0%, transparent 50%),
+                    radial-gradient(circle at 50% 80%, rgba(75, 198, 135, 0.02) 0%, transparent 50%);
+}
+
+/* 玻璃态效果 */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* 柔和卡片阴影 */
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04),
+              0 4px 12px rgba(22, 110, 58, 0.06);
+}
+
+.card-shadow-hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06),
+              0 8px 24px rgba(22, 110, 58, 0.1);
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(22, 110, 58, 0.15);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(22, 110, 58, 0.3);
 }

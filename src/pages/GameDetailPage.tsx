@@ -62,18 +62,18 @@ export default function GameDetailPage() {
   const monthLabel = monthMatch ? `${monthMatch[1]}月` : tournament.name
 
   return (
-    <div className="animate-fade-in space-y-4 sm:space-y-6">
+    <div className="animate-fade-in space-y-5 sm:space-y-7">
       <div className="flex items-center justify-between">
-        <Link to="/history" className="inline-flex items-center gap-1 text-xs sm:text-sm text-gray-400 hover:text-golf-600">
+        <Link to="/history" className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-gray-400 hover:text-golf-600 transition-colors px-3 py-1.5 rounded-xl hover:bg-golf-50">
           ← 返回历史比赛
         </Link>
       </div>
 
-      <div className="space-y-4 sm:space-y-6">
+      <div className="space-y-5 sm:space-y-7">
       {/* Game Info with Course Image */}
-      <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(8px)' }}>
         {/* 球场头图 */}
-        <div className="h-36 sm:h-48 overflow-hidden relative">
+        <div className="h-40 sm:h-52 overflow-hidden relative">
           <img
             src={getCourseImageUrl(tournament)}
             alt={tournament.courseName}
@@ -82,24 +82,24 @@ export default function GameDetailPage() {
               (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=1200&h=400&fit=crop&q=80&auto=format'
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-          <div className="absolute bottom-3 sm:bottom-4 left-4 sm:left-6 text-white">
-            <h1 className="text-lg sm:text-2xl font-bold">{monthLabel}</h1>
-            <p className="text-white/90 mt-0.5 sm:mt-1 text-sm sm:text-base">{tournament.courseName}</p>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+          <div className="absolute bottom-4 sm:bottom-5 left-4 sm:left-6 text-white">
+            <h1 className="text-xl sm:text-3xl font-bold drop-shadow-lg">{monthLabel}</h1>
+            <p className="text-white/90 mt-1 sm:mt-1.5 text-sm sm:text-base drop-shadow-sm">{tournament.courseName}</p>
           </div>
           <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
-            <span className="px-2 sm:px-3 py-1 sm:py-1.5 bg-black/40 backdrop-blur-sm rounded-lg text-xs sm:text-sm text-white">
+            <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm text-white font-medium" style={{ background: 'rgba(0, 0, 0, 0.35)', backdropFilter: 'blur(8px)' }}>
               {tournament.date}
             </span>
           </div>
 
-          {/* 比赛照片展示 - 放在banner右下角 */}
+          {/* 比赛照片展示 */}
           {game?.photos && game.photos.length > 0 && (
             <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 flex gap-1">
               {game.photos.slice(0, 4).map((photo, index) => (
                 <div
                   key={index}
-                  className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg overflow-hidden border-2 border-white/50 shadow-lg cursor-pointer hover:scale-110 transition-transform"
+                  className="w-9 h-9 sm:w-13 sm:h-13 rounded-xl overflow-hidden border-2 border-white/50 shadow-lg cursor-pointer hover:scale-110 transition-transform"
                   onClick={() => window.open(photo, '_blank')}
                   style={{ marginLeft: index > 0 ? '-8px' : '0', zIndex: (game.photos?.length ?? 0) - index }}
                 >
@@ -112,8 +112,8 @@ export default function GameDetailPage() {
               ))}
               {game.photos.length > 4 && (
                 <div
-                  className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg bg-black/60 border-2 border-white/50 shadow-lg flex items-center justify-center text-white text-[10px] sm:text-xs font-bold"
-                  style={{ marginLeft: '-8px', zIndex: 0 }}
+                  className="w-9 h-9 sm:w-13 sm:h-13 rounded-xl border-2 border-white/50 shadow-lg flex items-center justify-center text-white text-[10px] sm:text-xs font-bold"
+                  style={{ marginLeft: '-8px', zIndex: 0, background: 'rgba(0, 0, 0, 0.5)', backdropFilter: 'blur(4px)' }}
                 >
                   +{game.photos.length - 4}
                 </div>
@@ -122,26 +122,39 @@ export default function GameDetailPage() {
           )}
         </div>
 
-        <div className="p-3 sm:p-5">
-          <div className="flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-1 text-xs sm:text-sm text-gray-500">
-            <span>👥 {game?.scores.length ?? 0} 人参赛</span>
-            <span>Slope {tournament.slope}</span>
-            <span>Rating {tournament.rating}</span>
+        <div className="p-4 sm:p-6">
+          <div className="flex flex-wrap gap-3 sm:gap-4">
+            <span className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
+              👥 {game?.scores.length ?? 0} 人参赛
+            </span>
+            <span className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
+              Slope {tournament.slope}
+            </span>
+            <span className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
+              Rating {tournament.rating}
+            </span>
           </div>
         </div>
       </div>
 
       {/* Stars */}
       {progressStar && (
-        <div className="bg-gradient-to-r from-golf-50 to-emerald-50 rounded-xl sm:rounded-2xl border border-golf-200 p-3 sm:p-4">
-          <div className="text-xs sm:text-sm font-bold text-golf-700 mb-2">🐎 进步之星</div>
-          <Link to={`/member/${progressStar.member.id}`} className="flex items-center gap-2 sm:gap-3">
-            <img src={progressStar.member.avatar} alt="" className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-100" />
+        <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-5 card-shadow" style={{
+          background: 'linear-gradient(135deg, rgba(240, 250, 244, 0.9) 0%, rgba(220, 245, 230, 0.9) 100%)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(22, 110, 58, 0.1)',
+        }}>
+          <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-golf-700 mb-3">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(22, 168, 90, 0.12)' }}>🐎</div>
+            进步之星
+          </div>
+          <Link to={`/member/${progressStar.member.id}`} className="flex items-center gap-3 sm:gap-4 p-2 rounded-xl hover:bg-white/60 transition-colors">
+            <img src={progressStar.member.avatar} alt="" className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gray-100 shadow-sm" />
             <div>
               <div className="text-sm sm:text-base font-bold text-gray-800">{progressStar.member.name}</div>
               <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(progressStar.member, getMemberGames(progressStar.member.id).length)}</div>
-              <div className="text-[10px] sm:text-xs text-golf-600">
-                进步系数 ↑{progressStar.progress}
+              <div className="text-[10px] sm:text-xs text-golf-600 font-semibold mt-0.5">
+                进步系数 <span className="text-golf-500">↑{progressStar.progress}</span>
               </div>
             </div>
           </Link>
@@ -153,23 +166,25 @@ export default function GameDetailPage() {
         <div className="flex gap-2 overflow-x-auto pb-1">
           <button
             onClick={() => setTab('gross')}
-            className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
+            className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
               tab === 'gross'
-                ? 'bg-golf-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'text-white shadow-md'
+                : 'bg-white text-gray-600 hover:bg-gray-50 card-shadow'
             }`}
+            style={tab === 'gross' ? { background: 'linear-gradient(135deg, #166e3a 0%, #22a85a 100%)', boxShadow: '0 4px 12px rgba(22, 110, 58, 0.25)' } : undefined}
           >
-            <span className="mr-1">🏆</span>杆数排名
+            <span className="mr-1.5">🏆</span>杆数排名
           </button>
           <button
             onClick={() => setTab('putt')}
-            className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
+            className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
               tab === 'putt'
-                ? 'bg-golf-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'text-white shadow-md'
+                : 'bg-white text-gray-600 hover:bg-gray-50 card-shadow'
             }`}
+            style={tab === 'putt' ? { background: 'linear-gradient(135deg, #166e3a 0%, #22a85a 100%)', boxShadow: '0 4px 12px rgba(22, 110, 58, 0.25)' } : undefined}
           >
-            <span className="mr-1">⛳</span>推杆排名
+            <span className="mr-1.5">⛳</span>推杆排名
           </button>
         </div>
       )}
@@ -179,20 +194,20 @@ export default function GameDetailPage() {
         <div className="flex items-center gap-2 text-xs sm:text-sm">
           <button
             onClick={() => setSortBy('gross')}
-            className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+            className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
               sortBy === 'gross'
-                ? 'bg-golf-100 text-golf-700'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'bg-golf-100 text-golf-700 shadow-sm'
+                : 'bg-white text-gray-500 hover:bg-gray-50 card-shadow'
             }`}
           >
             按杆数
           </button>
           <button
             onClick={() => setSortBy('progress')}
-            className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+            className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
               sortBy === 'progress'
-                ? 'bg-golf-100 text-golf-700'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'bg-golf-100 text-golf-700 shadow-sm'
+                : 'bg-white text-gray-500 hover:bg-gray-50 card-shadow'
             }`}
           >
             按进步系数
@@ -201,13 +216,13 @@ export default function GameDetailPage() {
       )}
 
       {/* Ranking Table */}
-      <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(8px)' }}>
         {currentData.length === 0 && (
-          <div className="px-4 sm:px-5 py-8 sm:py-10 text-center text-gray-400 text-sm">暂无数据</div>
+          <div className="px-4 sm:px-5 py-10 sm:py-12 text-center text-gray-400 text-sm">暂无数据</div>
         )}
         {/* 表头 - 杆数、进步系数 */}
         {tab !== 'putt' && (
-          <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 bg-gray-50 text-xs text-gray-500 border-b border-gray-100">
+          <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-gray-50/80 text-xs text-gray-400 border-b border-gray-100 font-medium">
             <span className="w-6 sm:w-7 text-center">排名</span>
             <span className="flex-1 ml-8 sm:ml-11">会员</span>
             <div className="flex text-right gap-2 sm:gap-4">
@@ -221,25 +236,29 @@ export default function GameDetailPage() {
             <Link
               key={item.member.id}
               to={`/member/${item.member.id}`}
-              className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-3 hover:bg-golf-50 transition-colors"
+              className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-3.5 hover:bg-golf-50/50 transition-colors"
             >
-              <span className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 ${
-                item.rank === 1 ? 'bg-gold-400 text-white' :
-                item.rank === 2 ? 'bg-gray-300 text-gray-700' :
-                item.rank === 3 ? 'bg-amber-600 text-white' :
+              <span className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 ${
+                item.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm' :
+                item.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-sm' :
+                item.rank === 3 ? 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm' :
                 'bg-gray-100 text-gray-500'
               }`}>{item.rank}</span>
-              <img src={item.member.avatar} alt="" className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gray-100 flex-shrink-0" />
+              <img src={item.member.avatar} alt="" className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gray-100 flex-shrink-0 shadow-sm" />
               <div className="flex-1 min-w-0">
                 <div className="text-xs sm:text-sm font-medium text-gray-800 truncate">{item.member.name}</div>
                 <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(item.member, getMemberGames(item.member.id).length)}</div>
               </div>
               {tab === 'putt' ? (
-                <span className="text-xs sm:text-sm font-bold text-gray-900">{item.putts} 推</span>
+                <span className="text-xs sm:text-sm font-bold text-gray-900 bg-gray-50 px-2.5 py-1 rounded-lg">{item.putts} 推</span>
               ) : (
                 <div className="flex text-right gap-2 sm:gap-4 flex-shrink-0">
                   <span className="w-12 sm:w-16 text-xs sm:text-sm font-bold text-gray-900">{item.grossScore} 杆</span>
-                  <span className={`w-10 sm:w-12 text-[10px] sm:text-xs ${item.progress == null ? 'text-gray-400' : item.progress > 0 ? 'text-golf-600' : item.progress < 0 ? 'text-red-500' : 'text-gray-500'}`}>
+                  <span className={`w-10 sm:w-12 text-[10px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-full ${
+                    item.progress == null ? 'text-gray-400' : 
+                    item.progress > 0 ? 'text-green-700 bg-green-50' : 
+                    item.progress < 0 ? 'text-red-600 bg-red-50' : 'text-gray-500'
+                  }`}>
                     {item.progress == null ? '--' : `${item.progress > 0 ? '↑' : item.progress < 0 ? '↓' : ''}${Math.abs(item.progress)}`}
                   </span>
                 </div>
