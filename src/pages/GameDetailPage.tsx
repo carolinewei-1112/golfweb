@@ -3,8 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee, getCourseImage, type Tournament } from '../data'
 
-type Tab = 'gross' | 'putt' | 'progress'
-type SortBy = 'gross' | 'progress'
+type Tab = 'gross' | 'putt'
 
 // 获取球场头图URL
 function getCourseImageUrl(tournament: Tournament): string {
@@ -30,13 +29,12 @@ export default function GameDetailPage() {
 
   const game = games.find(g => g.tournamentId === id)
   const [tab, setTab] = useState<Tab>('gross')
-  const [sortBy, setSortBy] = useState<SortBy>('gross')
 
   const grossRanking = getGrossRanking(id)
   const puttRanking = getPuttRanking(id)
   const progressStar = getProgressStar(id)
 
-  // 获取完整数据（包含杆数和进步系数）
+  // 获取完整数据（包含杆数和进步系数），按杆数排序
   const fullRanking = (game?.scores ?? [])
     .map(s => {
       const member = getMemberById(s.memberId)!
@@ -44,33 +42,12 @@ export default function GameDetailPage() {
       return { member, score: s, progress, grossScore: s.grossScore }
     })
     .filter(r => r.member)
+    .sort((a, b) => a.grossScore - b.grossScore)
+    .map((r, i) => ({ ...r, rank: i + 1 }))
 
-  // 根据排序方式计算排名
-  const sortedRanking = [...fullRanking].sort((a, b) => {
-    if (sortBy === 'gross') {
-      return a.grossScore - b.grossScore // 杆数升序（越少越好）
-    } else {
-      return (b.progress ?? -999) - (a.progress ?? -999) // 进步系数降序
-    }
-  }).map((r, i) => ({ ...r, rank: i + 1 }))
+  const showPuttTab = hasPuttData(tournament.date)
 
-  const tabs: { key: Tab; label: string; icon: string }[] = [
-    { key: 'gross', label: '总排名', icon: '🏆' },
-    ...(hasPuttData(tournament.date) ? [{ key: 'putt' as Tab, label: '推杆排名', icon: '⛳' }] : []),
-    { key: 'progress', label: '进步系数', icon: '📈' },
-  ]
-
-  // 切换tab时自动设置合适的排序方式
-  const handleTabChange = (newTab: Tab) => {
-    setTab(newTab)
-    if (newTab === 'gross') {
-      setSortBy('gross')
-    } else if (newTab === 'progress') {
-      setSortBy('progress')
-    }
-  }
-
-  const currentData = tab === 'putt' ? puttRanking : sortedRanking
+  const currentData = tab === 'putt' ? puttRanking : fullRanking
 
   // 提取月份
   const monthMatch = tournament.name.match(/(\d+)月/)
@@ -163,46 +140,28 @@ export default function GameDetailPage() {
         </div>
       )}
 
-      {/* Tab切换 */}
-      <div className="flex gap-2 overflow-x-auto pb-1">
-        {tabs.map(t => (
+      {/* 推杆排名Tab - 仅当有推杆数据时显示切换 */}
+      {showPuttTab && (
+        <div className="flex gap-2 overflow-x-auto pb-1">
           <button
-            key={t.key}
-            onClick={() => handleTabChange(t.key)}
+            onClick={() => setTab('gross')}
             className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
-              tab === t.key
+              tab === 'gross'
                 ? 'bg-golf-600 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            <span className="mr-1">{t.icon}</span>
-            {t.label}
+            <span className="mr-1">🏆</span>杆数排名
           </button>
-        ))}
-      </div>
-
-      {/* 排序切换 */}
-      {tab !== 'putt' && (
-        <div className="flex items-center gap-2 text-xs sm:text-sm">
           <button
-            onClick={() => setSortBy('gross')}
-            className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-              sortBy === 'gross'
-                ? 'bg-golf-100 text-golf-700'
+            onClick={() => setTab('putt')}
+            className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
+              tab === 'putt'
+                ? 'bg-golf-600 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            按杆数
-          </button>
-          <button
-            onClick={() => setSortBy('progress')}
-            className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-              sortBy === 'progress'
-                ? 'bg-golf-100 text-golf-700'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            按进步系数
+            <span className="mr-1">⛳</span>推杆排名
           </button>
         </div>
       )}
