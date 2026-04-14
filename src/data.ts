@@ -1,12 +1,9 @@
-// ============ COS 图片代理 ============
-// 通过 Vite proxy / Nginx 代理将 COS 图片转为同源请求，解决截图跨域问题
-// COS 源站: https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com
+// ============ COS 图片地址 ============
+const COS_BASE = 'https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com';
 
-const COS_PROXY_PREFIX = '/cos-images';
-
-/** 将 COS 绝对 URL 转为同源代理路径 */
+/** 生成 COS 图片完整 URL */
 export function cosUrl(path: string): string {
-  return `${COS_PROXY_PREFIX}${path}`;
+  return `${COS_BASE}${path}`;
 }
 
 // ============ 类型定义 ============
@@ -124,7 +121,7 @@ export const courseImageMap: Record<string, string> = {
   '广州南沙': 'guangzhou-nansha',
 };
 
-/** 根据球场名称获取图片URL（通过同源代理） */
+/** 根据球场名称获取图片URL */
 export function getCourseImage(courseName: string): string {
   const key = courseImageMap[courseName];
   return key ? cosUrl(`/images/courses/${key}.png`) : '';
