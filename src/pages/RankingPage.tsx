@@ -90,82 +90,125 @@ export default function RankingPage() {
         </button>
       </div>
 
-      {/* Top 3 Podium */}
-      <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
-        <div className="grid grid-cols-3 gap-2 sm:gap-4">
+      {/* Top 3 Podium — 精致领奖台 */}
+      <div className="rounded-2xl sm:rounded-3xl px-3 pt-10 pb-5 sm:px-8 sm:pt-12 sm:pb-7" style={{
+        background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(243,250,246,0.88) 100%)',
+        backdropFilter: 'blur(16px)',
+        border: '1px solid rgba(255,255,255,0.6)',
+        boxShadow: '0 2px 20px rgba(19,92,51,0.06)',
+      }}>
+        <div className="flex items-end justify-center gap-3 sm:gap-6">
           {currentRanking.slice(0, 3).map((r, i) => {
+            // 视觉顺序：第2名 | 第1名(居中突出) | 第3名
             const order = i === 0 ? 0 : i === 1 ? 2 : 1;
-            const heights = ['h-20 sm:h-28', 'h-16 sm:h-24', 'h-14 sm:h-20'];
-            const medals = ['🥇', '🥈', '🥉'];
-            const bgColors = [
-              'from-yellow-400 via-amber-400 to-yellow-500',
-              'from-gray-300 via-gray-200 to-gray-300',
-              'from-amber-600 via-amber-500 to-amber-700',
+            const displayOrder = order === 0 ? 1 : order === 1 ? 0 : 2; // CSS order
+            const avatarSizes = ['w-16 h-16 sm:w-20 sm:h-20', 'w-12 h-12 sm:w-16 sm:h-16', 'w-12 h-12 sm:w-14 sm:h-14'];
+            const ringColors = [
+              'ring-amber-300/80',   // 金
+              'ring-slate-300/70',   // 银
+              'ring-orange-400/60',  // 铜
             ];
-            const borderColors = ['border-yellow-300', 'border-gray-200', 'border-amber-400'];
-            const crownStyles = [
-              // 🥇 金冠 - 华丽金色
-              { color: '#FFD700', shadow: '#B8860B', accent: '#FFA500', glow: 'drop-shadow(0 2px 6px rgba(255, 215, 0, 0.6))' },
-              // 🥈 银冠 - 典雅银色
-              { color: '#C0C0C0', shadow: '#808080', accent: '#A8A8A8', glow: 'drop-shadow(0 2px 6px rgba(192, 192, 192, 0.5))' },
-              // 🥉 铜冠 - 古典铜色
-              { color: '#CD7F32', shadow: '#8B4513', accent: '#D2691E', glow: 'drop-shadow(0 2px 6px rgba(205, 127, 50, 0.5))' },
+            const crownConfigs = [
+              { // 🥇 金冠
+                body: '#FBBF24', bodyStroke: '#D97706',
+                jewel: '#DC2626', jewelStroke: '#B91C1C',
+                band: '#F59E0B', bandStroke: '#B45309',
+                numColor: '#78350F',
+                glow: 'drop-shadow(0 2px 8px rgba(251,191,36,0.5))',
+                size: 'w-10 h-8 sm:w-12 sm:h-9',
+                top: '-top-6 sm:-top-7',
+              },
+              { // 🥈 银冠
+                body: '#CBD5E1', bodyStroke: '#94A3B8',
+                jewel: '#60A5FA', jewelStroke: '#3B82F6',
+                band: '#94A3B8', bandStroke: '#64748B',
+                numColor: '#334155',
+                glow: 'drop-shadow(0 2px 6px rgba(148,163,184,0.45))',
+                size: 'w-8 h-6 sm:w-10 sm:h-8',
+                top: '-top-5 sm:-top-6',
+              },
+              { // 🥉 铜冠
+                body: '#F97316', bodyStroke: '#C2410C',
+                jewel: '#FDE68A', jewelStroke: '#F59E0B',
+                band: '#EA580C', bandStroke: '#9A3412',
+                numColor: '#431407',
+                glow: 'drop-shadow(0 2px 6px rgba(249,115,22,0.4))',
+                size: 'w-8 h-6 sm:w-10 sm:h-8',
+                top: '-top-5 sm:-top-6',
+              },
             ];
-            const crown = crownStyles[order];
+            const crown = crownConfigs[order];
             const rankNum = order + 1;
+
             return (
-              <div key={r.member.id} className="flex flex-col items-center">
-                <Link to={`/member/${r.member.id}`} className="flex flex-col items-center text-center group">
-                  <div className={`relative p-0.5 rounded-full bg-gradient-to-br ${bgColors[order]} shadow-lg mt-5 sm:mt-6`}>
-                    {/* 皇冠（含名次数字） */}
-                    <div className="absolute -top-5 sm:-top-6 left-1/2 -translate-x-1/2 z-10" style={{ filter: crown.glow }}>
-                      <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-9 h-7 sm:w-11 sm:h-8">
-                        {/* 皇冠主体 */}
-                        <path d="M4 24L7 10L14 17L20 6L26 17L33 10L36 24H4Z" fill={crown.color} stroke={crown.shadow} strokeWidth="1.2"/>
-                        {/* 三个尖顶 */}
-                        <circle cx="7" cy="9" r="2.5" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
-                        <circle cx="20" cy="4.5" r="3" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
-                        <circle cx="33" cy="9" r="2.5" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
-                        {/* 底部冠带 */}
-                        <rect x="4" y="22" width="32" height="8" rx="1.5" fill={crown.color} stroke={crown.shadow} strokeWidth="0.8"/>
-                        {/* 名次数字 */}
-                        <text x="20" y="29" textAnchor="middle" fill={crown.shadow} fontSize="8" fontWeight="bold" fontFamily="Arial, sans-serif">{rankNum}</text>
-                        {/* 宝石装饰 */}
-                        {order === 0 && <>
-                          <circle cx="12" cy="26" r="1.2" fill={crown.shadow}/>
-                          <circle cx="28" cy="26" r="1.2" fill={crown.shadow}/>
-                        </>}
-                        {order === 1 && <>
-                          <circle cx="13" cy="26" r="1" fill={crown.shadow}/>
-                          <circle cx="27" cy="26" r="1" fill={crown.shadow}/>
-                        </>}
-                        {order === 2 && <>
-                          <circle cx="13" cy="26" r="1" fill={crown.shadow}/>
-                          <circle cx="27" cy="26" r="1" fill={crown.shadow}/>
-                        </>}
-                      </svg>
-                    </div>
-                    <img src={r.member.avatar} alt="" className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-white bg-gray-100 group-hover:scale-105 transition-transform" />
+              <Link
+                key={r.member.id}
+                to={`/member/${r.member.id}`}
+                className="flex flex-col items-center text-center group transition-transform duration-200 hover:-translate-y-1"
+                style={{ order: displayOrder, flex: order === 0 ? '1.2' : '1' }}
+              >
+                {/* 头像 + 皇冠 */}
+                <div className="relative">
+                  {/* 皇冠 SVG */}
+                  <div className={`absolute ${crown.top} left-1/2 -translate-x-1/2 z-10`} style={{ filter: crown.glow }}>
+                    <svg viewBox="0 0 48 36" fill="none" xmlns="http://www.w3.org/2000/svg" className={crown.size}>
+                      {/* 皇冠主体 */}
+                      <path d="M5 28L9 12L17 20L24 8L31 20L39 12L43 28H5Z" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1.5" strokeLinejoin="round"/>
+                      {/* 三颗尖顶珠 */}
+                      <circle cx="9" cy="11" r="3" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1"/>
+                      <circle cx="24" cy="6" r="3.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="1"/>
+                      <circle cx="39" cy="11" r="3" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1"/>
+                      {/* 冠带 + 名次数字 */}
+                      <rect x="5" y="26" width="38" height="9" rx="2" fill={crown.band} stroke={crown.bandStroke} strokeWidth="1"/>
+                      <text x="24" y="33.5" textAnchor="middle" fill={crown.numColor} fontSize="8.5" fontWeight="800" fontFamily="'SF Pro Display', system-ui, -apple-system, sans-serif">{rankNum}</text>
+                      {/* 冠带宝石装饰 */}
+                      {order === 0 && <>
+                        <circle cx="13" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
+                        <circle cx="35" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
+                      </>}
+                    </svg>
                   </div>
-                  <div className="text-xs sm:text-sm font-bold text-gray-800 truncate max-w-[80px] mt-2">{r.member.name}</div>
-                  {isHandicapTab ? (
-                    <div className="text-[10px] sm:text-xs text-gray-500 mt-0.5 px-2 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.6)' }}>{r.handicapIndex} 差点</div>
-                  ) : (
-                    <div className={`text-[10px] sm:text-xs mt-0.5 px-2 py-0.5 rounded-full font-medium ${r.latestProgress == null ? 'text-gray-400 bg-gray-50' : r.latestProgress > 0 ? 'text-golf-700 bg-golf-50' : r.latestProgress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500 bg-gray-50'}`}>
-                      {r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
-                    </div>
-                  )}
-                </Link>
-              </div>
+                  {/* 头像 */}
+                  <div className={`${avatarSizes[order]} rounded-full ring-[3px] ${ringColors[order]} overflow-hidden bg-white shadow-md group-hover:scale-105 transition-transform duration-200`}>
+                    <img src={r.member.avatar} alt={r.member.name} className="w-full h-full object-cover" />
+                  </div>
+                </div>
+
+                {/* 姓名 */}
+                <p className={`font-semibold truncate max-w-[88px] ${order === 0 ? 'text-sm sm:text-base mt-3' : 'text-xs sm:text-sm mt-2.5'}`} style={{ color: '#1e293b' }}>
+                  {r.member.name}
+                </p>
+
+                {/* 数据标签 */}
+                {isHandicapTab ? (
+                  <span className={`inline-block mt-1 px-2.5 py-0.5 rounded-full font-medium ${order === 0 ? 'text-xs sm:text-sm' : 'text-[10px] sm:text-xs'}`} style={{ color: '#166534', background: 'rgba(220,252,231,0.7)' }}>
+                    {r.handicapIndex} 差点
+                  </span>
+                ) : (
+                  <span className={`inline-block mt-1 px-2.5 py-0.5 rounded-full font-medium ${order === 0 ? 'text-xs sm:text-sm' : 'text-[10px] sm:text-xs'} ${
+                    r.latestProgress == null ? 'text-slate-400 bg-slate-50' :
+                    r.latestProgress > 0 ? 'text-emerald-700 bg-emerald-50' :
+                    r.latestProgress < 0 ? 'text-rose-600 bg-rose-50' :
+                    'text-slate-500 bg-slate-50'
+                  }`}>
+                    {r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
+                  </span>
+                )}
+              </Link>
             )
           })}
         </div>
       </div>
 
       {/* Full Ranking List */}
-      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
+      <div className="rounded-2xl sm:rounded-3xl overflow-hidden" style={{
+        background: 'rgba(255,255,255,0.88)',
+        backdropFilter: 'blur(16px)',
+        border: '1px solid rgba(255,255,255,0.6)',
+        boxShadow: '0 2px 20px rgba(19,92,51,0.06)',
+      }}>
         {/* Desktop Header */}
-        <div className="hidden sm:grid grid-cols-12 gap-2 px-5 py-3 text-xs font-medium text-gray-400 border-b border-gray-100" style={{ background: 'rgba(212, 238, 232, 0.3)' }}>
+        <div className="hidden sm:grid grid-cols-12 gap-2 px-6 py-3.5 text-xs font-semibold tracking-wide uppercase border-b" style={{ color: '#64748b', background: 'rgba(241,245,249,0.6)', borderColor: 'rgba(226,232,240,0.6)' }}>
           <div className="col-span-1">排名</div>
           <div className="col-span-3">会员</div>
           <div className="col-span-2 text-center">
@@ -178,7 +221,7 @@ export default function RankingPage() {
         </div>
         
         {/* Mobile Header */}
-        <div className="sm:hidden grid grid-cols-10 gap-1 px-3 py-2.5 text-[10px] font-medium text-gray-400 border-b border-gray-100" style={{ background: 'rgba(212, 238, 232, 0.3)' }}>
+        <div className="sm:hidden grid grid-cols-10 gap-1 px-4 py-3 text-[10px] font-semibold tracking-wide uppercase border-b" style={{ color: '#64748b', background: 'rgba(241,245,249,0.6)', borderColor: 'rgba(226,232,240,0.6)' }}>
           <div className="col-span-1">排名</div>
           <div className="col-span-4">会员</div>
           <div className="col-span-2 text-center">
@@ -189,34 +232,33 @@ export default function RankingPage() {
           </div>
         </div>
 
-        {currentRanking.map(r => (
+        {currentRanking.map((r, idx) => (
           <Link
             key={r.member.id}
             to={`/member/${r.member.id}`}
-            className="block sm:grid sm:grid-cols-12 sm:gap-2 sm:px-5 sm:py-3.5 px-3 py-3 border-b border-gray-50/80 hover:bg-golf-50/40 transition-all duration-200"
+            className="block sm:grid sm:grid-cols-12 sm:gap-2 sm:px-6 sm:py-4 px-4 py-3.5 transition-all duration-150 hover:bg-emerald-50/40 active:bg-emerald-50/60"
+            style={{ borderBottom: idx < currentRanking.length - 1 ? '1px solid rgba(241,245,249,0.8)' : 'none' }}
           >
             {/* Mobile Layout */}
-            <div className="sm:hidden flex items-center gap-2">
+            <div className="sm:hidden flex items-center gap-2.5">
               <span className={`inline-flex w-6 h-6 items-center justify-center rounded-lg text-[10px] font-bold flex-shrink-0 ${
-                r.rank === 1 ? 'text-white shadow-sm' :
-                r.rank === 2 ? 'text-white shadow-sm' :
-                r.rank === 3 ? 'text-white shadow-sm' :
-                'bg-gray-100 text-gray-500'
+                r.rank <= 3 ? 'text-white' : 'text-slate-500'
               }`} style={
-                r.rank === 1 ? { background: 'linear-gradient(135deg, #facc15, #eab308)' } :
-                r.rank === 2 ? { background: 'linear-gradient(135deg, #9ca3af, #6b7280)' } :
-                r.rank === 3 ? { background: 'linear-gradient(135deg, #d97706, #b45309)' } :
-                undefined
+                r.rank === 1 ? { background: 'linear-gradient(135deg, #FBBF24, #D97706)' } :
+                r.rank === 2 ? { background: 'linear-gradient(135deg, #94A3B8, #64748B)' } :
+                r.rank === 3 ? { background: 'linear-gradient(135deg, #F97316, #C2410C)' } :
+                { background: '#F1F5F9' }
               }>{r.rank}</span>
-              <img src={r.member.avatar} alt="" className="w-7 h-7 rounded-xl bg-gray-100 flex-shrink-0 shadow-sm" />
+              <img src={r.member.avatar} alt="" className="w-8 h-8 rounded-xl bg-slate-100 flex-shrink-0 object-cover" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }} />
               <div className="flex-1 min-w-0">
-                <div className="text-xs font-medium text-gray-800 truncate">{r.member.name}</div>
-                <div className="text-[10px] text-gray-400">{getMemberTee(r.member, r.gameCount)}</div>
+                <div className="text-xs font-semibold truncate" style={{ color: '#1e293b' }}>{r.member.name}</div>
+                <div className="text-[10px] mt-0.5" style={{ color: '#94a3b8' }}>{getMemberTee(r.member, r.gameCount)}</div>
               </div>
-              <div className={`text-right text-xs font-bold px-2 py-0.5 rounded-full ${isHandicapTab ? 'text-golf-700 bg-golf-50' : r.latestProgress == null ? 'text-gray-400' : r.latestProgress > 0 ? 'text-golf-700 bg-golf-50' : r.latestProgress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
+              <div className={`text-right text-xs font-bold px-2.5 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
+                style={{ background: isHandicapTab ? 'rgba(220,252,231,0.6)' : undefined }}>
                 {isHandicapTab ? r.handicapIndex : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
               </div>
-              <div className="text-right text-[10px] text-gray-600 min-w-[50px]">
+              <div className="text-right text-[11px] min-w-[50px]" style={{ color: '#475569' }}>
                 {isHandicapTab ? (
                   <span>{r.avgScore}</span>
                 ) : (
@@ -227,46 +269,42 @@ export default function RankingPage() {
 
             {/* Desktop Layout */}
             <div className="hidden sm:contents">
-              <div className="col-span-1">
+              <div className="col-span-1 flex items-center">
                 <span className={`inline-flex w-7 h-7 items-center justify-center rounded-lg text-xs font-bold ${
-                  r.rank === 1 ? 'text-white shadow-sm' :
-                  r.rank === 2 ? 'text-white shadow-sm' :
-                  r.rank === 3 ? 'text-white shadow-sm' :
-                  'bg-gray-100 text-gray-500'
+                  r.rank <= 3 ? 'text-white' : 'text-slate-500'
                 }`} style={
-                  r.rank === 1 ? { background: 'linear-gradient(135deg, #facc15, #eab308)' } :
-                  r.rank === 2 ? { background: 'linear-gradient(135deg, #9ca3af, #6b7280)' } :
-                  r.rank === 3 ? { background: 'linear-gradient(135deg, #d97706, #b45309)' } :
-                  undefined
+                  r.rank === 1 ? { background: 'linear-gradient(135deg, #FBBF24, #D97706)' } :
+                  r.rank === 2 ? { background: 'linear-gradient(135deg, #94A3B8, #64748B)' } :
+                  r.rank === 3 ? { background: 'linear-gradient(135deg, #F97316, #C2410C)' } :
+                  { background: '#F1F5F9' }
                 }>{r.rank}</span>
               </div>
-              <div className="col-span-3 flex items-center gap-2.5">
-                <img src={r.member.avatar} alt="" className="w-9 h-9 rounded-xl bg-gray-100 shadow-sm" />
+              <div className="col-span-3 flex items-center gap-3">
+                <img src={r.member.avatar} alt="" className="w-10 h-10 rounded-xl bg-slate-100 object-cover" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }} />
                 <div>
-                  <div className="text-sm font-medium text-gray-800">{r.member.name}</div>
-                  <div className="text-xs text-gray-400">{getMemberTee(r.member, r.gameCount)}</div>
+                  <div className="text-sm font-semibold" style={{ color: '#1e293b' }}>{r.member.name}</div>
+                  <div className="text-xs mt-0.5" style={{ color: '#94a3b8' }}>{getMemberTee(r.member, r.gameCount)}</div>
                 </div>
               </div>
-              <div className={`col-span-2 flex items-center justify-center`}>
-                <span className={`text-sm font-bold px-2.5 py-0.5 rounded-full ${isHandicapTab ? 'text-golf-700 bg-golf-50' : r.latestProgress == null ? 'text-gray-400' : r.latestProgress > 0 ? 'text-golf-700 bg-golf-50' : r.latestProgress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
+              <div className="col-span-2 flex items-center justify-center">
+                <span className={`text-sm font-bold px-3 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
+                  style={{ background: isHandicapTab ? 'rgba(220,252,231,0.6)' : r.latestProgress != null && r.latestProgress > 0 ? 'rgba(220,252,231,0.6)' : r.latestProgress != null && r.latestProgress < 0 ? 'rgba(255,228,230,0.6)' : undefined }}>
                   {isHandicapTab ? r.handicapIndex : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
                 </span>
               </div>
-              <div className="col-span-4 text-center flex items-center justify-center">
+              <div className="col-span-4 flex items-center justify-center">
                 {isHandicapTab ? (
-                  <span className="text-xs text-gray-600 px-2.5 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.5)' }}>{r.avgScore}</span>
+                  <span className="text-sm px-3 py-1 rounded-lg" style={{ color: '#475569', background: 'rgba(241,245,249,0.7)' }}>{r.avgScore}</span>
                 ) : (
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs text-gray-600 px-2 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.5)' }}>{r.latestScore}</span>
-                    <span className="text-xs text-gray-300">/</span>
-                    <span className="text-xs text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">{r.avgScore}</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm px-2.5 py-1 rounded-lg" style={{ color: '#475569', background: 'rgba(241,245,249,0.7)' }}>{r.latestScore}</span>
+                    <span style={{ color: '#cbd5e1' }}>/</span>
+                    <span className="text-sm text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg">{r.avgScore}</span>
                   </div>
                 )}
               </div>
-              <div className="col-span-2 text-center flex items-center justify-center">
-                <div className="text-sm text-gray-600">
-                  <span className="px-2.5 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.4)' }}>{r.participationRate}%</span>
-                </div>
+              <div className="col-span-2 flex items-center justify-center">
+                <span className="text-sm px-3 py-1 rounded-lg" style={{ color: '#475569', background: 'rgba(241,245,249,0.5)' }}>{r.participationRate}%</span>
               </div>
             </div>
           </Link>
