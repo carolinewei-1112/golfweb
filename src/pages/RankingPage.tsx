@@ -112,29 +112,36 @@ export default function RankingPage() {
               { color: '#CD7F32', shadow: '#8B4513', accent: '#D2691E', glow: 'drop-shadow(0 2px 6px rgba(205, 127, 50, 0.5))' },
             ];
             const crown = crownStyles[order];
+            const rankNum = order + 1;
             return (
               <div key={r.member.id} className="flex flex-col items-center">
                 <Link to={`/member/${r.member.id}`} className="flex flex-col items-center text-center group">
-                  <div className={`relative p-0.5 rounded-full bg-gradient-to-br ${bgColors[order]} shadow-lg`}>
-                    {/* 皇冠 */}
-                    <div className="absolute -top-3.5 sm:-top-4.5 left-1/2 -translate-x-1/2 z-10" style={{ filter: crown.glow }}>
-                      <svg width="32" height="22" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-7 h-5 sm:w-9 sm:h-6">
-                        <path d="M3 20L6 8L12 14L18 4L24 14L30 8L33 20H3Z" fill={crown.color} stroke={crown.shadow} strokeWidth="1.2"/>
-                        <circle cx="6" cy="7" r="2.5" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
-                        <circle cx="18" cy="3" r="2.8" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
-                        <circle cx="30" cy="7" r="2.5" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
-                        <rect x="3" y="18" width="30" height="3.5" rx="1" fill={crown.color} stroke={crown.shadow} strokeWidth="0.8"/>
+                  <div className={`relative p-0.5 rounded-full bg-gradient-to-br ${bgColors[order]} shadow-lg mt-5 sm:mt-6`}>
+                    {/* 皇冠（含名次数字） */}
+                    <div className="absolute -top-5 sm:-top-6 left-1/2 -translate-x-1/2 z-10" style={{ filter: crown.glow }}>
+                      <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-9 h-7 sm:w-11 sm:h-8">
+                        {/* 皇冠主体 */}
+                        <path d="M4 24L7 10L14 17L20 6L26 17L33 10L36 24H4Z" fill={crown.color} stroke={crown.shadow} strokeWidth="1.2"/>
+                        {/* 三个尖顶 */}
+                        <circle cx="7" cy="9" r="2.5" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
+                        <circle cx="20" cy="4.5" r="3" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
+                        <circle cx="33" cy="9" r="2.5" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
+                        {/* 底部冠带 */}
+                        <rect x="4" y="22" width="32" height="8" rx="1.5" fill={crown.color} stroke={crown.shadow} strokeWidth="0.8"/>
+                        {/* 名次数字 */}
+                        <text x="20" y="29" textAnchor="middle" fill={crown.shadow} fontSize="8" fontWeight="bold" fontFamily="Arial, sans-serif">{rankNum}</text>
+                        {/* 宝石装饰 */}
                         {order === 0 && <>
-                          <circle cx="12" cy="19.5" r="1.2" fill={crown.shadow}/>
-                          <circle cx="18" cy="19.5" r="1.5" fill="#E74C3C"/>
-                          <circle cx="24" cy="19.5" r="1.2" fill={crown.shadow}/>
+                          <circle cx="12" cy="26" r="1.2" fill={crown.shadow}/>
+                          <circle cx="28" cy="26" r="1.2" fill={crown.shadow}/>
                         </>}
                         {order === 1 && <>
-                          <circle cx="14" cy="19.5" r="1" fill={crown.shadow}/>
-                          <circle cx="22" cy="19.5" r="1" fill={crown.shadow}/>
+                          <circle cx="13" cy="26" r="1" fill={crown.shadow}/>
+                          <circle cx="27" cy="26" r="1" fill={crown.shadow}/>
                         </>}
                         {order === 2 && <>
-                          <circle cx="18" cy="19.5" r="1.3" fill={crown.shadow}/>
+                          <circle cx="13" cy="26" r="1" fill={crown.shadow}/>
+                          <circle cx="27" cy="26" r="1" fill={crown.shadow}/>
                         </>}
                       </svg>
                     </div>
@@ -149,9 +156,6 @@ export default function RankingPage() {
                     </div>
                   )}
                 </Link>
-                <div className={`w-full mt-3 bg-gradient-to-t ${bgColors[order]} rounded-t-2xl flex items-center justify-center ${heights[order]} shadow-inner border-t ${borderColors[order]}`}>
-                  <span className="text-xl sm:text-3xl drop-shadow-sm">{medals[order]}</span>
-                </div>
               </div>
             )
           })}
