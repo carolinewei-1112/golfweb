@@ -234,7 +234,35 @@ export default function GameDetailPage() {
           </div>
         )}
         <div className="divide-y divide-gray-50">
-          {currentData.map((item: any) => (
+          {currentData.map((item: any) => {
+            // 前三名皇冠配置（与排行榜一致）
+            const crownConfigs = [
+              { // 🥇 金冠
+                body: '#FBBF24', bodyStroke: '#D97706',
+                jewel: '#DC2626', jewelStroke: '#B91C1C',
+                band: '#F59E0B', bandStroke: '#B45309',
+                numColor: '#78350F',
+                glow: 'drop-shadow(0 1px 4px rgba(251,191,36,0.5))',
+              },
+              { // 🥈 银冠
+                body: '#CBD5E1', bodyStroke: '#94A3B8',
+                jewel: '#60A5FA', jewelStroke: '#3B82F6',
+                band: '#94A3B8', bandStroke: '#64748B',
+                numColor: '#334155',
+                glow: 'drop-shadow(0 1px 3px rgba(148,163,184,0.45))',
+              },
+              { // 🥉 铜冠
+                body: '#F97316', bodyStroke: '#C2410C',
+                jewel: '#FDE68A', jewelStroke: '#F59E0B',
+                band: '#EA580C', bandStroke: '#9A3412',
+                numColor: '#431407',
+                glow: 'drop-shadow(0 1px 3px rgba(249,115,22,0.4))',
+              },
+            ];
+            const isTop3 = item.rank >= 1 && item.rank <= 3;
+            const crown = isTop3 ? crownConfigs[item.rank - 1] : null;
+
+            return (
             <Link
               key={item.member.id}
               to={`/member/${item.member.id}`}
@@ -246,7 +274,30 @@ export default function GameDetailPage() {
                 item.rank === 3 ? 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm' :
                 'bg-gray-100 text-gray-500'
               }`}>{item.rank}</span>
-              <img src={item.member.avatar} alt="" className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gray-100 flex-shrink-0 shadow-sm" />
+              {/* 头像 + 前三名皇冠 */}
+              <div className={`relative flex-shrink-0 ${isTop3 ? 'mt-1.5' : ''}`}>
+                {isTop3 && crown && (
+                  <div className="absolute -top-3 sm:-top-3.5 left-1/2 -translate-x-1/2 z-10" style={{ filter: crown.glow }}>
+                    <svg viewBox="0 0 48 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-5 sm:w-7 sm:h-5">
+                      {/* 皇冠主体 */}
+                      <path d="M5 28L9 12L17 20L24 8L31 20L39 12L43 28H5Z" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1.5" strokeLinejoin="round"/>
+                      {/* 三颗尖顶珠 */}
+                      <circle cx="9" cy="11" r="3" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1"/>
+                      <circle cx="24" cy="6" r="3.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="1"/>
+                      <circle cx="39" cy="11" r="3" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1"/>
+                      {/* 冠带 + 名次数字 */}
+                      <rect x="5" y="26" width="38" height="9" rx="2" fill={crown.band} stroke={crown.bandStroke} strokeWidth="1"/>
+                      <text x="24" y="33.5" textAnchor="middle" fill={crown.numColor} fontSize="8.5" fontWeight="800" fontFamily="'SF Pro Display', system-ui, -apple-system, sans-serif">{item.rank}</text>
+                      {/* 金冠宝石装饰 */}
+                      {item.rank === 1 && <>
+                        <circle cx="13" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
+                        <circle cx="35" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
+                      </>}
+                    </svg>
+                  </div>
+                )}
+                <img src={item.member.avatar} alt="" className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow-sm ${isTop3 ? 'ring-2 ring-offset-1 ' + (item.rank === 1 ? 'ring-amber-300/80' : item.rank === 2 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`} />
+              </div>
               <div className="flex-1 min-w-0">
                 <div className="text-xs sm:text-sm font-medium text-gray-800 truncate">{item.member.name}</div>
                 <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(item.member, getMemberGames(item.member.id).length)}</div>
@@ -266,7 +317,8 @@ export default function GameDetailPage() {
                 </div>
               )}
             </Link>
-          ))}
+            );
+          })}
         </div>
       </div>
       </div>
