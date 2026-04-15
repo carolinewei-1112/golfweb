@@ -101,7 +101,7 @@ export default function BirdiePage() {
           }`}
           style={activeTab === 'members' ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
-          <span className="mr-1.5">👥</span>个人统计
+          <span className="mr-1.5">👑</span>鸟王榜
         </button>
       </div>
 
