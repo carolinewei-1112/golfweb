@@ -54,7 +54,7 @@ export default function Layout() {
           <path d="M7 19l-1 3M11 19l0.5 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
         </svg>
       ),
-      // 会费管理 - 钱袋/钱包（参考 Wallet 风格：大圆角矩形 + 搭扣装饰）
+      // 会费记录 - 钱袋/钱包（参考 Wallet 风格：大圆角矩形 + 搭扣装饰）
       finance: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
           <rect x="2" y="6" width="20" height="15" rx="3" fill="currentColor" opacity="0.12"/>
@@ -91,7 +91,7 @@ export default function Layout() {
     { path: '/ranking', label: '排行榜', iconType: 'ranking', shortLabel: '排行' },
     { path: '/history', label: '历史比赛', iconType: 'history', shortLabel: '比赛' },
     { path: '/birdie', label: '百鸟记录', iconType: 'birdie', shortLabel: '百鸟' },
-    { path: '/finance', label: '会费管理', iconType: 'finance', shortLabel: '会费' },
+    { path: '/finance', label: '会费记录', iconType: 'finance', shortLabel: '会费' },
     { path: '/rules', label: '规则', iconType: 'rules', shortLabel: '规则' },
   ]
 

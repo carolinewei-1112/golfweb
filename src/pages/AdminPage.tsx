@@ -923,7 +923,7 @@ export default function AdminPage() {
     { key: 'members', label: '会员管理', icon: '👥' },
     { key: 'announcement', label: '公告管理', icon: '📢' },
     { key: 'birdie', label: '百鸟记录', icon: '🐦' },
-    { key: 'finance', label: '会费管理', icon: '💰' },
+    { key: 'finance', label: '会费记录', icon: '💰' },
   ]
 
   return (
@@ -1248,7 +1248,7 @@ function AnnouncementManager() {
   )
 }
 
-// ============ 会费管理 ============
+// ============ 会费记录 ============
 function FinanceManager() {
   const { members, tournaments, membershipFees, expenses, addMembershipFee, deleteMembershipFee, addExpense, deleteExpense } = useStore()
   const [activeTab, setActiveTab] = useState<'income' | 'expense'>('income')

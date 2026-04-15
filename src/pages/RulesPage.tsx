@@ -391,7 +391,7 @@ export default function RulesPage() {
               <span className="text-purple-500">💡</span> 会费用途
             </h4>
             <p className="text-gray-600 text-xs sm:text-sm">
-              用于安排每次月赛的聚餐🍚+奖品购置🎁，所有支出可在【会费管理】查看。
+              用于安排每次月赛的聚餐🍚+奖品购置🎁，所有支出可在【会费记录】查看。
             </p>
           </div>
           <div className="flex items-center justify-between py-3 border-b border-gray-100/80">

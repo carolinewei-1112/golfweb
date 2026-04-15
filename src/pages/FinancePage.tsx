@@ -30,7 +30,7 @@ export default function FinancePage() {
         </div>
         <div className="relative">
           <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#0f4828' }}>
-            <span className="text-xl sm:text-2xl">💰</span> 会费管理
+            <span className="text-xl sm:text-2xl">💰</span> 会费记录
           </h1>
           <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(15, 72, 40, 0.65)' }}>查看会费和比赛支出</p>
         </div>
