@@ -7,79 +7,77 @@ export default function Layout() {
   const {  } = useStore()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  // SVG 图标组件 — 简洁圆角线条风格（粗描边 + 浅色填充块点缀）
+  // SVG 图标组件 — 统一视觉大小：主体居中在 3~21 范围内，strokeWidth=1.8，圆角线条风格
   const NavIcon = ({ type, className = "w-[18px] h-[18px]" }: { type: string; className?: string }) => {
+    const sw = "1.8";
     const icons: Record<string, React.ReactNode> = {
-      // 首页 - 小房子（参考 Home 图标风格：屋顶三角 + 大圆角门体）
+      // 首页 - 小房子
       home: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M3 10.5L12 3l9 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M5 9.5V19a2 2 0 002 2h10a2 2 0 002-2V9.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <rect x="9" y="14" width="6" height="7" rx="1.5" fill="currentColor" opacity="0.2"/>
-          <circle cx="12" cy="17" r="0.8" fill="currentColor" opacity="0.5"/>
+          <path d="M4 11l8-7 8 7" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M6 9.5v9a2 2 0 002 2h8a2 2 0 002-2v-9" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"/>
+          <rect x="9.5" y="14.5" width="5" height="6" rx="1.2" fill="currentColor" opacity="0.18"/>
         </svg>
       ),
-      // 排行榜 - 奖杯（简洁粗线条杯身 + 浅色填充）
+      // 排行榜 - 奖杯
       ranking: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M8 3h8v8a4 4 0 01-8 0V3z" fill="currentColor" opacity="0.15"/>
-          <path d="M8 3h8v8a4 4 0 01-8 0V3z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M8 5H5.5a1.5 1.5 0 00-1.5 1.5v0A3.5 3.5 0 007.5 10H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M16 5h2.5A1.5 1.5 0 0120 6.5v0A3.5 3.5 0 0116.5 10H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M10 15h4v2H10z" fill="currentColor" opacity="0.2"/>
-          <path d="M8 19h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M12 15v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M8 4h8v7a4 4 0 01-8 0V4z" fill="currentColor" opacity="0.15"/>
+          <path d="M8 4h8v7a4 4 0 01-8 0V4z" stroke="currentColor" strokeWidth={sw} strokeLinejoin="round"/>
+          <path d="M8 6H5.5A1.5 1.5 0 004 7.5 3.5 3.5 0 007.5 11H8" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+          <path d="M16 6h2.5A1.5 1.5 0 0120 7.5 3.5 3.5 0 0116.5 11H16" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+          <path d="M12 15v3" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+          <path d="M8 20h8" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
         </svg>
       ),
-      // 历史比赛 - 日历记分卡（大圆角矩形 + 日历顶环 + 横线）
+      // 历史比赛 - 日历
       history: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <rect x="3" y="4" width="18" height="18" rx="3" fill="currentColor" opacity="0.12"/>
-          <rect x="3" y="4" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M3 10h18" stroke="currentColor" strokeWidth="2"/>
-          <path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <circle cx="8" cy="15" r="1.2" fill="currentColor" opacity="0.4"/>
-          <circle cx="12" cy="15" r="1.2" fill="currentColor" opacity="0.4"/>
-          <circle cx="16" cy="15" r="1.2" fill="currentColor" opacity="0.4"/>
+          <rect x="3" y="4.5" width="18" height="16" rx="2.5" fill="currentColor" opacity="0.12"/>
+          <rect x="3" y="4.5" width="18" height="16" rx="2.5" stroke="currentColor" strokeWidth={sw} strokeLinejoin="round"/>
+          <path d="M3 10h18" stroke="currentColor" strokeWidth={sw}/>
+          <path d="M8 3v3M16 3v3" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+          <circle cx="8" cy="15" r="1" fill="currentColor" opacity="0.35"/>
+          <circle cx="12" cy="15" r="1" fill="currentColor" opacity="0.35"/>
+          <circle cx="16" cy="15" r="1" fill="currentColor" opacity="0.35"/>
         </svg>
       ),
-      // 百鸟记录 - 小鸟（简洁圆润鸟身 + 翅膀弧线）
+      // 百鸟记录 - 小鸟
       birdie: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <circle cx="10" cy="13" r="6" fill="currentColor" opacity="0.12"/>
-          <circle cx="10" cy="13" r="6" stroke="currentColor" strokeWidth="2"/>
-          <circle cx="8.5" cy="11.5" r="1" fill="currentColor"/>
-          <path d="M13 12l3-1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M14 8c2-2.5 5-2 6-1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M7 19l-1 3M11 19l0.5 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <ellipse cx="11" cy="13.5" rx="6.5" ry="5.5" fill="currentColor" opacity="0.12"/>
+          <ellipse cx="11" cy="13.5" rx="6.5" ry="5.5" stroke="currentColor" strokeWidth={sw}/>
+          <circle cx="9" cy="12" r="1" fill="currentColor"/>
+          <path d="M14.5 12.5l2.5-.8" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+          <path d="M15 9c1.5-2 4-2 5.5-1.2" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+          <path d="M8 19l-.8 2M12 19l.3 2" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
         </svg>
       ),
-      // 会费记录 - 钱袋/钱包（参考 Wallet 风格：大圆角矩形 + 搭扣装饰）
+      // 会费记录 - 钱包
       finance: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <rect x="2" y="6" width="20" height="15" rx="3" fill="currentColor" opacity="0.12"/>
-          <rect x="2" y="6" width="20" height="15" rx="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M2 11h20" stroke="currentColor" strokeWidth="2"/>
-          <rect x="14" y="14" width="5" height="3.5" rx="1.5" fill="currentColor" opacity="0.25" stroke="currentColor" strokeWidth="1.5"/>
-          <circle cx="16.5" cy="15.8" r="0.6" fill="currentColor"/>
+          <rect x="2.5" y="5" width="19" height="15" rx="2.5" fill="currentColor" opacity="0.12"/>
+          <rect x="2.5" y="5" width="19" height="15" rx="2.5" stroke="currentColor" strokeWidth={sw} strokeLinejoin="round"/>
+          <path d="M2.5 10h19" stroke="currentColor" strokeWidth={sw}/>
+          <rect x="14" y="13" width="4.5" height="3.5" rx="1.2" fill="currentColor" opacity="0.22" stroke="currentColor" strokeWidth="1.2"/>
         </svg>
       ),
-      // 规则 - 书本（参考 Book 风格：大圆角翻书 + 横线装饰）
+      // 规则 - 书本
       rules: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" fill="currentColor" opacity="0.12"/>
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M9 7h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M9 11h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M6 3h13v18H6a2 2 0 01-2-2V5a2 2 0 012-2z" fill="currentColor" opacity="0.12"/>
+          <path d="M6 3h13v18H6a2 2 0 01-2-2V5a2 2 0 012-2z" stroke="currentColor" strokeWidth={sw} strokeLinejoin="round"/>
+          <path d="M4 17.5A2 2 0 016 16h13" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M8 7.5h7" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+          <path d="M8 11h5" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
         </svg>
       ),
-      // 管理 - 工具扳手（参考 Tool 图标风格：简洁扳手 + 小十字装饰）
+      // 管理 - 齿轮
       admin: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" fill="currentColor" opacity="0.12"/>
-          <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <circle cx="7" cy="17" r="1" fill="currentColor" opacity="0.4"/>
+          <circle cx="12" cy="12" r="3" fill="currentColor" opacity="0.18"/>
+          <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth={sw}/>
+          <path d="M12 1.5v2M12 20.5v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1.5 12h2M20.5 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
         </svg>
       ),
     };
