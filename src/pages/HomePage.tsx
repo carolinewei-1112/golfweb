@@ -102,8 +102,8 @@ export default function HomePage() {
           {/* 公告区域 */}
           <div className="mt-4 sm:mt-5 pt-4 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.15)' }}>
             <div className="flex items-start gap-2.5 sm:gap-3">
-              <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
-                <div className="w-6 h-6 rounded-lg flex items-center justify-center text-xs" style={{ background: 'rgba(255, 255, 255, 0.15)' }}>
+              <div className="flex items-center gap-1.5 flex-shrink-0">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center text-sm sm:text-base" style={{ background: 'rgba(255, 255, 255, 0.15)' }}>
                   📢
                 </div>
               </div>
