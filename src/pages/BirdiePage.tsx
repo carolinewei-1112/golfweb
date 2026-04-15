@@ -148,14 +148,15 @@ export default function BirdiePage() {
                         <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">{member.name}</span>
                         {birdKingMap.has(member.id) && (() => {
                           const rank = birdKingMap.get(member.id)!;
-                          const colors = [
-                            { bg: 'linear-gradient(135deg, #fef3c7, #fde68a)', text: '#92400e', border: '1px solid rgba(251, 191, 36, 0.4)' },
-                            { bg: 'linear-gradient(135deg, #f1f5f9, #e2e8f0)', text: '#475569', border: '1px solid rgba(148, 163, 184, 0.4)' },
-                            { bg: 'linear-gradient(135deg, #fff7ed, #fed7aa)', text: '#9a3412', border: '1px solid rgba(249, 115, 22, 0.3)' },
+                          const configs = [
+                            { emoji: '🥇', label: '鸟王①', bg: 'linear-gradient(135deg, #fef3c7, #fde68a)', text: '#92400e', border: '1px solid rgba(251, 191, 36, 0.4)', shadow: '0 1px 4px rgba(251,191,36,0.25)' },
+                            { emoji: '🥈', label: '鸟王②', bg: 'linear-gradient(135deg, #f1f5f9, #e2e8f0)', text: '#475569', border: '1px solid rgba(148, 163, 184, 0.4)', shadow: '0 1px 4px rgba(148,163,184,0.2)' },
+                            { emoji: '🥉', label: '鸟王③', bg: 'linear-gradient(135deg, #fff7ed, #fed7aa)', text: '#9a3412', border: '1px solid rgba(249, 115, 22, 0.3)', shadow: '0 1px 4px rgba(249,115,22,0.2)' },
                           ];
+                          const c = configs[rank];
                           return (
-                            <span className="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap" style={{ background: colors[rank].bg, color: colors[rank].text, border: colors[rank].border }}>
-                              🐦 鸟王
+                            <span className="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap" style={{ background: c.bg, color: c.text, border: c.border, boxShadow: c.shadow }}>
+                              {c.emoji} {c.label}
                             </span>
                           );
                         })()}
@@ -264,11 +265,19 @@ export default function BirdiePage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 sm:gap-2">
                         <span className="text-sm sm:text-base font-medium text-gray-800 truncate">{stat.member.name}</span>
-                        {isTop3 && (
-                          <span className="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap" style={{ background: birdKingColors[index].bg, color: birdKingColors[index].text, border: birdKingColors[index].border }}>
-                            🐦 鸟王
-                          </span>
-                        )}
+                        {isTop3 && (() => {
+                          const kingConfigs = [
+                            { emoji: '🥇', label: '鸟王①', shadow: '0 1px 4px rgba(251,191,36,0.25)' },
+                            { emoji: '🥈', label: '鸟王②', shadow: '0 1px 4px rgba(148,163,184,0.2)' },
+                            { emoji: '🥉', label: '鸟王③', shadow: '0 1px 4px rgba(249,115,22,0.2)' },
+                          ];
+                          const k = kingConfigs[index];
+                          return (
+                            <span className="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap" style={{ background: birdKingColors[index].bg, color: birdKingColors[index].text, border: birdKingColors[index].border, boxShadow: k.shadow }}>
+                              {k.emoji} {k.label}
+                            </span>
+                          );
+                        })()}
                       </div>
                     </div>
                     <div className="text-right">
