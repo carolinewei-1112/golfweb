@@ -146,85 +146,235 @@ export default function RulesPage() {
         </div>
       </div>
 
-      {/* 违规与罚杆速查表 */}
+      {/* 高尔夫规则详解 */}
       <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
-        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-gray-100" style={{ background: 'linear-gradient(135deg, rgba(254, 242, 242, 0.5) 0%, rgba(255, 255, 255, 0.6) 100%)' }}>
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-gray-100" style={{ background: 'linear-gradient(135deg, rgba(212, 238, 232, 0.5) 0%, rgba(255, 255, 255, 0.6) 100%)' }}>
           <h2 className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(239, 68, 68, 0.08)' }}>⚠️</div>
-            违规与罚杆速查表
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>⛳</div>
+            高尔夫规则详解
           </h2>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs sm:text-sm">
-            <thead>
-              <tr style={{ background: 'rgba(212, 238, 232, 0.25)' }} className="text-gray-500">
-                <th className="px-3 sm:px-4 py-2.5 sm:py-3 text-left font-medium border-b border-gray-100 w-[60px] sm:w-[100px]">类别</th>
-                <th className="px-3 sm:px-4 py-2.5 sm:py-3 text-left font-medium border-b border-gray-100 min-w-[120px]">常见情形</th>
-                <th className="px-3 sm:px-4 py-2.5 sm:py-3 text-left font-medium border-b border-gray-100 w-[60px] sm:w-[90px]">处罚</th>
-                <th className="px-3 sm:px-4 py-2.5 sm:py-3 text-left font-medium border-b border-gray-100 min-w-[100px]">核心动作</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-600">
-              {/* 罚 1 杆 - 补救/程序 */}
-              <tr className="border-b border-gray-50">
-                <td className="px-3 sm:px-4 py-2 sm:py-3 align-top" rowSpan={6}>
-                  <span className="inline-flex items-center justify-center px-2 sm:px-2.5 h-5 sm:h-6 rounded-lg text-[10px] sm:text-xs font-bold" style={{ background: 'rgba(253, 246, 227, 0.5)', color: '#a16207' }}>罚1杆</span>
-                </td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3">界外球 (OB) / 丢球</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-yellow-700 font-medium">罚 1 杆</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-gray-500">返回原位重打</td>
-              </tr>
-              <tr className="border-b border-gray-50">
-                <td className="px-3 sm:px-4 py-2 sm:py-3">进入处罚区 (水/障碍)</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-yellow-700 font-medium">罚 1 杆</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-gray-500">在补救区抛球</td>
-              </tr>
-              <tr className="border-b border-gray-50">
-                <td className="px-3 sm:px-4 py-2 sm:py-3">宣布"不可打之球"</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-yellow-700 font-medium">罚 1 杆</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-gray-500">选择抛球补救</td>
-              </tr>
-              <tr className="border-b border-gray-50">
-                <td className="px-3 sm:px-4 py-2 sm:py-3">提起球前未标记</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-yellow-700 font-medium">罚 1 杆</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-gray-500">放回原位重新标记</td>
-              </tr>
-              <tr className="border-b border-gray-50">
-                <td className="px-3 sm:px-4 py-2 sm:py-3">触动自然物导致球移动</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-yellow-700 font-medium">罚 1 杆</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-gray-500">须放回原位</td>
-              </tr>
-              <tr className="border-b border-gray-100">
-                <td className="px-3 sm:px-4 py-2 sm:py-3">意外动球未放回</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-yellow-700 font-medium">罚 1 杆</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-gray-500">知情不报或未复位</td>
-              </tr>
-              {/* 罚 2 杆 - 一般处罚 */}
-              <tr className="border-b border-gray-50">
-                <td className="px-3 sm:px-4 py-2 sm:py-3 align-top" rowSpan={4}>
-                  <span className="inline-flex items-center justify-center px-2 sm:px-2.5 h-5 sm:h-6 rounded-lg text-[10px] sm:text-xs font-bold" style={{ background: 'rgba(239, 68, 68, 0.08)', color: '#b91c1c' }}>罚2杆</span>
-                </td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3">击错球</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-red-700 font-medium">罚 2 杆</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-gray-500">误打他人的球</td>
-              </tr>
-              <tr className="border-b border-gray-50">
-                <td className="px-3 sm:px-4 py-2 sm:py-3">果岭撞球</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-red-700 font-medium">罚 2 杆</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-gray-500">双方球均在果岭时相撞</td>
-              </tr>
-              <tr className="border-b border-gray-50">
-                <td className="px-3 sm:px-4 py-2 sm:py-3">在错误地点打球</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-red-700 font-medium">罚 2 杆</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-gray-500">抛球位置不规范</td>
-              </tr>
-              <tr className="border-b border-gray-50">
-                <td className="px-3 sm:px-4 py-2 sm:py-3">违规寻求/提供建议</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-red-700 font-medium">罚 2 杆</td>
-                <td className="px-3 sm:px-4 py-2 sm:py-3 text-gray-500">询问非球童的建议</td>
-              </tr>
-            </tbody>
-          </table>
+        <div className="p-4 sm:p-6 space-y-5 sm:space-y-6">
+
+          {/* ======= 发球台 ======= */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-flex items-center justify-center px-2.5 sm:px-3 h-6 sm:h-7 rounded-lg text-[10px] sm:text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)' }}>发球台</span>
+            </div>
+            <div className="space-y-2">
+              {[
+                { situation: '开球前球杆意外触碰球（滑落）', penalty: '免罚', action: '重新架球即可', scope: '必须有意图打球才算一杆', note: '' },
+                { situation: '在发球台标志前方明显位置开球', penalty: '+2杆', action: '在正确标志后补打，扣正确地点重新开球', scope: '需回到正确位置重新开球', note: '' },
+                { situation: '球OB（出界）或遗失', penalty: '+1杆', action: '回到原发球台（使用第一杆的球座标记位）', scope: '从发球台补打第三杆；建议同时打暂定球节省时间', note: '' },
+              ].map((rule, idx) => (
+                <div key={idx} className="rounded-xl p-3 sm:p-4" style={{ background: idx % 2 === 0 ? 'rgba(212, 238, 232, 0.15)' : 'rgba(253, 246, 227, 0.15)', border: '1px solid rgba(200, 220, 210, 0.2)' }}>
+                  <div className="flex flex-wrap items-start gap-2 mb-1.5">
+                    <span className="text-xs sm:text-sm font-semibold text-gray-800 flex-1">{rule.situation}</span>
+                    <span className={`inline-flex items-center px-2 h-5 sm:h-6 rounded-md text-[10px] sm:text-xs font-bold flex-shrink-0 ${
+                      rule.penalty === '免罚' ? 'text-green-700' : rule.penalty === '+1杆' ? 'text-yellow-700' : 'text-red-700'
+                    }`} style={{ background: rule.penalty === '免罚' ? 'rgba(29, 143, 78, 0.1)' : rule.penalty === '+1杆' ? 'rgba(253, 246, 227, 0.5)' : 'rgba(239, 68, 68, 0.08)' }}>
+                      {rule.penalty}
+                    </span>
+                  </div>
+                  <div className="text-[11px] sm:text-xs text-gray-600 space-y-1">
+                    <div className="flex items-start gap-1.5"><span className="text-golf-500 mt-0.5">▸</span><span><b className="text-gray-700">处理：</b>{rule.action}</span></div>
+                    <div className="flex items-start gap-1.5"><span className="text-golf-500 mt-0.5">▸</span><span><b className="text-gray-700">说明：</b>{rule.scope}</span></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ======= 普通击球 ======= */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-flex items-center justify-center px-2.5 sm:px-3 h-6 sm:h-7 rounded-lg text-[10px] sm:text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2a8c4e 0%, #3a9e5c 100%)' }}>普通击球</span>
+            </div>
+            <div className="space-y-2">
+              {[
+                { situation: '改善球位（移走自然物/踩草等）', penalty: '+2杆', action: '球放回原位', scope: '落叶/石子/杂草/虫类等自然物不能移走', note: '' },
+                { situation: '球陷入地面（嵌入式球）', penalty: '免罚', action: '一杆范围', scope: '球位最近完全不受影响的点，范围：一杆长度', note: '不能比基准点更靠近球洞' },
+                { situation: '球在临时积水中（Casual Water）', penalty: '免罚', action: '抛球（远离积水，在不妨碍的情况下一杆范围）', scope: '基准点：最近完全不受积水影响的位，范围：一杆长度', note: '不能比基准点更靠近球洞' },
+                { situation: '遗失球（打到别人的球）', penalty: '+2杆', action: '对方球放回原位，自己重新打', scope: '打出别人的球，继续打自己球', note: '' },
+                { situation: '遗失球（3分钟内找不到）', penalty: '+1杆', action: '回到上一杆位重打', scope: '2023新规：找球时间从5分钟缩短为3分钟', note: '' },
+              ].map((rule, idx) => (
+                <div key={idx} className="rounded-xl p-3 sm:p-4" style={{ background: idx % 2 === 0 ? 'rgba(212, 238, 232, 0.15)' : 'rgba(253, 246, 227, 0.15)', border: '1px solid rgba(200, 220, 210, 0.2)' }}>
+                  <div className="flex flex-wrap items-start gap-2 mb-1.5">
+                    <span className="text-xs sm:text-sm font-semibold text-gray-800 flex-1">{rule.situation}</span>
+                    <span className={`inline-flex items-center px-2 h-5 sm:h-6 rounded-md text-[10px] sm:text-xs font-bold flex-shrink-0 ${
+                      rule.penalty === '免罚' ? 'text-green-700' : rule.penalty === '+1杆' ? 'text-yellow-700' : 'text-red-700'
+                    }`} style={{ background: rule.penalty === '免罚' ? 'rgba(29, 143, 78, 0.1)' : rule.penalty === '+1杆' ? 'rgba(253, 246, 227, 0.5)' : 'rgba(239, 68, 68, 0.08)' }}>
+                      {rule.penalty}
+                    </span>
+                  </div>
+                  <div className="text-[11px] sm:text-xs text-gray-600 space-y-1">
+                    <div className="flex items-start gap-1.5"><span className="text-golf-500 mt-0.5">▸</span><span><b className="text-gray-700">处理：</b>{rule.action}</span></div>
+                    <div className="flex items-start gap-1.5"><span className="text-golf-500 mt-0.5">▸</span><span><b className="text-gray-700">说明：</b>{rule.scope}</span></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ======= 果岭 ======= */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-flex items-center justify-center px-2.5 sm:px-3 h-6 sm:h-7 rounded-lg text-[10px] sm:text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #1d8f4e 0%, #22a85a 100%)' }}>果岭</span>
+            </div>
+            <div className="space-y-2">
+              {[
+                { situation: '球在果岭上被意外移动（风吹/球童/同组）', penalty: '免罚', action: '必须恢复到正确位置（恢复至打痕点）', scope: '若不知道原位则估计放回', note: '' },
+                { situation: '球碰到旗杆后进洞', penalty: '免罚', action: '球碰到旗杆后进洞', scope: '2023新规：允许球碰旗杆后进洞，旧规则不允许', note: '' },
+                { situation: '球悬在洞口边缘没出来', penalty: '免罚', action: '继续推，直到球全部低于洞口边缘水平线', scope: '只有球完全低于洞口边缘才算进洞', note: '' },
+                { situation: '击球前用手/球杆触碰沙坑', penalty: '+1杆', action: '继续击球', scope: '不能测试沙的质地、休闲下场也应遵守', note: '' },
+              ].map((rule, idx) => (
+                <div key={idx} className="rounded-xl p-3 sm:p-4" style={{ background: idx % 2 === 0 ? 'rgba(212, 238, 232, 0.15)' : 'rgba(253, 246, 227, 0.15)', border: '1px solid rgba(200, 220, 210, 0.2)' }}>
+                  <div className="flex flex-wrap items-start gap-2 mb-1.5">
+                    <span className="text-xs sm:text-sm font-semibold text-gray-800 flex-1">{rule.situation}</span>
+                    <span className={`inline-flex items-center px-2 h-5 sm:h-6 rounded-md text-[10px] sm:text-xs font-bold flex-shrink-0 ${
+                      rule.penalty === '免罚' ? 'text-green-700' : rule.penalty === '+1杆' ? 'text-yellow-700' : 'text-red-700'
+                    }`} style={{ background: rule.penalty === '免罚' ? 'rgba(29, 143, 78, 0.1)' : rule.penalty === '+1杆' ? 'rgba(253, 246, 227, 0.5)' : 'rgba(239, 68, 68, 0.08)' }}>
+                      {rule.penalty}
+                    </span>
+                  </div>
+                  <div className="text-[11px] sm:text-xs text-gray-600 space-y-1">
+                    <div className="flex items-start gap-1.5"><span className="text-golf-500 mt-0.5">▸</span><span><b className="text-gray-700">处理：</b>{rule.action}</span></div>
+                    <div className="flex items-start gap-1.5"><span className="text-golf-500 mt-0.5">▸</span><span><b className="text-gray-700">说明：</b>{rule.scope}</span></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ======= 沙坑 ======= */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-flex items-center justify-center px-2.5 sm:px-3 h-6 sm:h-7 rounded-lg text-[10px] sm:text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #a16207 0%, #ca8a04 100%)' }}>沙坑</span>
+            </div>
+            <div className="space-y-2">
+              {[
+                { situation: '打完沙坑不耙平翻砂', penalty: '无', action: '耙平后继续比赛', scope: '礼仪要求，休闲下场也应遵守', note: '' },
+                { situation: '沙坑内宣布不打', penalty: '+1杆', action: '三种选择：①回上一杆位 ②一杆范围抛球 ③两杆范围抛球处（全部在沙坑内）', scope: '选2/3不能比球到旗杆距离更短/远重测', note: '' },
+              ].map((rule, idx) => (
+                <div key={idx} className="rounded-xl p-3 sm:p-4" style={{ background: idx % 2 === 0 ? 'rgba(253, 246, 227, 0.2)' : 'rgba(253, 246, 227, 0.1)', border: '1px solid rgba(238, 220, 179, 0.25)' }}>
+                  <div className="flex flex-wrap items-start gap-2 mb-1.5">
+                    <span className="text-xs sm:text-sm font-semibold text-gray-800 flex-1">{rule.situation}</span>
+                    <span className={`inline-flex items-center px-2 h-5 sm:h-6 rounded-md text-[10px] sm:text-xs font-bold flex-shrink-0 ${
+                      rule.penalty === '无' ? 'text-gray-500' : 'text-yellow-700'
+                    }`} style={{ background: rule.penalty === '无' ? 'rgba(200, 200, 200, 0.2)' : 'rgba(253, 246, 227, 0.5)' }}>
+                      {rule.penalty}
+                    </span>
+                  </div>
+                  <div className="text-[11px] sm:text-xs text-gray-600 space-y-1">
+                    <div className="flex items-start gap-1.5"><span className="text-amber-500 mt-0.5">▸</span><span><b className="text-gray-700">处理：</b>{rule.action}</span></div>
+                    <div className="flex items-start gap-1.5"><span className="text-amber-500 mt-0.5">▸</span><span><b className="text-gray-700">说明：</b>{rule.scope}</span></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ======= 水障碍区 ======= */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-flex items-center justify-center px-2.5 sm:px-3 h-6 sm:h-7 rounded-lg text-[10px] sm:text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #1e6cb5 0%, #2a9df4 100%)' }}>水障碍区</span>
+            </div>
+            <div className="space-y-2">
+              {[
+                { situation: '球进正面水障碍区（黄色标桩）', penalty: '+1杆', action: '方式A：回上一杆位重打；方式B：从入水后方抛球（2杆范围内）', scope: '球最后越过黄色标桩点为基准点', note: '选方式B从基准线往后方向，不限距离' },
+                { situation: '球进侧面水障碍区（红色标桩）', penalty: '+1杆', action: '①回上一杆位；方式A：最近入水区域内抛球（2杆范围）；方式C：在水区域内照打', scope: '界限最后越过红色标桩点、方向无范围', note: '球最后越过水障线的点为基准' },
+              ].map((rule, idx) => (
+                <div key={idx} className="rounded-xl p-3 sm:p-4" style={{ background: idx % 2 === 0 ? 'rgba(219, 234, 254, 0.25)' : 'rgba(219, 234, 254, 0.15)', border: '1px solid rgba(147, 197, 253, 0.25)' }}>
+                  <div className="flex flex-wrap items-start gap-2 mb-1.5">
+                    <span className="text-xs sm:text-sm font-semibold text-gray-800 flex-1">{rule.situation}</span>
+                    <span className="inline-flex items-center px-2 h-5 sm:h-6 rounded-md text-[10px] sm:text-xs font-bold flex-shrink-0 text-yellow-700" style={{ background: 'rgba(253, 246, 227, 0.5)' }}>
+                      {rule.penalty}
+                    </span>
+                  </div>
+                  <div className="text-[11px] sm:text-xs text-gray-600 space-y-1">
+                    <div className="flex items-start gap-1.5"><span className="text-blue-500 mt-0.5">▸</span><span><b className="text-gray-700">处理：</b>{rule.action}</span></div>
+                    <div className="flex items-start gap-1.5"><span className="text-blue-500 mt-0.5">▸</span><span><b className="text-gray-700">范围：</b>{rule.scope}</span></div>
+                    {rule.note && <div className="flex items-start gap-1.5"><span className="text-blue-500 mt-0.5">▸</span><span><b className="text-gray-700">补充：</b>{rule.note}</span></div>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ======= 不可打之球 ======= */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-flex items-center justify-center px-2.5 sm:px-3 h-6 sm:h-7 rounded-lg text-[10px] sm:text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%)' }}>不可打之球</span>
+            </div>
+            <div className="space-y-2">
+              <div className="rounded-xl p-3 sm:p-4" style={{ background: 'rgba(245, 243, 255, 0.25)', border: '1px solid rgba(196, 181, 253, 0.25)' }}>
+                <div className="flex flex-wrap items-start gap-2 mb-1.5">
+                  <span className="text-xs sm:text-sm font-semibold text-gray-800 flex-1">球员可在球场任何位置（不含水障碍区）宣布不可打</span>
+                  <span className="inline-flex items-center px-2 h-5 sm:h-6 rounded-md text-[10px] sm:text-xs font-bold flex-shrink-0 text-yellow-700" style={{ background: 'rgba(253, 246, 227, 0.5)' }}>+1杆</span>
+                </div>
+                <div className="text-[11px] sm:text-xs text-gray-600 space-y-1">
+                  <div className="flex items-start gap-1.5"><span className="text-purple-500 mt-0.5">▸</span><span><b className="text-gray-700">选项1：</b>回上一杆位重打（必须选择这个方案）</span></div>
+                  <div className="flex items-start gap-1.5"><span className="text-purple-500 mt-0.5">▸</span><span><b className="text-gray-700">选项2：</b>一杆范围抛球（3杆后站球在区域内抛球，4球落去方向区域）（必须选择往远方向）</span></div>
+                  <div className="flex items-start gap-1.5"><span className="text-purple-500 mt-0.5">▸</span><span><b className="text-gray-700">选项3：</b>2杆范围，在球后站在球和旗杆方向区域，不限距离</span></div>
+                  <div className="flex items-start gap-1.5 mt-2 p-2 rounded-lg" style={{ background: 'rgba(245, 243, 255, 0.4)' }}><span className="text-purple-500 mt-0.5">💡</span><span><b className="text-gray-700">注意：</b>（2023新规）最常用选项2：在球后超出向旗杆区域外，不限距离</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ======= 其他规则 ======= */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-flex items-center justify-center px-2.5 sm:px-3 h-6 sm:h-7 rounded-lg text-[10px] sm:text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #6b7280 0%, #9ca3af 100%)' }}>其他规则</span>
+            </div>
+            <div className="space-y-2">
+              {[
+                { situation: '球碰到自身体/装备（意外）', penalty: '免罚', action: '抛球（一杆范围）', scope: '基准点：最近完全不受影响位置，范围：一杆长度', note: '' },
+                { situation: '球碰到球车/人行道等标的物上', penalty: '免罚', action: '抛球（一杆范围）', scope: '基准点：最近完全不受影响位置，范围：一杆长度', note: '' },
+                { situation: '球碰到/长草区宣布不打', penalty: '免罚', action: '球放到最近点', scope: '若球已开始移动到正常草皮可重新丢球', note: '' },
+                { situation: '超过15支球杆，过程中10分钟内换球杆', penalty: '+2杆', action: '替换球杆', scope: '不能比基准点更靠近球洞', note: '' },
+                { situation: '迟到10分钟以上', penalty: 'DQ', action: '取消比赛资格', scope: '', note: '' },
+              ].map((rule, idx) => (
+                <div key={idx} className="rounded-xl p-3 sm:p-4" style={{ background: idx % 2 === 0 ? 'rgba(243, 244, 246, 0.3)' : 'rgba(243, 244, 246, 0.15)', border: '1px solid rgba(229, 231, 235, 0.3)' }}>
+                  <div className="flex flex-wrap items-start gap-2 mb-1.5">
+                    <span className="text-xs sm:text-sm font-semibold text-gray-800 flex-1">{rule.situation}</span>
+                    <span className={`inline-flex items-center px-2 h-5 sm:h-6 rounded-md text-[10px] sm:text-xs font-bold flex-shrink-0 ${
+                      rule.penalty === '免罚' ? 'text-green-700' : rule.penalty === 'DQ' ? 'text-red-700' : 'text-red-700'
+                    }`} style={{ background: rule.penalty === '免罚' ? 'rgba(29, 143, 78, 0.1)' : rule.penalty === 'DQ' ? 'rgba(239, 68, 68, 0.12)' : 'rgba(239, 68, 68, 0.08)' }}>
+                      {rule.penalty}
+                    </span>
+                  </div>
+                  <div className="text-[11px] sm:text-xs text-gray-600 space-y-1">
+                    <div className="flex items-start gap-1.5"><span className="text-gray-400 mt-0.5">▸</span><span><b className="text-gray-700">处理：</b>{rule.action}</span></div>
+                    {rule.scope && <div className="flex items-start gap-1.5"><span className="text-gray-400 mt-0.5">▸</span><span><b className="text-gray-700">说明：</b>{rule.scope}</span></div>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 罚杆速查图例 */}
+          <div className="rounded-xl sm:rounded-2xl p-3.5 sm:p-4" style={{ background: 'linear-gradient(135deg, rgba(212, 238, 232, 0.3) 0%, rgba(253, 246, 227, 0.2) 100%)', border: '1px solid rgba(168, 226, 191, 0.25)' }}>
+            <h4 className="text-[11px] sm:text-xs font-semibold text-gray-700 mb-2.5">📌 罚杆速查图例</h4>
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              <div className="flex items-center gap-1.5">
+                <span className="inline-flex items-center px-2 h-5 rounded-md text-[10px] font-bold text-green-700" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>免罚</span>
+                <span className="text-[10px] sm:text-xs text-gray-500">无需罚杆</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="inline-flex items-center px-2 h-5 rounded-md text-[10px] font-bold text-yellow-700" style={{ background: 'rgba(253, 246, 227, 0.5)' }}>+1杆</span>
+                <span className="text-[10px] sm:text-xs text-gray-500">罚一杆</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="inline-flex items-center px-2 h-5 rounded-md text-[10px] font-bold text-red-700" style={{ background: 'rgba(239, 68, 68, 0.08)' }}>+2杆</span>
+                <span className="text-[10px] sm:text-xs text-gray-500">罚两杆</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="inline-flex items-center px-2 h-5 rounded-md text-[10px] font-bold text-red-700" style={{ background: 'rgba(239, 68, 68, 0.12)' }}>DQ</span>
+                <span className="text-[10px] sm:text-xs text-gray-500">取消资格</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
