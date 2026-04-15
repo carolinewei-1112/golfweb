@@ -202,7 +202,16 @@ export default function HomePage() {
         {/* 进步排行榜入口 */}
         <Card to="/ranking" icon="🏆" title="进步排行" accent="bg-gradient-to-r from-amber-50/50 to-yellow-50/50">
           <div className="space-y-1.5 sm:space-y-2 max-h-[360px] overflow-y-auto pr-1">
-            {progressRanking.map(r => (
+            {progressRanking.map(r => {
+              const crownConfigs = [
+                { body: '#FBBF24', bodyStroke: '#D97706', jewel: '#DC2626', jewelStroke: '#B91C1C', band: '#F59E0B', bandStroke: '#B45309', numColor: '#78350F', glow: 'drop-shadow(0 1px 3px rgba(251,191,36,0.5))' },
+                { body: '#CBD5E1', bodyStroke: '#94A3B8', jewel: '#60A5FA', jewelStroke: '#3B82F6', band: '#94A3B8', bandStroke: '#64748B', numColor: '#334155', glow: 'drop-shadow(0 1px 2px rgba(148,163,184,0.45))' },
+                { body: '#F97316', bodyStroke: '#C2410C', jewel: '#FDE68A', jewelStroke: '#F59E0B', band: '#EA580C', bandStroke: '#9A3412', numColor: '#431407', glow: 'drop-shadow(0 1px 2px rgba(249,115,22,0.4))' },
+              ];
+              const isTop3 = r.rank >= 1 && r.rank <= 3;
+              const crown = isTop3 ? crownConfigs[r.rank - 1] : null;
+
+              return (
               <div key={r.member.id} className="flex items-center gap-2 sm:gap-3 py-1 rounded-xl px-1 hover:bg-golf-50/50 transition-colors">
                 <span className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 ${
                   r.rank === 1 ? 'text-white shadow-sm' :
@@ -215,7 +224,26 @@ export default function HomePage() {
                   r.rank === 3 ? { background: 'linear-gradient(135deg, #d97706, #b45309)' } :
                   undefined
                 }>{r.rank}</span>
-                <img src={r.member.avatar} alt="" className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gray-100 flex-shrink-0 shadow-sm" />
+                {/* 头像 + 前三名皇冠 */}
+                <div className={`relative flex-shrink-0 ${isTop3 ? 'mt-1.5' : ''}`}>
+                  {isTop3 && crown && (
+                    <div className="absolute -top-2.5 sm:-top-3 left-1/2 -translate-x-1/2 z-10" style={{ filter: crown.glow }}>
+                      <svg viewBox="0 0 48 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-4 sm:w-6 sm:h-4.5">
+                        <path d="M5 28L9 12L17 20L24 8L31 20L39 12L43 28H5Z" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1.5" strokeLinejoin="round"/>
+                        <circle cx="9" cy="11" r="3" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1"/>
+                        <circle cx="24" cy="6" r="3.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="1"/>
+                        <circle cx="39" cy="11" r="3" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1"/>
+                        <rect x="5" y="26" width="38" height="9" rx="2" fill={crown.band} stroke={crown.bandStroke} strokeWidth="1"/>
+                        <text x="24" y="33.5" textAnchor="middle" fill={crown.numColor} fontSize="8.5" fontWeight="800" fontFamily="'SF Pro Display', system-ui, -apple-system, sans-serif">{r.rank}</text>
+                        {r.rank === 1 && <>
+                          <circle cx="13" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
+                          <circle cx="35" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
+                        </>}
+                      </svg>
+                    </div>
+                  )}
+                  <img src={r.member.avatar} alt="" className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gray-100 shadow-sm ${isTop3 ? 'ring-2 ring-offset-1 ' + (r.rank === 1 ? 'ring-amber-300/80' : r.rank === 2 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`} />
+                </div>
                 <span className="flex-1 text-xs sm:text-sm font-medium text-gray-700 truncate">{r.member.name}</span>
                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                   r.latestProgress >= 0 
@@ -225,7 +253,8 @@ export default function HomePage() {
                   {r.latestProgress >= 0 ? '+' : ''}{r.latestProgress.toFixed(1)}
                 </span>
               </div>
-            ))}
+              );
+            })}
           </div>
           <div className="mt-3 sm:mt-4 flex items-center gap-1 text-xs text-golf-600 font-semibold">
             查看完整排行 <span className="text-sm">→</span>
