@@ -103,10 +103,41 @@ export default function RankingPage() {
               'from-amber-600 via-amber-500 to-amber-700',
             ];
             const borderColors = ['border-yellow-300', 'border-gray-200', 'border-amber-400'];
+            const crownStyles = [
+              // 🥇 金冠 - 华丽金色
+              { color: '#FFD700', shadow: '#B8860B', accent: '#FFA500', glow: 'drop-shadow(0 2px 6px rgba(255, 215, 0, 0.6))' },
+              // 🥈 银冠 - 典雅银色
+              { color: '#C0C0C0', shadow: '#808080', accent: '#A8A8A8', glow: 'drop-shadow(0 2px 6px rgba(192, 192, 192, 0.5))' },
+              // 🥉 铜冠 - 古典铜色
+              { color: '#CD7F32', shadow: '#8B4513', accent: '#D2691E', glow: 'drop-shadow(0 2px 6px rgba(205, 127, 50, 0.5))' },
+            ];
+            const crown = crownStyles[order];
             return (
               <div key={r.member.id} className="flex flex-col items-center">
                 <Link to={`/member/${r.member.id}`} className="flex flex-col items-center text-center group">
                   <div className={`relative p-0.5 rounded-full bg-gradient-to-br ${bgColors[order]} shadow-lg`}>
+                    {/* 皇冠 */}
+                    <div className="absolute -top-3.5 sm:-top-4.5 left-1/2 -translate-x-1/2 z-10" style={{ filter: crown.glow }}>
+                      <svg width="32" height="22" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-7 h-5 sm:w-9 sm:h-6">
+                        <path d="M3 20L6 8L12 14L18 4L24 14L30 8L33 20H3Z" fill={crown.color} stroke={crown.shadow} strokeWidth="1.2"/>
+                        <circle cx="6" cy="7" r="2.5" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
+                        <circle cx="18" cy="3" r="2.8" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
+                        <circle cx="30" cy="7" r="2.5" fill={crown.accent} stroke={crown.shadow} strokeWidth="0.8"/>
+                        <rect x="3" y="18" width="30" height="3.5" rx="1" fill={crown.color} stroke={crown.shadow} strokeWidth="0.8"/>
+                        {order === 0 && <>
+                          <circle cx="12" cy="19.5" r="1.2" fill={crown.shadow}/>
+                          <circle cx="18" cy="19.5" r="1.5" fill="#E74C3C"/>
+                          <circle cx="24" cy="19.5" r="1.2" fill={crown.shadow}/>
+                        </>}
+                        {order === 1 && <>
+                          <circle cx="14" cy="19.5" r="1" fill={crown.shadow}/>
+                          <circle cx="22" cy="19.5" r="1" fill={crown.shadow}/>
+                        </>}
+                        {order === 2 && <>
+                          <circle cx="18" cy="19.5" r="1.3" fill={crown.shadow}/>
+                        </>}
+                      </svg>
+                    </div>
                     <img src={r.member.avatar} alt="" className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-white bg-gray-100 group-hover:scale-105 transition-transform" />
                   </div>
                   <div className="text-xs sm:text-sm font-bold text-gray-800 truncate max-w-[80px] mt-2">{r.member.name}</div>
