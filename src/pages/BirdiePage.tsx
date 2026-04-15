@@ -193,7 +193,7 @@ export default function BirdiePage() {
         </>
       )}
 
-      {/* 个人统计 */}
+      {/* 鸟王榜 */}
       {activeTab === 'members' && (
         <>
           {memberStats.length === 0 ? (
