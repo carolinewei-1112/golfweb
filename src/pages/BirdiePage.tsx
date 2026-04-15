@@ -187,7 +187,21 @@ export default function BirdiePage() {
             </div>
           ) : (
             <div className="space-y-3 sm:space-y-4">
-              {memberStats.map((stat, index) => (
+              {memberStats.map((stat, index) => {
+                const crownConfigs = [
+                  { body: '#FBBF24', bodyStroke: '#D97706', jewel: '#DC2626', jewelStroke: '#B91C1C', band: '#F59E0B', bandStroke: '#B45309', numColor: '#78350F', glow: 'drop-shadow(0 1px 4px rgba(251,191,36,0.5))' },
+                  { body: '#CBD5E1', bodyStroke: '#94A3B8', jewel: '#60A5FA', jewelStroke: '#3B82F6', band: '#94A3B8', bandStroke: '#64748B', numColor: '#334155', glow: 'drop-shadow(0 1px 3px rgba(148,163,184,0.45))' },
+                  { body: '#F97316', bodyStroke: '#C2410C', jewel: '#FDE68A', jewelStroke: '#F59E0B', band: '#EA580C', bandStroke: '#9A3412', numColor: '#431407', glow: 'drop-shadow(0 1px 3px rgba(249,115,22,0.4))' },
+                ];
+                const isTop3 = index < 3;
+                const crown = isTop3 ? crownConfigs[index] : null;
+                const birdKingColors = [
+                  { bg: 'linear-gradient(135deg, #fef3c7, #fde68a)', text: '#92400e', border: '1px solid rgba(251, 191, 36, 0.4)' },
+                  { bg: 'linear-gradient(135deg, #f1f5f9, #e2e8f0)', text: '#475569', border: '1px solid rgba(148, 163, 184, 0.4)' },
+                  { bg: 'linear-gradient(135deg, #fff7ed, #fed7aa)', text: '#9a3412', border: '1px solid rgba(249, 115, 22, 0.3)' },
+                ];
+
+                return (
                 <div
                   key={stat.member.id}
                   className="rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 card-shadow transition-all duration-300 hover:-translate-y-0.5 hover:card-shadow-hover"
@@ -207,13 +221,39 @@ export default function BirdiePage() {
                     }>
                       {index + 1}
                     </span>
-                    <img
-                      src={stat.member.avatar}
-                      alt={stat.member.name}
-                      className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gray-100 shadow-sm"
-                    />
+                    {/* 头像 + 前三名皇冠 */}
+                    <div className={`relative flex-shrink-0 ${isTop3 ? 'mt-2' : ''}`}>
+                      {isTop3 && crown && (
+                        <div className="absolute -top-3.5 sm:-top-4 left-1/2 -translate-x-1/2 z-10" style={{ filter: crown.glow }}>
+                          <svg viewBox="0 0 48 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-5 sm:w-8 sm:h-6">
+                            <path d="M5 28L9 12L17 20L24 8L31 20L39 12L43 28H5Z" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1.5" strokeLinejoin="round"/>
+                            <circle cx="9" cy="11" r="3" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1"/>
+                            <circle cx="24" cy="6" r="3.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="1"/>
+                            <circle cx="39" cy="11" r="3" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1"/>
+                            <rect x="5" y="26" width="38" height="9" rx="2" fill={crown.band} stroke={crown.bandStroke} strokeWidth="1"/>
+                            <text x="24" y="33.5" textAnchor="middle" fill={crown.numColor} fontSize="8.5" fontWeight="800" fontFamily="'SF Pro Display', system-ui, -apple-system, sans-serif">{index + 1}</text>
+                            {index === 0 && <>
+                              <circle cx="13" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
+                              <circle cx="35" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
+                            </>}
+                          </svg>
+                        </div>
+                      )}
+                      <img
+                        src={stat.member.avatar}
+                        alt={stat.member.name}
+                        className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gray-100 shadow-sm ${isTop3 ? 'ring-2 ring-offset-1 ' + (index === 0 ? 'ring-amber-300/80' : index === 1 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`}
+                      />
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <span className="text-sm sm:text-base font-medium text-gray-800 truncate block">{stat.member.name}</span>
+                      <div className="flex items-center gap-1.5 sm:gap-2">
+                        <span className="text-sm sm:text-base font-medium text-gray-800 truncate">{stat.member.name}</span>
+                        {isTop3 && (
+                          <span className="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap" style={{ background: birdKingColors[index].bg, color: birdKingColors[index].text, border: birdKingColors[index].border }}>
+                            🐦 鸟王
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <div className="text-right">
                       <span className="text-xl sm:text-2xl font-bold text-golf-600">{stat.count}</span>
@@ -238,7 +278,8 @@ export default function BirdiePage() {
                     ))}
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </>
