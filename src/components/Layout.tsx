@@ -68,6 +68,13 @@ export default function Layout() {
           <circle cx="12" cy="14.5" r="1" fill="currentColor" opacity="0.5"/>
         </svg>
       ),
+      // 管理 - 齿轮设置
+      admin: (
+        <svg viewBox="0 0 24 24" fill="none" className={className}>
+          <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" fill="currentColor" opacity="0.3" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1.08-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1.08 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
     };
     return icons[type] || null;
   };
@@ -110,28 +117,28 @@ export default function Layout() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-3.5 py-2 rounded-xl text-sm transition-all duration-200 ${
+                className={`inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-sm transition-all duration-200 ${
                   isActive(item.path)
                     ? 'font-semibold text-white shadow-sm'
                     : 'text-white/80 hover:text-white'
                 }`}
                 style={isActive(item.path) ? { background: 'rgba(253, 246, 227, 0.2)' } : undefined}
               >
-                <span className="mr-1 inline-flex"><NavIcon type={item.iconType} /></span>
-                {item.label}
+                <span className="inline-flex items-center flex-shrink-0"><NavIcon type={item.iconType} /></span>
+                <span>{item.label}</span>
               </Link>
             ))}
             <Link
               to="/admin"
-              className={`px-3.5 py-2 rounded-xl text-sm transition-all duration-200 ${
+              className={`inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-sm transition-all duration-200 ${
                 location.pathname === '/admin'
                   ? 'font-semibold text-white shadow-sm'
                   : 'text-white/80 hover:text-white'
               }`}
               style={location.pathname === '/admin' ? { background: 'rgba(253, 246, 227, 0.2)' } : undefined}
             >
-              <span className="mr-1">🔧</span>
-              管理
+              <span className="inline-flex items-center flex-shrink-0"><NavIcon type="admin" /></span>
+              <span>管理</span>
             </Link>
           </nav>
 
@@ -139,14 +146,14 @@ export default function Layout() {
           <div className="flex md:hidden items-center gap-1.5">
             <Link
               to="/admin"
-              className={`p-2 rounded-xl transition-all duration-200 ${
+              className={`p-2 rounded-xl transition-all duration-200 inline-flex items-center ${
                 location.pathname === '/admin'
-                  ? 'font-medium'
-                  : ''
+                  ? 'font-medium text-white'
+                  : 'text-white/80'
               }`}
               style={location.pathname === '/admin' ? { background: 'rgba(253, 246, 227, 0.2)' } : undefined}
             >
-              <span>🔧</span>
+              <NavIcon type="admin" className="w-5 h-5" />
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -179,8 +186,8 @@ export default function Layout() {
                   }`}
                   style={isActive(item.path) ? { background: 'rgba(253, 246, 227, 0.15)' } : undefined}
                 >
-                  <span className="inline-flex"><NavIcon type={item.iconType} className="w-5 h-5" /></span>
-                  {item.label}
+                  <span className="inline-flex items-center flex-shrink-0"><NavIcon type={item.iconType} className="w-5 h-5" /></span>
+                  <span>{item.label}</span>
                 </Link>
               ))}
             </nav>
