@@ -7,72 +7,79 @@ export default function Layout() {
   const {  } = useStore()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  // SVG 图标组件
+  // SVG 图标组件 — 简洁圆角线条风格（粗描边 + 浅色填充块点缀）
   const NavIcon = ({ type, className = "w-[18px] h-[18px]" }: { type: string; className?: string }) => {
     const icons: Record<string, React.ReactNode> = {
-      // 首页 - 高尔夫球场旗帜
+      // 首页 - 小房子（参考 Home 图标风格：屋顶三角 + 大圆角门体）
       home: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M4 21V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          <path d="M4 4L15 8L4 12" fill="currentColor" opacity="0.85"/>
-          <ellipse cx="14" cy="19" rx="6" ry="2.5" fill="currentColor" opacity="0.2"/>
-          <circle cx="14" cy="18" r="2" fill="currentColor" opacity="0.5"/>
+          <path d="M3 10.5L12 3l9 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M5 9.5V19a2 2 0 002 2h10a2 2 0 002-2V9.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <rect x="9" y="14" width="6" height="7" rx="1.5" fill="currentColor" opacity="0.2"/>
+          <circle cx="12" cy="17" r="0.8" fill="currentColor" opacity="0.5"/>
         </svg>
       ),
-      // 排行榜 - 奖杯
+      // 排行榜 - 奖杯（简洁粗线条杯身 + 浅色填充）
       ranking: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M8 2h8v9a4 4 0 01-8 0V2z" fill="currentColor" opacity="0.3" stroke="currentColor" strokeWidth="1.5"/>
-          <path d="M8 4H5a2 2 0 00-2 2v1a3 3 0 003 3h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          <path d="M16 4h3a2 2 0 012 2v1a3 3 0 01-3 3h-2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          <path d="M9 15h6l1 3H8l1-3z" fill="currentColor" opacity="0.4"/>
-          <path d="M7 18h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          <circle cx="12" cy="7" r="1.5" fill="currentColor" opacity="0.6"/>
+          <path d="M8 3h8v8a4 4 0 01-8 0V3z" fill="currentColor" opacity="0.15"/>
+          <path d="M8 3h8v8a4 4 0 01-8 0V3z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M8 5H5.5a1.5 1.5 0 00-1.5 1.5v0A3.5 3.5 0 007.5 10H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M16 5h2.5A1.5 1.5 0 0120 6.5v0A3.5 3.5 0 0116.5 10H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M10 15h4v2H10z" fill="currentColor" opacity="0.2"/>
+          <path d="M8 19h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M12 15v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
         </svg>
       ),
-      // 历史比赛 - 记分卡
+      // 历史比赛 - 日历记分卡（大圆角矩形 + 日历顶环 + 横线）
       history: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <rect x="3" y="2" width="18" height="20" rx="3" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="1.5"/>
-          <path d="M7 7h10M7 11h7M7 15h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          <circle cx="17" cy="15" r="2.5" fill="currentColor" opacity="0.4" stroke="currentColor" strokeWidth="1"/>
-          <path d="M16.2 15l.6.6 1.4-1.4" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round"/>
+          <rect x="3" y="4" width="18" height="18" rx="3" fill="currentColor" opacity="0.12"/>
+          <rect x="3" y="4" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M3 10h18" stroke="currentColor" strokeWidth="2"/>
+          <path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <circle cx="8" cy="15" r="1.2" fill="currentColor" opacity="0.4"/>
+          <circle cx="12" cy="15" r="1.2" fill="currentColor" opacity="0.4"/>
+          <circle cx="16" cy="15" r="1.2" fill="currentColor" opacity="0.4"/>
         </svg>
       ),
-      // 百鸟记录 - 小鸟
+      // 百鸟记录 - 小鸟（简洁圆润鸟身 + 翅膀弧线）
       birdie: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M14.5 8.5c2.5-2 5.5-1 5.5-1s-1 3-3.5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          <ellipse cx="11" cy="14" rx="7" ry="5.5" fill="currentColor" opacity="0.25" stroke="currentColor" strokeWidth="1.5"/>
-          <circle cx="9" cy="12.5" r="1.2" fill="currentColor"/>
-          <path d="M13 13.5l2.5-.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          <path d="M8 19.5c-1 1.5-1.5 2.5-1.5 2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          <path d="M12 19.5c0 1.5.3 2.5.3 2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <circle cx="10" cy="13" r="6" fill="currentColor" opacity="0.12"/>
+          <circle cx="10" cy="13" r="6" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="8.5" cy="11.5" r="1" fill="currentColor"/>
+          <path d="M13 12l3-1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M14 8c2-2.5 5-2 6-1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M7 19l-1 3M11 19l0.5 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
         </svg>
       ),
-      // 会费管理 - 钱包
+      // 会费管理 - 钱袋/钱包（参考 Wallet 风格：大圆角矩形 + 搭扣装饰）
       finance: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <rect x="2" y="6" width="20" height="14" rx="3" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="1.5"/>
-          <path d="M2 10h20" stroke="currentColor" strokeWidth="1.5"/>
-          <circle cx="17" cy="15" r="1.8" fill="currentColor" opacity="0.5" stroke="currentColor" strokeWidth="1"/>
-          <path d="M6 6V5a2 2 0 012-2h8a2 2 0 012 2v1" stroke="currentColor" strokeWidth="1.5"/>
+          <rect x="2" y="6" width="20" height="15" rx="3" fill="currentColor" opacity="0.12"/>
+          <rect x="2" y="6" width="20" height="15" rx="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 11h20" stroke="currentColor" strokeWidth="2"/>
+          <rect x="14" y="14" width="5" height="3.5" rx="1.5" fill="currentColor" opacity="0.25" stroke="currentColor" strokeWidth="1.5"/>
+          <circle cx="16.5" cy="15.8" r="0.6" fill="currentColor"/>
         </svg>
       ),
-      // 规则 - 高尔夫规则书
+      // 规则 - 书本（参考 Book 风格：大圆角翻书 + 横线装饰）
       rules: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M4 4.5A2.5 2.5 0 016.5 2H18a2 2 0 012 2v16a2 2 0 01-2 2H6.5A2.5 2.5 0 014 19.5v-15z" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="1.5"/>
-          <path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="currentColor" strokeWidth="1.5"/>
-          <path d="M9 7h6M9 10.5h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          <circle cx="12" cy="14.5" r="1" fill="currentColor" opacity="0.5"/>
+          <path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" fill="currentColor" opacity="0.12"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M9 7h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M9 11h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
         </svg>
       ),
-      // 管理 - 齿轮设置
+      // 管理 - 工具扳手（参考 Tool 图标风格：简洁扳手 + 小十字装饰）
       admin: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" fill="currentColor" opacity="0.3" stroke="currentColor" strokeWidth="1.5"/>
-          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1.08-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1.08 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" fill="currentColor" opacity="0.12"/>
+          <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="7" cy="17" r="1" fill="currentColor" opacity="0.4"/>
         </svg>
       ),
     };
