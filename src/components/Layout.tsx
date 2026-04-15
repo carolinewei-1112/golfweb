@@ -7,13 +7,78 @@ export default function Layout() {
   const {  } = useStore()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
+  // SVG 图标组件
+  const NavIcon = ({ type, className = "w-[18px] h-[18px]" }: { type: string; className?: string }) => {
+    const icons: Record<string, React.ReactNode> = {
+      // 首页 - 高尔夫球场旗帜
+      home: (
+        <svg viewBox="0 0 24 24" fill="none" className={className}>
+          <path d="M4 21V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M4 4L15 8L4 12" fill="currentColor" opacity="0.85"/>
+          <ellipse cx="14" cy="19" rx="6" ry="2.5" fill="currentColor" opacity="0.2"/>
+          <circle cx="14" cy="18" r="2" fill="currentColor" opacity="0.5"/>
+        </svg>
+      ),
+      // 排行榜 - 奖杯
+      ranking: (
+        <svg viewBox="0 0 24 24" fill="none" className={className}>
+          <path d="M8 2h8v9a4 4 0 01-8 0V2z" fill="currentColor" opacity="0.3" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M8 4H5a2 2 0 00-2 2v1a3 3 0 003 3h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M16 4h3a2 2 0 012 2v1a3 3 0 01-3 3h-2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M9 15h6l1 3H8l1-3z" fill="currentColor" opacity="0.4"/>
+          <path d="M7 18h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <circle cx="12" cy="7" r="1.5" fill="currentColor" opacity="0.6"/>
+        </svg>
+      ),
+      // 历史比赛 - 记分卡
+      history: (
+        <svg viewBox="0 0 24 24" fill="none" className={className}>
+          <rect x="3" y="2" width="18" height="20" rx="3" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M7 7h10M7 11h7M7 15h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <circle cx="17" cy="15" r="2.5" fill="currentColor" opacity="0.4" stroke="currentColor" strokeWidth="1"/>
+          <path d="M16.2 15l.6.6 1.4-1.4" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      // 百鸟记录 - 小鸟
+      birdie: (
+        <svg viewBox="0 0 24 24" fill="none" className={className}>
+          <path d="M14.5 8.5c2.5-2 5.5-1 5.5-1s-1 3-3.5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <ellipse cx="11" cy="14" rx="7" ry="5.5" fill="currentColor" opacity="0.25" stroke="currentColor" strokeWidth="1.5"/>
+          <circle cx="9" cy="12.5" r="1.2" fill="currentColor"/>
+          <path d="M13 13.5l2.5-.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M8 19.5c-1 1.5-1.5 2.5-1.5 2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M12 19.5c0 1.5.3 2.5.3 2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      ),
+      // 会费管理 - 钱包
+      finance: (
+        <svg viewBox="0 0 24 24" fill="none" className={className}>
+          <rect x="2" y="6" width="20" height="14" rx="3" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M2 10h20" stroke="currentColor" strokeWidth="1.5"/>
+          <circle cx="17" cy="15" r="1.8" fill="currentColor" opacity="0.5" stroke="currentColor" strokeWidth="1"/>
+          <path d="M6 6V5a2 2 0 012-2h8a2 2 0 012 2v1" stroke="currentColor" strokeWidth="1.5"/>
+        </svg>
+      ),
+      // 规则 - 高尔夫规则书
+      rules: (
+        <svg viewBox="0 0 24 24" fill="none" className={className}>
+          <path d="M4 4.5A2.5 2.5 0 016.5 2H18a2 2 0 012 2v16a2 2 0 01-2 2H6.5A2.5 2.5 0 014 19.5v-15z" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M9 7h6M9 10.5h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <circle cx="12" cy="14.5" r="1" fill="currentColor" opacity="0.5"/>
+        </svg>
+      ),
+    };
+    return icons[type] || null;
+  };
+
   const navItems = [
-    { path: '/', label: '首页', icon: '🏠', shortLabel: '首页' },
-    { path: '/ranking', label: '排行榜', icon: '🏆', shortLabel: '排行' },
-    { path: '/history', label: '历史比赛', icon: '📋', shortLabel: '比赛' },
-    { path: '/birdie', label: '百鸟记录', icon: '🐦', shortLabel: '百鸟' },
-    { path: '/finance', label: '会费管理', icon: '💰', shortLabel: '会费' },
-    { path: '/rules', label: '规则', icon: '📜', shortLabel: '规则' },
+    { path: '/', label: '首页', iconType: 'home', shortLabel: '首页' },
+    { path: '/ranking', label: '排行榜', iconType: 'ranking', shortLabel: '排行' },
+    { path: '/history', label: '历史比赛', iconType: 'history', shortLabel: '比赛' },
+    { path: '/birdie', label: '百鸟记录', iconType: 'birdie', shortLabel: '百鸟' },
+    { path: '/finance', label: '会费管理', iconType: 'finance', shortLabel: '会费' },
+    { path: '/rules', label: '规则', iconType: 'rules', shortLabel: '规则' },
   ]
 
   const isActive = (path: string) => {
@@ -52,7 +117,7 @@ export default function Layout() {
                 }`}
                 style={isActive(item.path) ? { background: 'rgba(253, 246, 227, 0.2)' } : undefined}
               >
-                <span className="mr-1">{item.icon}</span>
+                <span className="mr-1 inline-flex"><NavIcon type={item.iconType} /></span>
                 {item.label}
               </Link>
             ))}
@@ -114,7 +179,7 @@ export default function Layout() {
                   }`}
                   style={isActive(item.path) ? { background: 'rgba(253, 246, 227, 0.15)' } : undefined}
                 >
-                  <span className="text-lg">{item.icon}</span>
+                  <span className="inline-flex"><NavIcon type={item.iconType} className="w-5 h-5" /></span>
                   {item.label}
                 </Link>
               ))}
