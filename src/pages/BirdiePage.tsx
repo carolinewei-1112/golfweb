@@ -154,8 +154,8 @@ export default function BirdiePage() {
                             { bg: 'linear-gradient(135deg, #fff7ed, #fed7aa)', text: '#9a3412', border: '1px solid rgba(249, 115, 22, 0.3)' },
                           ];
                           return (
-                            <span className="text-[9px] sm:text-[10px] font-bold px-1 sm:px-1.5 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap" style={{ background: colors[rank].bg, color: colors[rank].text, border: colors[rank].border }}>
-                              👑鸟王
+                            <span className="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap" style={{ background: colors[rank].bg, color: colors[rank].text, border: colors[rank].border }}>
+                              🐦 鸟王
                             </span>
                           );
                         })()}
