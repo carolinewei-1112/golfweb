@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 
 export default function RulesPage() {
   return (
@@ -23,7 +22,7 @@ export default function RulesPage() {
           <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#0f4828' }}>
             <span className="text-xl sm:text-2xl">📜</span> 规则与奖励
           </h1>
-          <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(15, 72, 40, 0.65)' }}>百鸟会高尔夫巡回赛规则及奖励机制</p>
+          <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(15, 72, 40, 0.65)' }}>百鸟会高尔夫规则及奖励机制</p>
         </div>
       </div>
 
@@ -419,33 +418,6 @@ export default function RulesPage() {
         </div>
       </div>
 
-      {/* 快速导航 */}
-      <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 card-shadow" style={{
-        background: 'linear-gradient(135deg, rgba(212, 238, 232, 0.5) 0%, rgba(238, 248, 242, 0.6) 100%)',
-        backdropFilter: 'blur(12px)',
-        border: '1px solid rgba(168, 226, 191, 0.3)',
-      }}>
-        <h3 className="font-bold text-gray-800 mb-3.5 flex items-center gap-2 text-sm sm:text-base">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>🔗</div>
-          快速导航
-        </h3>
-        <div className="flex flex-wrap gap-2.5 sm:gap-3">
-          {[
-            { to: '/ranking', label: '🏆 查看排行榜' },
-            { to: '/history', label: '📋 历史比赛' },
-            { to: '/', label: '🏠 返回首页' },
-          ].map(link => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className="px-3.5 sm:px-4.5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm text-golf-700 font-medium card-shadow hover:card-shadow-hover hover:-translate-y-0.5 transition-all duration-200"
-              style={{ background: 'rgba(255, 255, 255, 0.85)' }}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      </div>
     </div>
   )
 }
