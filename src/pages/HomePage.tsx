@@ -27,10 +27,10 @@ function Card({ to, icon, title, children, accent }: {
 
 function StatBadge({ label, value, icon }: { label: string; value: string | number; icon: string }) {
   return (
-    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm" style={{ background: 'rgba(253, 246, 227, 0.25)', backdropFilter: 'blur(4px)', border: '1px solid rgba(253, 246, 227, 0.2)' }}>
+    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm" style={{ background: 'rgba(255, 255, 255, 0.18)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255, 255, 255, 0.15)' }}>
       <span>{icon}</span>
-      <span className="text-white/95 font-medium">{value}</span>
-      <span className="text-white/65">{label}</span>
+      <span className="text-white font-semibold">{value}</span>
+      <span className="text-white/75">{label}</span>
     </div>
   )
 }
@@ -51,31 +51,31 @@ export default function HomePage() {
     <div className="space-y-5 sm:space-y-7 animate-fade-in">
       {/* Hero Banner - 扁平插画风 */}
       <div className="rounded-3xl overflow-hidden relative" style={{
-        background: 'linear-gradient(180deg, #b8dfe8 0%, #c2e3d8 40%, #68b87a 70%, #3a9e5c 85%, #2a8c4e 100%)',
-        boxShadow: '0 4px 24px rgba(19, 92, 51, 0.15), 0 1px 4px rgba(0, 0, 0, 0.04)',
+        background: 'linear-gradient(180deg, #1a7a4a 0%, #1d8f4e 25%, #2a9e5c 50%, #35a862 70%, #2a8c4e 100%)',
+        boxShadow: '0 4px 24px rgba(19, 92, 51, 0.2), 0 1px 4px rgba(0, 0, 0, 0.06)',
       }}>
         {/* 天空装饰 - 云朵 */}
         <div className="absolute top-4 left-[8%] animate-drift" style={{ animationDelay: '0s' }}>
           <div className="flex gap-0.5">
-            <div className="w-14 h-5 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.35)' }} />
-            <div className="w-8 h-4 rounded-full mt-1" style={{ background: 'rgba(253, 246, 227, 0.25)' }} />
+            <div className="w-14 h-5 rounded-full" style={{ background: 'rgba(255, 255, 255, 0.12)' }} />
+            <div className="w-8 h-4 rounded-full mt-1" style={{ background: 'rgba(255, 255, 255, 0.08)' }} />
           </div>
         </div>
         <div className="absolute top-8 right-[12%] animate-drift" style={{ animationDelay: '2s' }}>
           <div className="flex gap-0.5">
-            <div className="w-10 h-4 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.3)' }} />
-            <div className="w-6 h-3 rounded-full mt-0.5" style={{ background: 'rgba(253, 246, 227, 0.2)' }} />
+            <div className="w-10 h-4 rounded-full" style={{ background: 'rgba(255, 255, 255, 0.1)' }} />
+            <div className="w-6 h-3 rounded-full mt-0.5" style={{ background: 'rgba(255, 255, 255, 0.07)' }} />
           </div>
         </div>
         <div className="absolute top-3 right-[40%] animate-drift" style={{ animationDelay: '4s' }}>
-          <div className="w-12 h-4 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.2)' }} />
+          <div className="w-12 h-4 rounded-full" style={{ background: 'rgba(255, 255, 255, 0.08)' }} />
         </div>
 
         {/* 远景山丘装饰 */}
         <div className="absolute bottom-0 inset-x-0 h-20 overflow-hidden">
           <svg viewBox="0 0 800 80" fill="none" className="w-full h-full" preserveAspectRatio="none">
-            <path d="M0 50 Q100 20 200 35 Q350 55 500 30 Q650 10 800 40 L800 80 L0 80 Z" fill="rgba(42, 140, 78, 0.3)" />
-            <path d="M0 60 Q200 30 400 50 Q600 70 800 45 L800 80 L0 80 Z" fill="rgba(29, 143, 78, 0.2)" />
+            <path d="M0 50 Q100 20 200 35 Q350 55 500 30 Q650 10 800 40 L800 80 L0 80 Z" fill="rgba(15, 72, 40, 0.25)" />
+            <path d="M0 60 Q200 30 400 50 Q600 70 800 45 L800 80 L0 80 Z" fill="rgba(15, 72, 40, 0.15)" />
           </svg>
         </div>
 
@@ -87,8 +87,8 @@ export default function HomePage() {
                 <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 border-white/50" style={{ background: '#3bb873' }} />
               </div>
               <div>
-                <h1 className="text-xl sm:text-2xl font-extrabold drop-shadow-sm" style={{ color: '#135c33' }}>百鸟会</h1>
-                <p className="text-xs mt-0.5 px-2 py-0.5 rounded-md inline-block" style={{ background: 'rgba(253, 246, 227, 0.6)', color: '#135c33' }}>GOLF TIME ⛳</p>
+                <h1 className="text-xl sm:text-2xl font-extrabold text-white drop-shadow-md">百鸟会</h1>
+                <p className="text-xs mt-0.5 px-2 py-0.5 rounded-md inline-block font-medium" style={{ background: 'rgba(253, 246, 227, 0.85)', color: '#135c33' }}>GOLF TIME ⛳</p>
               </div>
             </div>
             {/* 统计信息 - 奶油色胶囊 */}
@@ -100,26 +100,26 @@ export default function HomePage() {
           </div>
 
           {/* 公告区域 */}
-          <div className="mt-4 sm:mt-5 pt-4 border-t" style={{ borderColor: 'rgba(253, 246, 227, 0.2)' }}>
+          <div className="mt-4 sm:mt-5 pt-4 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.15)' }}>
             <div className="flex items-start gap-2.5 sm:gap-3">
               <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
-                <div className="w-6 h-6 rounded-lg flex items-center justify-center text-xs" style={{ background: 'rgba(253, 246, 227, 0.3)' }}>
+                <div className="w-6 h-6 rounded-lg flex items-center justify-center text-xs" style={{ background: 'rgba(255, 255, 255, 0.15)' }}>
                   📢
                 </div>
               </div>
               <div className="flex-1 min-w-0">
                 {announcements.slice(0, 2).map(a => (
-                  <div key={a.id} className="rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm break-words leading-relaxed" style={{ background: 'rgba(253, 246, 227, 0.2)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.92)' }}>
+                  <div key={a.id} className="rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm break-words leading-relaxed font-medium" style={{ background: 'rgba(255, 255, 255, 0.12)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.95)' }}>
                     {a.content}
                   </div>
                 ))}
                 {announcements.length === 0 && (
-                  <div className="rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm break-words leading-relaxed" style={{ background: 'rgba(253, 246, 227, 0.2)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.92)' }}>
+                  <div className="rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm break-words leading-relaxed font-medium" style={{ background: 'rgba(255, 255, 255, 0.12)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.95)' }}>
                     4月月赛时间4月18日，请各位会员预留时间。
                   </div>
                 )}
                 {announcements.length > 2 && (
-                  <div className="text-xs text-white/50 text-right mt-1.5">还有 {announcements.length - 2} 条公告</div>
+                  <div className="text-xs text-white/60 text-right mt-1.5">还有 {announcements.length - 2} 条公告</div>
                 )}
               </div>
             </div>
