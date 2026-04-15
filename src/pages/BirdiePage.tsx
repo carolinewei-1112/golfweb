@@ -162,15 +162,13 @@ export default function BirdiePage() {
                 return (
                   <div
                     key={num}
-                    className="rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 opacity-50"
+                    className="rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 opacity-50 flex flex-col items-center justify-center min-h-[80px] sm:min-h-[100px]"
                     style={{ background: 'rgba(249, 250, 251, 0.6)', border: '1px dashed rgba(209, 213, 219, 0.5)' }}
                   >
-                    <div className="flex items-center justify-center h-full min-h-[60px] sm:min-h-[80px]">
-                      <span className="text-xl sm:text-2xl text-gray-300">🥚</span>
-                    </div>
-                    <div className="text-center text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">
+                    <span className="text-xl sm:text-2xl text-gray-300">🥚</span>
+                    <span className="text-[10px] sm:text-xs text-gray-400 mt-1.5">
                       第{num}鸟
-                    </div>
+                    </span>
                   </div>
                 )
               })}
