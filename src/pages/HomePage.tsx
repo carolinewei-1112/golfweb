@@ -166,7 +166,7 @@ export default function HomePage() {
             <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm flex-wrap">
               <div className="px-2.5 py-1.5 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(245, 158, 11, 0.1)' }}>
                 <Icon name="clipboard" className="w-3.5 h-3.5 text-amber-600" />
-                <span className="font-semibold text-amber-700">2026年4月28日</span>
+                <span className="font-semibold text-amber-700">2026年4月18日</span>
               </div>
               <div className="px-2.5 py-1.5 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(221, 228, 213, 0.6)' }}>
                 <Icon name="pin" className="w-3.5 h-3.5 text-golf-600" />
