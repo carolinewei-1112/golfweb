@@ -187,7 +187,10 @@ export default function HomePage() {
               const imageUrl = getCourseImage(t.courseName)
               const game = games.find(g => g.tournamentId === t.id)
               const participantCount = game?.scores.length ?? 0
-              const participantAvatars = game?.scores.slice(0, 3).map(s => {
+              // 按总杆排名取top3头像
+              const participantAvatars = game?.scores
+                .slice().sort((a, b) => a.grossScore - b.grossScore)
+                .slice(0, 3).map(s => {
                 const member = getMemberById(s.memberId)
                 return member?.avatar
               }).filter(Boolean) ?? []

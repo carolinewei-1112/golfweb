@@ -48,9 +48,10 @@ export default function HistoryPage() {
             </h1>
             <p className="text-xs sm:text-sm mt-1.5 text-white/85 drop-shadow-sm">共 {tournaments.length} 场比赛 · 按时间从近到远</p>
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm" style={{ background: 'rgba(255, 255, 255, 0.18)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
-            <span className="font-medium text-white">{sortedTournaments.length}</span>
-            <span className="text-white/75">场</span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm" style={{ background: 'rgba(255, 255, 255, 0.18)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255, 255, 255, 0.15)' }}>
+            <span><Icon name="golfball" className="w-3.5 h-3.5 text-white" /></span>
+            <span className="text-white font-semibold">{sortedTournaments.length}</span>
+            <span className="text-white/75">场赛</span>
           </div>
         </div>
       </div>
@@ -88,7 +89,10 @@ export default function HistoryPage() {
         {sortedTournaments.map(t => {
           const game = games.find(g => g.tournamentId === t.id)
           const participantCount = game?.scores.length ?? 0
-          const participantAvatars = game?.scores.slice(0, 5).map(s => {
+          // 按总杆排名取top3头像
+          const participantAvatars = game?.scores
+            .slice().sort((a, b) => a.grossScore - b.grossScore)
+            .slice(0, 3).map(s => {
             const member = getMemberById(s.memberId)
             return member?.avatar
           }).filter(Boolean) ?? []

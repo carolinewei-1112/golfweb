@@ -89,22 +89,30 @@ export default function FinancePage() {
           </div>
           <div className="text-sm sm:text-xl font-bold text-golf-700">¥{totalIncome.toLocaleString()}</div>
           {/* 收入构成 */}
-          <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t text-[10px] sm:text-xs text-golf-600 space-y-0.5 sm:space-y-1" style={{ borderColor: 'rgba(184, 204, 170, 0.4)' }}>
-            <div className="flex justify-between">
-              <span className="truncate">12位会员 × ¥1,800</span>
-              <span className="font-medium">¥{(1800 * 12).toLocaleString()}</span>
+          <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t text-[10px] sm:text-xs text-golf-600 space-y-1.5 sm:space-y-2" style={{ borderColor: 'rgba(184, 204, 170, 0.4)' }}>
+            {/* 会费 */}
+            <div className="space-y-0.5">
+              <div className="text-[9px] sm:text-[10px] text-golf-500 font-semibold tracking-wide uppercase" style={{ opacity: 0.7 }}>会费</div>
+              <div className="flex justify-between">
+                <span className="truncate">12位会员 × ¥1,800</span>
+                <span className="font-medium">¥{(1800 * 12).toLocaleString()}</span>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <span className="truncate">创始人托赞助</span>
-              <span className="font-medium">¥3,000</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="truncate">宣传委员面赞助</span>
-              <span className="font-medium">¥1,500</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="truncate">白会长赞助</span>
-              <span className="font-medium">¥500</span>
+            {/* 赞助费 */}
+            <div className="space-y-0.5 pt-1 sm:pt-1.5 border-t" style={{ borderColor: 'rgba(184, 204, 170, 0.25)' }}>
+              <div className="text-[9px] sm:text-[10px] text-golf-500 font-semibold tracking-wide uppercase" style={{ opacity: 0.7 }}>赞助费</div>
+              <div className="flex justify-between">
+                <span className="truncate">创始人托</span>
+                <span className="font-medium">¥3,000</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="truncate">宣传委员面</span>
+                <span className="font-medium">¥1,500</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="truncate">白会长</span>
+                <span className="font-medium">¥500</span>
+              </div>
             </div>
           </div>
         </div>
