@@ -148,12 +148,12 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute top-3 sm:top-4 left-3 sm:left-4">
             <span className="px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold text-white flex items-center gap-1" style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', boxShadow: '0 2px 8px rgba(245, 158, 11, 0.4)' }}>
-              <span className="animate-pulse">📢</span> 本月月赛预告
+              <Icon name="megaphone" className="w-3.5 h-3.5" /> 本月月赛预告
             </span>
           </div>
           <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
             <span className="px-2.5 py-1.5 rounded-xl text-[10px] sm:text-xs text-white font-medium" style={{ background: 'rgba(0, 0, 0, 0.35)', backdropFilter: 'blur(8px)' }}>
-              4月28日
+              4月18日
             </span>
           </div>
           <div className="absolute bottom-3 sm:bottom-4 left-4 sm:left-5 text-white">
@@ -174,7 +174,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="flex-shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 2px 8px rgba(46, 79, 36, 0.2)' }}>
-              即将开赛 ⛳
+              即将开赛 <Icon name="golf" className="w-3.5 h-3.5 inline-block align-[-0.12em]" />
             </div>
           </div>
         </div>
