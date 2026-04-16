@@ -45,10 +45,10 @@ export default function BirdiePage() {
           </svg>
         </div>
         <div className="relative">
-          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#1f3a18' }}>
+          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2 text-white drop-shadow-md">
             <span className="text-xl sm:text-2xl"><Icon name="bird" className="w-6 h-6" /></span> 百鸟记录
           </h1>
-          <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(15, 72, 40, 0.65)' }}>记录百鸟会会员的每一次打鸟瞬间</p>
+          <p className="text-xs sm:text-sm mt-1.5 text-white/85 drop-shadow-sm">记录百鸟会会员的每一次打鸟瞬间</p>
         </div>
       </div>
 
@@ -134,9 +134,6 @@ export default function BirdiePage() {
                           <span className="text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-0.5 rounded-full" style={{ background: 'rgba(78, 126, 58, 0.1)', color: '#2e4f24' }}>
                             第{num}鸟
                           </span>
-                          {record.type === 'simulator' && (
-                            <span className="text-[10px] sm:text-xs bg-purple-100 text-purple-600 px-1.5 py-0.5 rounded-full"><Icon name="target" className="w-3 h-3 inline-block" /></span>
-                          )}
                         </div>
                         {record.date && (
                           <span className="text-[10px] text-gray-400">{record.date}</span>
@@ -148,10 +145,12 @@ export default function BirdiePage() {
                           alt={member.name}
                           className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow-sm flex-shrink-0"
                         />
-                        <span className="text-xs sm:text-sm font-medium text-gray-800 truncate min-w-0">{member.name}</span>
-                        {birdKingMap.has(member.id) && (
-                          <BirdKingBadge rank={birdKingMap.get(member.id)!} />
-                        )}
+                        <div className="min-w-0 flex-1">
+                          <span className="text-xs sm:text-sm font-medium text-gray-800 block truncate">{member.name}</span>
+                          {birdKingMap.has(member.id) && (
+                            <BirdKingBadge rank={birdKingMap.get(member.id)!} className="mt-0.5" />
+                          )}
+                        </div>
                       </div>
                       {record.location && record.location !== '-' && record.location !== '球场' && (
                         <div className="text-[10px] sm:text-xs text-gray-500 truncate px-2 py-0.5 rounded-full" style={{ background: 'rgba(221, 228, 213, 0.4)' }}>

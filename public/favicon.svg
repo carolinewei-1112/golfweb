@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- 圆形浅灰绿背景 -->
+  <circle cx="32" cy="32" r="31" fill="#e4e8e0" />
+
+  <!-- 绿色翅膀/叶子装饰（左后方） -->
+  <ellipse cx="22" cy="28" rx="9" ry="14" transform="rotate(-25 22 28)" fill="#8cc63f" />
+  <ellipse cx="22" cy="28" rx="9" ry="14" transform="rotate(-25 22 28)" fill="none" stroke="#6aa22a" stroke-width="0.8" opacity="0.5"/>
+  <!-- 叶脉 -->
+  <path d="M18 18c2.5 5 5 9 7.5 13" stroke="#6aa22a" stroke-width="0.8" opacity="0.35" stroke-linecap="round"/>
+  <path d="M16 22c2 3.5 4 6.5 6 10" stroke="#6aa22a" stroke-width="0.6" opacity="0.25" stroke-linecap="round"/>
+
+  <!-- 小鸟圆胖身体 -->
+  <ellipse cx="35" cy="33" rx="14.5" ry="15" fill="#3a4538" />
+  <!-- 鸟腹部略亮 -->
+  <ellipse cx="34.5" cy="38" rx="9" ry="8.5" fill="#4a5846" />
+
+  <!-- 鸟嘴（朝左，小三角） -->
+  <path d="M21.5 29l-5.5-1.5 3 4.5z" fill="#e8a735" stroke="#c48820" stroke-width="0.6" stroke-linejoin="round"/>
+
+  <!-- 眼睛（大白眼 + 深瞳孔 + 高光） -->
+  <circle cx="25.5" cy="28" r="4.5" fill="white" />
+  <circle cx="24.5" cy="27.5" r="2.5" fill="#2d2d2d" />
+  <circle cx="23.5" cy="26.5" r="0.9" fill="white" />
+
+  <!-- 小尾巴（右上方翘起） -->
+  <path d="M49 25c2-3.5 3-6.5 2.5-10" stroke="#3a4538" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M48.5 27c3-2.5 5-5.5 4.5-9.5" stroke="#3a4538" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- 小脚 -->
+  <line x1="30" y1="47" x2="28.5" y2="52.5" stroke="#3a4538" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="38" y1="47.5" x2="37" y2="52.5" stroke="#3a4538" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- 脚趾 -->
+  <path d="M28.5 52.5l-2.5 1" stroke="#3a4538" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M28.5 52.5l1.5 1.2" stroke="#3a4538" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M37 52.5l-2 1" stroke="#3a4538" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M37 52.5l1.8 1.2" stroke="#3a4538" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

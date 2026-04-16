@@ -43,14 +43,14 @@ export default function HistoryPage() {
         </div>
         <div className="relative flex items-center justify-between">
           <div>
-            <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#1f3a18' }}>
+            <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2 text-white drop-shadow-md">
               <span className="text-xl sm:text-2xl"><Icon name="clipboard" className="w-6 h-6" /></span> 历史比赛
             </h1>
-            <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(15, 72, 40, 0.65)' }}>共 {tournaments.length} 场比赛 · 按时间从近到远</p>
+            <p className="text-xs sm:text-sm mt-1.5 text-white/85 drop-shadow-sm">共 {tournaments.length} 场比赛 · 按时间从近到远</p>
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm" style={{ background: 'rgba(253, 246, 227, 0.25)', border: '1px solid rgba(253, 246, 227, 0.2)' }}>
-            <span className="font-medium" style={{ color: '#1f3a18' }}>{sortedTournaments.length}</span>
-            <span style={{ color: 'rgba(15, 72, 40, 0.5)' }}>场</span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm" style={{ background: 'rgba(255, 255, 255, 0.18)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
+            <span className="font-medium text-white">{sortedTournaments.length}</span>
+            <span className="text-white/75">场</span>
           </div>
         </div>
       </div>

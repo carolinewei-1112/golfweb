@@ -109,7 +109,7 @@ export default function Layout() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col nature-pattern">
+    <div className="min-h-screen flex flex-col nature-pattern" style={{ background: 'rgba(244, 246, 242, 0.88)', backdropFilter: 'blur(2px)' }}>
       {/* Header - 天蓝绿色导航栏 */}
       <header className="sticky top-0 z-50" style={{
         background: 'linear-gradient(135deg, #1f3a18 0%, #2e4f24 40%, #3d6630 80%, #4a7a38 100%)',
@@ -125,12 +125,12 @@ export default function Layout() {
           </Link>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex gap-0.5 items-center">
+          <nav className="hidden lg:flex gap-0.5 items-center">
             {navItems.map(item => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-sm transition-all duration-200 ${
+                className={`inline-flex items-center gap-1 px-2.5 xl:px-3.5 py-2 rounded-xl text-xs xl:text-sm whitespace-nowrap transition-all duration-200 ${
                   isActive(item.path)
                     ? 'font-semibold text-white shadow-sm'
                     : 'text-white/80 hover:text-white'
@@ -143,7 +143,7 @@ export default function Layout() {
             ))}
             <Link
               to="/admin"
-              className={`inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-sm transition-all duration-200 ${
+              className={`inline-flex items-center gap-1 px-2.5 xl:px-3.5 py-2 rounded-xl text-xs xl:text-sm whitespace-nowrap transition-all duration-200 ${
                 location.pathname === '/admin'
                   ? 'font-semibold text-white shadow-sm'
                   : 'text-white/80 hover:text-white'
@@ -156,23 +156,23 @@ export default function Layout() {
           </nav>
 
           {/* Mobile Navigation */}
-          <div className="flex md:hidden items-center gap-1.5">
+          <div className="flex lg:hidden items-center gap-1">
             <Link
               to="/birdie"
-              className={`p-2 rounded-xl transition-all duration-200 inline-flex items-center ${
+              className={`w-9 h-9 rounded-xl transition-all duration-200 inline-flex items-center justify-center ${
                 isActive('/birdie')
                   ? 'font-medium text-white'
                   : 'text-white/80'
               }`}
               style={isActive('/birdie') ? { background: 'rgba(253, 246, 227, 0.2)' } : undefined}
             >
-              <NavIcon type="birdie" className="w-5 h-5" />
+              <NavIcon type="birdie" className="w-[22px] h-[22px]" />
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl hover:bg-white/10 transition-all duration-200"
+              className="w-9 h-9 rounded-xl hover:bg-white/10 transition-all duration-200 inline-flex items-center justify-center"
             >
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-[22px] h-[22px] text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {mobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -185,7 +185,7 @@ export default function Layout() {
 
         {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-white/10" style={{ background: 'rgba(31, 58, 24, 0.96)', backdropFilter: 'blur(16px)' }}>
+          <div className="lg:hidden border-t border-white/10" style={{ background: 'rgba(31, 58, 24, 0.96)', backdropFilter: 'blur(16px)' }}>
             <nav className="max-w-4xl mx-auto px-4 py-2">
               {navItems.map(item => (
                 <Link

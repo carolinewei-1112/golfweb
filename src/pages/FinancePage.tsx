@@ -30,10 +30,10 @@ export default function FinancePage() {
           </svg>
         </div>
         <div className="relative">
-          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#1f3a18' }}>
+          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2 text-white drop-shadow-md">
             <span className="text-xl sm:text-2xl"><Icon name="income" className="w-6 h-6" /></span> 会费记录
           </h1>
-          <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(31, 58, 24, 0.65)' }}>查看会费和比赛支出</p>
+          <p className="text-xs sm:text-sm mt-1.5 text-white/85 drop-shadow-sm">查看会费和比赛支出</p>
         </div>
       </div>
 

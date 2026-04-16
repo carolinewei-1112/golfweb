@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee, getCourseImage } from '../data'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { Icon } from '../components/Icons'
+import { Icon, BirdKingBadge } from '../components/Icons'
 
 // 判断是否记录推杆数（2026年4月及以后的比赛才记录推杆，3月及以前不记录）
 function hasPuttData(date: string): boolean {
@@ -14,11 +14,22 @@ export default function MemberDetailPage() {
   const {
     getMemberById, getMemberGames, getAvgScore, getAvgPutts,
     getProgressScore, getGrossRanking,
-    games, tournaments,
+    games, tournaments, birdieRecords, members,
   } = useStore()
 
   const member = getMemberById(id ?? '')
   if (!member) return <div className="text-center py-20 text-gray-400">未找到该会员</div>
+
+  // 计算鸟王排名（按打鸟次数前3名）
+  const birdKingRank = (() => {
+    const countMap = new Map<string, number>()
+    birdieRecords.forEach(r => countMap.set(r.memberId, (countMap.get(r.memberId) || 0) + 1))
+    const sorted = [...countMap.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+    const idx = sorted.findIndex(([mid]) => mid === member.id)
+    return idx >= 0 ? idx : -1
+  })()
 
   const memberGames = getMemberGames(member.id)
   const avgScore = getAvgScore(member.id)
@@ -90,7 +101,10 @@ export default function MemberDetailPage() {
               <img src={member.avatar} alt="" className="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-gray-100 border-2 sm:border-3 border-white" />
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-lg sm:text-2xl font-bold text-white truncate">{member.name}</h1>
+              <h1 className="text-lg sm:text-2xl font-bold text-white truncate flex items-center gap-2">
+                {member.name}
+                {birdKingRank >= 0 && <BirdKingBadge rank={birdKingRank} />}
+              </h1>
               <div className="flex flex-wrap gap-x-3 sm:gap-x-5 gap-y-0.5 sm:gap-y-1 mt-1.5 sm:mt-2.5 text-xs sm:text-sm text-white/75">
                 <span className="truncate">{member.realName || member.name}</span>
                 <span className="px-2 py-0.5 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.2)' }}>{member.gender}</span>
@@ -145,6 +159,53 @@ export default function MemberDetailPage() {
           </div>
         </div>
       )}
+
+      {/* Birdie Records - 个人打鸟记录 */}
+      {(() => {
+        const memberBirdies = birdieRecords
+          .filter(r => r.memberId === member.id)
+          .sort((a, b) => a.number - b.number)
+        if (memberBirdies.length === 0) return null
+        return (
+          <Link
+            to="/birdie"
+            className="block rounded-2xl sm:rounded-3xl overflow-hidden card-shadow transition-all duration-300 hover:-translate-y-0.5 hover:card-shadow-hover"
+            style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}
+          >
+            <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 flex items-center justify-between" style={{ background: 'rgba(221, 228, 213, 0.3)' }}>
+              <h2 className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(78, 126, 58, 0.1)' }}><Icon name="bird" className="w-4 h-4" /></div>
+                打鸟记录
+                <span className="text-xs font-normal text-golf-600 px-2 py-0.5 rounded-full" style={{ background: 'rgba(78, 126, 58, 0.1)' }}>
+                  {memberBirdies.length}只鸟
+                </span>
+              </h2>
+              <span className="text-xs text-gray-400 flex items-center gap-1">
+                查看全部 →
+              </span>
+            </div>
+            <div className="px-4 sm:px-6 py-3 sm:py-4">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                {memberBirdies.map(birdie => (
+                  <span
+                    key={birdie.id}
+                    className={`text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full font-medium ${
+                      birdie.type === 'simulator'
+                        ? 'bg-purple-50 text-purple-600 border border-purple-100'
+                        : 'text-golf-600'
+                    }`}
+                    style={birdie.type !== 'simulator' ? { background: 'rgba(221, 228, 213, 0.5)', border: '1px solid rgba(184, 204, 170, 0.4)' } : undefined}
+                  >
+                    {birdie.type === 'simulator' && <><Icon name="target" className="w-3 h-3 inline-block" /> </>}
+                    第{birdie.number}鸟
+                    {birdie.date && <span className="text-gray-400 ml-1">({birdie.date.slice(5)})</span>}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Link>
+        )
+      })()}
 
       {/* Game History */}
       <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>

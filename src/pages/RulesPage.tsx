@@ -20,10 +20,10 @@ export default function RulesPage() {
           </svg>
         </div>
         <div className="relative">
-          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#1f3a18' }}>
+          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2 text-white drop-shadow-md">
             <span className="text-xl sm:text-2xl"><Icon name="scroll" className="w-6 h-6" /></span> 规则与奖励
           </h1>
-          <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(15, 72, 40, 0.65)' }}>百鸟会高尔夫规则及奖励机制</p>
+          <p className="text-xs sm:text-sm mt-1.5 text-white/85 drop-shadow-sm">百鸟会高尔夫规则及奖励机制</p>
         </div>
       </div>
 

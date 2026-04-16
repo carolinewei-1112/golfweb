@@ -50,79 +50,78 @@ export default function HomePage() {
 
   return (
     <div className="space-y-5 sm:space-y-7 animate-fade-in">
-      {/* Hero Banner - 扁平插画风 */}
+      {/* Hero Banner - 全幅插画背景 + 叠加文字 */}
       <div className="rounded-3xl overflow-hidden relative" style={{
-        background: 'linear-gradient(180deg, #2e4f24 0%, #3a6530 25%, #4a7a38 50%, #5a8e42 70%, #4a7a38 100%)',
-        boxShadow: '0 4px 24px rgba(46, 79, 36, 0.2), 0 1px 4px rgba(0, 0, 0, 0.06)',
+        background: '#4a7a38',
+        boxShadow: '0 4px 32px rgba(26, 46, 20, 0.25), 0 1px 4px rgba(0, 0, 0, 0.06)',
+        minHeight: '320px',
       }}>
-        {/* 天空装饰 - 云朵 */}
-        <div className="absolute top-4 left-[8%] animate-drift" style={{ animationDelay: '0s' }}>
-          <div className="flex gap-0.5">
-            <div className="w-14 h-5 rounded-full" style={{ background: 'rgba(255, 255, 255, 0.12)' }} />
-            <div className="w-8 h-4 rounded-full mt-1" style={{ background: 'rgba(255, 255, 255, 0.08)' }} />
-          </div>
-        </div>
-        <div className="absolute top-8 right-[12%] animate-drift" style={{ animationDelay: '2s' }}>
-          <div className="flex gap-0.5">
-            <div className="w-10 h-4 rounded-full" style={{ background: 'rgba(255, 255, 255, 0.1)' }} />
-            <div className="w-6 h-3 rounded-full mt-0.5" style={{ background: 'rgba(255, 255, 255, 0.07)' }} />
-          </div>
-        </div>
-        <div className="absolute top-3 right-[40%] animate-drift" style={{ animationDelay: '4s' }}>
-          <div className="w-12 h-4 rounded-full" style={{ background: 'rgba(255, 255, 255, 0.08)' }} />
-        </div>
+        {/* 背景图片 */}
+        <img
+          src="/images/backgrounds/golf-banner.jpg"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+        />
+        {/* 深色遮罩 - 左侧文字区域更深，保证文字可读 */}
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(20, 40, 15, 0.55) 0%, rgba(20, 40, 15, 0.25) 50%, rgba(20, 40, 15, 0.15) 100%)' }} />
 
-        {/* 远景山丘装饰 */}
-        <div className="absolute bottom-0 inset-x-0 h-20 overflow-hidden">
-          <svg viewBox="0 0 800 80" fill="none" className="w-full h-full" preserveAspectRatio="none">
-            <path d="M0 50 Q100 20 200 35 Q350 55 500 30 Q650 10 800 40 L800 80 L0 80 Z" fill="rgba(31, 58, 24, 0.25)" />
-            <path d="M0 60 Q200 30 400 50 Q600 70 800 45 L800 80 L0 80 Z" fill="rgba(31, 58, 24, 0.15)" />
-          </svg>
-        </div>
-
-        <div className="relative p-5 sm:p-7 pb-8 sm:pb-10">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
-            <div className="flex items-center gap-3">
-              <div className="relative text-white">
-                <Logo className="w-12 h-12 sm:w-14 sm:h-14 drop-shadow-lg" />
-                <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 border-white/50" style={{ background: '#6a9e56' }} />
+        {/* 内容层 */}
+        <div className="relative z-10 p-5 sm:p-7 flex flex-col justify-between" style={{ minHeight: '320px' }}>
+          {/* 顶部 - Logo + 统计 */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="text-white">
+                <Logo className="w-9 h-9 sm:w-11 sm:h-11 drop-shadow-lg" />
               </div>
-              <div>
-                <h1 className="text-xl sm:text-2xl font-extrabold text-white drop-shadow-md">百鸟会</h1>
-                <p className="text-xs mt-0.5 px-2 py-0.5 rounded-md inline-block font-medium" style={{ background: 'rgba(253, 246, 227, 0.85)', color: '#2e4f24' }}>GOLF TIME <Icon name="golf" className="w-3.5 h-3.5 inline-block align-[-0.1em]" /></p>
-              </div>
+              <span className="text-[10px] sm:text-xs text-white/60 font-medium tracking-widest uppercase">Bainiao Golf Club</span>
             </div>
-            {/* 统计信息 - 奶油色胶囊 */}
-            <div className="flex flex-wrap gap-2">
-              <StatBadge icon={<Icon name="golfball" className="w-4 h-4 text-white" />} value={tournaments.length} label="场比赛" />
-              <StatBadge icon={<Icon name="person" className="w-4 h-4 text-white" />} value={members.length} label="位会员" />
-              <StatBadge icon={<Icon name="bird" className="w-4 h-4 text-white" />} value={`${100 - birdieRecords.length}`} label="只待打" />
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
+              <StatBadge icon={<Icon name="golfball" className="w-3.5 h-3.5 text-white" />} value={tournaments.length} label="场赛" />
+              <StatBadge icon={<Icon name="person" className="w-3.5 h-3.5 text-white" />} value={members.length} label="会员" />
             </div>
           </div>
 
-          {/* 公告区域 */}
-          <div className="mt-4 sm:mt-5 pt-4 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.15)' }}>
-            <div className="flex items-stretch gap-2.5 sm:gap-3">
-              <div className="flex items-center flex-shrink-0">
-                <div className="h-full rounded-xl flex items-center justify-center text-sm sm:text-base px-2.5 sm:px-3" style={{ background: 'rgba(255, 255, 255, 0.15)' }}>
-                  <Icon name="megaphone" className="w-5 h-5 text-white" />
+          {/* 中间 - 大标题 + 副标题 */}
+          <div className="my-4 sm:my-6">
+            <h1 className="text-4xl sm:text-6xl font-black text-white leading-none tracking-tight drop-shadow-lg" style={{ fontFamily: "'SF Pro Display', 'PingFang SC', system-ui, sans-serif", textShadow: '0 2px 20px rgba(0,0,0,0.3)' }}>
+              百鸟会
+            </h1>
+            <p className="text-sm sm:text-base text-white/80 mt-2 sm:mt-3 leading-relaxed max-w-[280px] sm:max-w-[360px] drop-shadow-md" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3)' }}>
+              高尔夫会员比赛与成绩管理<br/>记录每一次挥杆时刻
+            </p>
+            {/* 百鸟进度条 */}
+            <div className="mt-3 sm:mt-4 flex items-center gap-2.5 max-w-[240px] sm:max-w-[300px]">
+              <div className="flex-1 rounded-full h-1.5 overflow-hidden" style={{ background: 'rgba(255, 255, 255, 0.2)' }}>
+                <div className="h-full rounded-full" style={{ width: `${Math.min((birdieRecords.length / 100) * 100, 100)}%`, background: '#c5e84d', boxShadow: '0 0 8px rgba(197, 232, 77, 0.5)' }} />
+              </div>
+              <span className="text-[10px] sm:text-xs font-bold" style={{ color: '#c5e84d', textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}>
+                <Icon name="bird" className="w-3.5 h-3.5 inline-block align-[-0.12em]" /> {birdieRecords.length}/100
+              </span>
+            </div>
+          </div>
+
+          {/* 底部 - 公告 */}
+          <div className="flex items-stretch gap-2 sm:gap-3">
+            <div className="flex items-center flex-shrink-0">
+              <div className="rounded-lg flex items-center justify-center px-2 py-2" style={{ background: 'rgba(197, 232, 77, 0.2)', backdropFilter: 'blur(4px)' }}>
+                <Icon name="megaphone" className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">
+              {announcements.slice(0, 2).map(a => (
+                <div key={a.id} className="rounded-lg px-3 py-2 text-xs sm:text-sm break-words leading-relaxed font-medium" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.9)' }}>
+                  {a.content}
                 </div>
-              </div>
-              <div className="flex-1 min-w-0">
-                {announcements.slice(0, 2).map(a => (
-                  <div key={a.id} className="rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm break-words leading-relaxed font-medium" style={{ background: 'rgba(255, 255, 255, 0.12)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.95)' }}>
-                    {a.content}
-                  </div>
-                ))}
-                {announcements.length === 0 && (
-                  <div className="rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm break-words leading-relaxed font-medium" style={{ background: 'rgba(255, 255, 255, 0.12)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.95)' }}>
-                    4月月赛时间4月18日，请各位会员预留时间。
-                  </div>
-                )}
-                {announcements.length > 2 && (
-                  <div className="text-xs text-white/60 text-right mt-1.5">还有 {announcements.length - 2} 条公告</div>
-                )}
-              </div>
+              ))}
+              {announcements.length === 0 && (
+                <div className="rounded-lg px-3 py-2 text-xs sm:text-sm break-words leading-relaxed font-medium" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.9)' }}>
+                  4月月赛时间4月18日，请各位会员预留时间。
+                </div>
+              )}
+              {announcements.length > 2 && (
+                <div className="text-xs text-white/50 text-right mt-1">还有 {announcements.length - 2} 条公告</div>
+              )}
             </div>
           </div>
         </div>
