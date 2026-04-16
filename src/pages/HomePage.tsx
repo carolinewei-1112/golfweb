@@ -126,7 +126,7 @@ export default function HomePage() {
               ))}
               {announcements.length === 0 && (
                 <div className="rounded-lg px-3 py-2 text-xs sm:text-sm break-words leading-relaxed font-medium" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.9)' }}>
-                  4月月赛时间4月28日，请各位会员预留时间。
+                  4月月赛时间4月18日，请各位会员预留时间。
                 </div>
               )}
               {announcements.length > 2 && (
