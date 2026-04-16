@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store'
-import { getCourseImage } from '../data'
+import { getCourseImage, getProgressScore } from '../data'
 import type { ReactNode } from 'react'
 import { Icon, Logo, ClubBrand, BirdKingBadge } from '../components/Icons'
 
@@ -212,9 +212,14 @@ export default function HomePage() {
               const imageUrl = getCourseImage(t.courseName)
               const game = games.find(g => g.tournamentId === t.id)
               const participantCount = game?.scores.length ?? 0
-              // 按总杆排名取top3头像
+              // 按进步系数排名取top3头像（进步系数越大排越前）
               const participantAvatars = game?.scores
-                .slice().sort((a, b) => a.grossScore - b.grossScore)
+                .map(s => ({
+                  ...s,
+                  progress: getProgressScore(s.memberId, t.id, games, tournaments)
+                }))
+                .filter(s => s.progress !== null)
+                .sort((a, b) => (b.progress ?? 0) - (a.progress ?? 0))
                 .slice(0, 3).map(s => {
                 const member = getMemberById(s.memberId)
                 return member?.avatar

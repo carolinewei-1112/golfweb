@@ -180,23 +180,27 @@ export default function FinancePage() {
           )}
           {[...membershipFees].sort((a, b) => b.createTime.localeCompare(a.createTime)).map(fee => {
             const member = members.find(m => m.id === fee.memberId)
+            const isSponsor = fee.type === 'sponsor'
             return (
               <div key={fee.id} className="rounded-xl sm:rounded-2xl p-3 sm:p-4 flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 card-shadow hover:card-shadow-hover" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                   {member && (
-                    <img src={member.avatar} alt={member.name} className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex-shrink-0 shadow-sm" />
+                    <img src={member.avatar} alt={member.name} className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex-shrink-0 shadow-sm object-cover" />
                   )}
                   <div className="min-w-0">
-                    <div className="text-xs sm:text-sm font-medium truncate flex items-center gap-1">{member?.name || '未知'}{member && birdKingMap.has(member.id) && <BirdKingBadge rank={birdKingMap.get(member.id)!} />}</div>
-                    <div className="text-[10px] sm:text-xs text-gray-400 truncate">
-                      {fee.year}年 · {fee.type === 'sponsor' ? '赞助' : '会费'}
-                      {fee.paymentDate && ` · 缴费:${fee.paymentDate}`}
-                      {fee.validityPeriod && ` · 有效期:${fee.validityPeriod}`}
-                      {fee.note && ` · ${fee.note}`}
+                    <div className="text-xs sm:text-sm font-medium truncate flex items-center gap-1.5">
+                      {member?.name || '未知'}
+                      {member && birdKingMap.has(member.id) && <BirdKingBadge rank={birdKingMap.get(member.id)!} />}
+                      <span className={`text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded-full font-medium ${isSponsor ? 'bg-amber-50 text-amber-600' : 'bg-green-50 text-green-600'}`}>
+                        {isSponsor ? '赞助费' : '会费'}
+                      </span>
+                    </div>
+                    <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5">
+                      {fee.paymentDate || '—'}
                     </div>
                   </div>
                 </div>
-                <span className="text-xs sm:text-sm font-bold text-golf-600 flex-shrink-0 px-2.5 py-1 rounded-full" style={{ background: 'rgba(221, 228, 213, 0.5)' }}>+¥{fee.amount}</span>
+                <span className={`text-xs sm:text-sm font-bold flex-shrink-0 px-2.5 py-1 rounded-full ${isSponsor ? 'text-amber-600' : 'text-golf-600'}`} style={{ background: isSponsor ? 'rgba(251, 191, 36, 0.1)' : 'rgba(221, 228, 213, 0.5)' }}>+¥{fee.amount.toLocaleString()}</span>
               </div>
             )
           })}
