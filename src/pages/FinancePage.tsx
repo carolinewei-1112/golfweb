@@ -91,8 +91,8 @@ export default function FinancePage() {
           {/* 收入构成 */}
           <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t text-[10px] sm:text-xs text-golf-600 space-y-0.5 sm:space-y-1" style={{ borderColor: 'rgba(184, 204, 170, 0.4)' }}>
             <div className="flex justify-between">
-              <span className="truncate">12位会员 × ¥1,800</span>
-              <span className="font-medium">¥{(1800 * 12).toLocaleString()}</span>
+              <span className="truncate">11位会员 × ¥1,800</span>
+              <span className="font-medium">¥{(1800 * 11).toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
               <span className="truncate">创始人托赞助</span>
@@ -103,7 +103,7 @@ export default function FinancePage() {
               <span className="font-medium">¥1,500</span>
             </div>
             <div className="flex justify-between">
-              <span className="truncate">白会长赞助</span>
+              <span className="truncate">国弘赞助</span>
               <span className="font-medium">¥500</span>
             </div>
           </div>

@@ -1322,7 +1322,7 @@ function FinanceManager() {
 
   // 批量添加2026年会费
   const handleBatchAdd2026 = () => {
-    const regularMembers = members.filter(m => m.id !== '新来的托' && m.id !== '大面')
+    const regularMembers = members.filter(m => m.id !== '新来的托' && m.id !== '大面' && m.id !== '国弘')
     let added = 0
     regularMembers.forEach(member => {
       if (!year2026Fees.some(f => f.memberId === member.id && f.type === 'regular')) {
@@ -1338,6 +1338,32 @@ function FinanceManager() {
         added++
       }
     })
+    // 新来的托和大面也交1800会费
+    if (!year2026Fees.some(f => f.memberId === '新来的托' && f.type === 'regular')) {
+      addMembershipFee({
+        memberId: '新来的托',
+        amount: 1800,
+        year: 2026,
+        type: 'regular',
+        note: '2026年会费',
+        paymentDate: new Date().toISOString().slice(0, 10),
+        validityPeriod: '2026年4月 - 2027年4月',
+      })
+      added++
+    }
+    if (!year2026Fees.some(f => f.memberId === '大面' && f.type === 'regular')) {
+      addMembershipFee({
+        memberId: '大面',
+        amount: 1800,
+        year: 2026,
+        type: 'regular',
+        note: '2026年会费',
+        paymentDate: new Date().toISOString().slice(0, 10),
+        validityPeriod: '2026年4月 - 2027年4月',
+      })
+      added++
+    }
+    // 赞助
     if (!year2026Fees.some(f => f.memberId === '新来的托' && f.type === 'sponsor')) {
       addMembershipFee({
         memberId: '新来的托',
@@ -1362,13 +1388,13 @@ function FinanceManager() {
       })
       added++
     }
-    if (!year2026Fees.some(f => f.memberId === '白会长' && f.type === 'sponsor')) {
+    if (!year2026Fees.some(f => f.memberId === '国弘' && f.type === 'sponsor')) {
       addMembershipFee({
-        memberId: '白会长',
+        memberId: '国弘',
         amount: 500,
         year: 2026,
         type: 'sponsor',
-        note: '白会长赞助',
+        note: '国弘赞助',
         paymentDate: new Date().toISOString().slice(0, 10),
         validityPeriod: '2026年4月 - 2027年4月',
       })
@@ -1427,7 +1453,7 @@ function FinanceManager() {
           <div className="bg-blue-50 rounded-xl p-4 mb-4 border border-blue-100">
             <h3 className="text-sm font-bold text-gray-700 mb-2">2026年会费批量录入</h3>
             <p className="text-xs text-gray-500 mb-3">
-              12个会员人均1800元 + 创始人托赞助3000元 + 宣传委员面赞助1500元 + 白会长赞助500元
+              11位会员人均1800元 + 创始人托赞助3000元 + 宣传委员面赞助1500元 + 国弘赞助500元
             </p>
             <button
               onClick={handleBatchAdd2026}

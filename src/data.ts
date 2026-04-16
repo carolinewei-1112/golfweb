@@ -161,6 +161,26 @@ export const initialBirdieRecords: BirdieRecord[] = [
   { id: 'B017', number: 17, memberId: '国弘', location: '大浩湖', type: 'course', hole: 2, note: '2号洞' },
 ];
 
+// 初始会费收入记录（2026年）
+export const initialMembershipFees: MembershipFee[] = [
+  // 11位会员已缴纳1800元会费（除国弘外）
+  { id: 'F001', memberId: '新来的托', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:00.000Z' },
+  { id: 'F002', memberId: '大面', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:01.000Z' },
+  { id: 'F003', memberId: 'Raachael', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:02.000Z' },
+  { id: 'F004', memberId: 'lulu酱', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:03.000Z' },
+  { id: 'F005', memberId: 'NiKi', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:04.000Z' },
+  { id: 'F006', memberId: '潇湉', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:05.000Z' },
+  { id: 'F007', memberId: 'Archer', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:06.000Z' },
+  { id: 'F008', memberId: '纯情浩克', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:07.000Z' },
+  { id: 'F009', memberId: '康序', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:08.000Z' },
+  { id: 'F010', memberId: '颖琪', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:09.000Z' },
+  { id: 'F011', memberId: '小明', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:10.000Z' },
+  // 赞助
+  { id: 'F012', memberId: '新来的托', amount: 3000, year: 2026, type: 'sponsor', note: '创始人托赞助', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:11.000Z' },
+  { id: 'F013', memberId: '大面', amount: 1500, year: 2026, type: 'sponsor', note: '宣传委员面赞助', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:12.000Z' },
+  { id: 'F014', memberId: '国弘', amount: 500, year: 2026, type: 'sponsor', note: '国弘赞助', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:13.000Z' },
+];
+
 export const games: Game[] = [
   // 7月13日广州狮子湖
   {

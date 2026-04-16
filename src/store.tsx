@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo, type ReactNode } from 'react'
 import type { Member, Tournament, ScoreEntry, Game, BirdieRecord, MembershipFee, Expense } from './data'
-import { members as initMembers, tournaments as initTournaments, games as initGames, initialBirdieRecords } from './data'
+import { members as initMembers, tournaments as initTournaments, games as initGames, initialBirdieRecords, initialMembershipFees } from './data'
 import {
   getOverallRanking as calcOverallRanking,
   getProgressRanking as calcProgressRanking,
@@ -62,7 +62,7 @@ interface StoreState {
 
 const StoreContext = createContext<StoreState | null>(null)
 
-const STORAGE_KEY = 'golfweb_store_v24'
+const STORAGE_KEY = 'golfweb_store_v25'
 
 function loadStore() {
   try {
@@ -89,7 +89,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     { id: 'A001', content: '4月月赛时间4月18日，请各位会员预留时间。', createTime: '2026-04-15T00:00:00.000Z' }
   ]
   const birdieRecords: BirdieRecord[] = saved?.birdieRecords ?? initialBirdieRecords
-  const membershipFees: MembershipFee[] = saved?.membershipFees ?? []
+  const membershipFees: MembershipFee[] = saved?.membershipFees ?? initialMembershipFees
   const expenses: Expense[] = saved?.expenses ?? []
 
   const persist = useCallback((m: Member[], t: Tournament[], g: Game[], a: Announcement[], b: BirdieRecord[], f: MembershipFee[] = membershipFees, e: Expense[] = expenses) => {
