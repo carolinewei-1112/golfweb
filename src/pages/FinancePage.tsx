@@ -44,6 +44,38 @@ export default function FinancePage() {
         </div>
       </div>
 
+      {/* 会费说明 */}
+      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-gray-100" style={{ background: 'linear-gradient(135deg, rgba(245, 243, 255, 0.5) 0%, rgba(255, 255, 255, 0.6) 100%)' }}>
+          <h2 className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(139, 92, 246, 0.08)' }}><Icon name="people" className="w-4 h-4" /></div>
+            会费说明
+          </h2>
+        </div>
+        <div className="px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm text-gray-600">
+          <div className="rounded-xl p-2.5 sm:p-3 mb-3" style={{ background: 'linear-gradient(135deg, rgba(245, 243, 255, 0.3) 0%, rgba(237, 233, 254, 0.2) 100%)', border: '1px solid rgba(196, 181, 253, 0.15)' }}>
+            <p className="text-gray-600 text-xs sm:text-sm">
+              <span className="text-purple-500 mr-1"><Icon name="bulb" className="w-3.5 h-3.5 inline-block align-[-0.15em]" /></span>
+              用于安排每次月赛的聚餐+奖品购置，所有支出可在【会费记录】查看。
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2.5 mb-3">
+            <div className="rounded-xl p-2.5 sm:p-3 text-center" style={{ background: 'rgba(255, 255, 255, 0.7)', border: '1px solid rgba(229, 231, 235, 0.5)' }}>
+              <div className="text-[10px] sm:text-xs text-gray-400 mb-0.5">年会费</div>
+              <div className="text-base sm:text-lg font-bold text-golf-700">¥1,800</div>
+            </div>
+            <div className="rounded-xl p-2.5 sm:p-3 text-center" style={{ background: 'rgba(255, 255, 255, 0.7)', border: '1px solid rgba(229, 231, 235, 0.5)' }}>
+              <div className="text-[10px] sm:text-xs text-gray-400 mb-0.5">有效期</div>
+              <div className="text-base sm:text-lg font-bold text-gray-700">12个月</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-[10px] sm:text-xs text-gray-400">
+            <span className="flex items-center gap-1"><span className="w-3.5 h-3.5 rounded-full bg-red-50 text-red-400 flex items-center justify-center text-[8px] flex-shrink-0">!</span>缴纳会费后不能退</span>
+            <span className="flex items-center gap-1"><span className="w-3.5 h-3.5 rounded-full bg-red-50 text-red-400 flex items-center justify-center text-[8px] flex-shrink-0">!</span>不参加月赛亦不退</span>
+          </div>
+        </div>
+      </div>
+
       {/* 统计卡片 */}
       <div className="grid grid-cols-3 gap-2.5 sm:gap-4">
         <div className="rounded-2xl sm:rounded-3xl p-3 sm:p-5 card-shadow" style={{

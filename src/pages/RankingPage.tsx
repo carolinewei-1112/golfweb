@@ -109,9 +109,10 @@ export default function RankingPage() {
       }}>
         <div className="flex items-end justify-center gap-3 sm:gap-6">
           {currentRanking.slice(0, 3).map((r, i) => {
-            // 视觉顺序：第2名 | 第1名(居中突出) | 第3名
-            const order = i === 0 ? 0 : i === 1 ? 2 : 1;
-            const displayOrder = order === 0 ? 1 : order === 1 ? 0 : 2; // CSS order
+            // 视觉顺序：第2名(左) | 第1名(居中突出) | 第3名(右)
+            // i=0 → 第1名(金冠), i=1 → 第2名(银冠), i=2 → 第3名(铜冠)
+            const order = i; // order即排名索引: 0=金, 1=银, 2=铜
+            const displayOrder = i === 0 ? 1 : i === 1 ? 0 : 2; // CSS order: 第1名居中, 第2名左, 第3名右
             const avatarSizes = ['w-16 h-16 sm:w-20 sm:h-20', 'w-12 h-12 sm:w-16 sm:h-16', 'w-12 h-12 sm:w-14 sm:h-14'];
             const ringColors = [
               'ring-amber-300/80',   // 金
