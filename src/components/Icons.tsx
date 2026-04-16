@@ -143,7 +143,7 @@ export function ClubBrand({ variant = 'nav' }: { variant?: 'nav' | 'hero' }) {
         <span
           className="text-[8px] sm:text-[9px] font-semibold tracking-widest mt-0.5"
           style={{ color: ac, opacity: 0.85 }}
-        >GOLF TIME</span>
+        >BIRD CLUB</span>
       </div>
     </div>
   )

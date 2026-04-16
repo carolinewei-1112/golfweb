@@ -35,7 +35,7 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   background: #1a3a14;
-  background-image: url('/images/backgrounds/golf-course-bg.jpg');
+  background-image: url('https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/backgrounds/golf-course-bg.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

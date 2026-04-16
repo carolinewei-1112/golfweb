@@ -84,7 +84,7 @@ export default function HomePage() {
       }}>
         {/* 背景图片 */}
         <img
-          src="/images/backgrounds/golf-banner.jpg"
+          src="https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/backgrounds/golf-banner.jpg"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
           onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
@@ -100,7 +100,7 @@ export default function HomePage() {
               <div className="text-white">
                 <Logo className="w-9 h-9 sm:w-11 sm:h-11 drop-shadow-lg" />
               </div>
-              <span className="text-[10px] sm:text-xs text-white/60 font-medium tracking-widest uppercase">Bainiao Golf Club</span>
+              <span className="text-[10px] sm:text-xs text-white/60 font-medium tracking-widest uppercase">birdclub.golf</span>
             </div>
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               <StatBadge icon={<Icon name="golfball" className="w-3.5 h-3.5 text-white" />} value={tournaments.length} label="场赛" />
@@ -160,7 +160,7 @@ export default function HomePage() {
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl card-shadow group" style={{ background: 'rgba(255,255,255,0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.5)' }}>
         <div className="h-40 sm:h-52 overflow-hidden relative">
           <img
-            src="/images/courses/junlan-aerial-island.png"
+            src="https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/courses/junlan-aerial-island.png"
             alt="广州君兰高尔夫球场"
             className="w-full h-full object-cover"
           />
@@ -189,7 +189,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 2px 8px rgba(46, 79, 36, 0.2)' }}>
-              <img src="/images/logos/logo-cartoon.png" alt="百鸟会" className="w-5 h-5 rounded-full object-cover" />
+              <img src="https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/logos/logo-cartoon.png" alt="百鸟会" className="w-5 h-5 rounded-full object-cover" />
               <span>即将开赛</span>
               {countdown > 0 && (
                 <span className="font-mono text-[10px] sm:text-xs text-white/90">
