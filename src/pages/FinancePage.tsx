@@ -89,10 +89,13 @@ export default function FinancePage() {
           <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t text-[10px] sm:text-xs text-golf-600 space-y-1.5 sm:space-y-2" style={{ borderColor: 'rgba(184, 204, 170, 0.4)' }}>
             {/* 会费 */}
             <div className="space-y-0.5">
-              <div className="text-[9px] sm:text-[10px] text-golf-500 font-semibold tracking-wide uppercase" style={{ opacity: 0.7 }}>会费</div>
+              <div className="flex justify-between items-center">
+                <span className="text-[9px] sm:text-[10px] text-golf-500 font-semibold tracking-wide uppercase" style={{ opacity: 0.7 }}>会费</span>
+                <span className="text-[9px] sm:text-[10px] font-medium text-golf-600">¥{(1800 * 11).toLocaleString()}</span>
+              </div>
               <div className="flex justify-between">
-                <span className="truncate">12位会员 × ¥1,800</span>
-                <span className="font-medium">¥{(1800 * 12).toLocaleString()}</span>
+                <span className="truncate">会员 × ¥1,800</span>
+                <span className="font-medium">11人</span>
               </div>
             </div>
             {/* 赞助费 */}
@@ -102,15 +105,15 @@ export default function FinancePage() {
                 <span className="text-[9px] sm:text-[10px] font-medium text-golf-600">¥{(3000 + 1500 + 500).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="truncate">创始人托</span>
+                <span className="truncate">创始人-托</span>
                 <span className="font-medium">¥3,000</span>
               </div>
               <div className="flex justify-between">
-                <span className="truncate">宣传委员面</span>
+                <span className="truncate">宣传委员-面</span>
                 <span className="font-medium">¥1,500</span>
               </div>
               <div className="flex justify-between">
-                <span className="truncate">白会长</span>
+                <span className="truncate">会长-白</span>
                 <span className="font-medium">¥500</span>
               </div>
             </div>

@@ -179,17 +179,17 @@ export default function HomePage() {
         <div className="p-4 sm:p-5">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm flex-wrap">
-              <div className="px-2.5 py-1.5 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(245, 158, 11, 0.1)' }}>
-                <Icon name="clipboard" className="w-3.5 h-3.5 text-amber-600" />
-                <span className="font-semibold text-amber-700">2026年4月18日</span>
-              </div>
               <div className="px-2.5 py-1.5 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(221, 228, 213, 0.6)' }}>
                 <Icon name="pin" className="w-3.5 h-3.5 text-golf-600" />
                 <span className="font-medium text-golf-700">广州君兰</span>
               </div>
+              <div className="px-2.5 py-1.5 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(245, 158, 11, 0.1)' }}>
+                <Icon name="clipboard" className="w-3.5 h-3.5 text-amber-600" />
+                <span className="font-semibold text-amber-700">2026年4月18日</span>
+              </div>
             </div>
             <div className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 2px 8px rgba(46, 79, 36, 0.2)' }}>
-              <Logo className="w-4 h-4" />
+              <img src="/images/logos/logo-cartoon.png" alt="百鸟会" className="w-5 h-5 rounded-full object-cover" />
               <span>即将开赛</span>
               {countdown > 0 && (
                 <span className="font-mono text-[10px] sm:text-xs text-white/90">

@@ -162,7 +162,7 @@ export const initialBirdieRecords: BirdieRecord[] = [
 
 // 初始会费收入记录（2026年）
 export const initialMembershipFees: MembershipFee[] = [
-  // 12位会员已缴纳1800元会费（含国弘）
+  // 11位会员已缴纳1800元会费（含国弘）
   { id: 'F001', memberId: '新来的托', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:00.000Z' },
   { id: 'F002', memberId: '大面', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:01.000Z' },
   { id: 'F003', memberId: 'Raachael', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:02.000Z' },
