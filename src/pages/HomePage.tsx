@@ -151,11 +151,7 @@ export default function HomePage() {
               <Icon name="megaphone" className="w-3.5 h-3.5" /> 本月月赛预告
             </span>
           </div>
-          <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
-            <span className="px-2.5 py-1.5 rounded-xl text-[10px] sm:text-xs text-white font-medium" style={{ background: 'rgba(0, 0, 0, 0.35)', backdropFilter: 'blur(8px)' }}>
-              4月18日
-            </span>
-          </div>
+
           <div className="absolute bottom-3 sm:bottom-4 left-4 sm:left-5 text-white">
             <h3 className="text-xl sm:text-2xl font-bold drop-shadow-lg">4月月赛</h3>
             <p className="text-xs sm:text-sm text-white/90 drop-shadow-sm mt-0.5">广州君兰高尔夫球场</p>
