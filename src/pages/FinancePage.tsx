@@ -44,35 +44,32 @@ export default function FinancePage() {
         </div>
       </div>
 
-      {/* 会费说明 */}
-      <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
-        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-gray-100" style={{ background: 'linear-gradient(135deg, rgba(245, 243, 255, 0.5) 0%, rgba(255, 255, 255, 0.6) 100%)' }}>
-          <h2 className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(139, 92, 246, 0.08)' }}><Icon name="people" className="w-4 h-4" /></div>
+      {/* 会费说明 - 紧凑版 */}
+      <div className="rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-xs sm:text-sm font-bold text-gray-800 flex items-center gap-2">
+            <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: 'rgba(139, 92, 246, 0.08)' }}><Icon name="people" className="w-3.5 h-3.5" /></div>
             会费说明
           </h2>
+          <div className="flex items-center gap-2 text-[9px] sm:text-[10px] text-gray-400">
+            <span className="flex items-center gap-0.5"><span className="w-3 h-3 rounded-full bg-red-50 text-red-400 flex items-center justify-center text-[7px] flex-shrink-0">!</span>缴纳后不退</span>
+            <span className="flex items-center gap-0.5"><span className="w-3 h-3 rounded-full bg-red-50 text-red-400 flex items-center justify-center text-[7px] flex-shrink-0">!</span>缺赛不退</span>
+          </div>
         </div>
-        <div className="px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm text-gray-600">
-          <div className="rounded-xl p-2.5 sm:p-3 mb-3" style={{ background: 'linear-gradient(135deg, rgba(245, 243, 255, 0.3) 0%, rgba(237, 233, 254, 0.2) 100%)', border: '1px solid rgba(196, 181, 253, 0.15)' }}>
-            <p className="text-gray-600 text-xs sm:text-sm">
-              <span className="text-purple-500 mr-1"><Icon name="bulb" className="w-3.5 h-3.5 inline-block align-[-0.15em]" /></span>
-              用于安排每次月赛的聚餐+奖品购置，所有支出可在【会费记录】查看。
-            </p>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex-1 rounded-xl px-3 py-2 text-center" style={{ background: 'rgba(240, 243, 236, 0.6)', border: '1px solid rgba(184, 204, 170, 0.25)' }}>
+            <div className="text-[9px] sm:text-[10px] text-gray-400">年会费</div>
+            <div className="text-sm sm:text-base font-bold text-golf-700">¥1,800</div>
           </div>
-          <div className="grid grid-cols-2 gap-2.5 mb-3">
-            <div className="rounded-xl p-2.5 sm:p-3 text-center" style={{ background: 'rgba(255, 255, 255, 0.7)', border: '1px solid rgba(229, 231, 235, 0.5)' }}>
-              <div className="text-[10px] sm:text-xs text-gray-400 mb-0.5">年会费</div>
-              <div className="text-base sm:text-lg font-bold text-golf-700">¥1,800</div>
-            </div>
-            <div className="rounded-xl p-2.5 sm:p-3 text-center" style={{ background: 'rgba(255, 255, 255, 0.7)', border: '1px solid rgba(229, 231, 235, 0.5)' }}>
-              <div className="text-[10px] sm:text-xs text-gray-400 mb-0.5">有效期</div>
-              <div className="text-base sm:text-lg font-bold text-gray-700">12个月</div>
-            </div>
+          <div className="flex-1 rounded-xl px-3 py-2 text-center" style={{ background: 'rgba(240, 243, 236, 0.6)', border: '1px solid rgba(184, 204, 170, 0.25)' }}>
+            <div className="text-[9px] sm:text-[10px] text-gray-400">有效期</div>
+            <div className="text-sm sm:text-base font-bold text-gray-700">12个月</div>
+            <div className="text-[8px] sm:text-[9px] text-gray-400 -mt-0.5">2026年4月 - 2027年3月</div>
           </div>
-          <div className="flex items-center gap-3 text-[10px] sm:text-xs text-gray-400">
-            <span className="flex items-center gap-1"><span className="w-3.5 h-3.5 rounded-full bg-red-50 text-red-400 flex items-center justify-center text-[8px] flex-shrink-0">!</span>缴纳会费后不能退</span>
-            <span className="flex items-center gap-1"><span className="w-3.5 h-3.5 rounded-full bg-red-50 text-red-400 flex items-center justify-center text-[8px] flex-shrink-0">!</span>不参加月赛亦不退</span>
-          </div>
+        </div>
+        <div className="mt-2 text-[10px] sm:text-xs text-gray-400 flex items-center gap-1">
+          <span className="text-purple-400"><Icon name="bulb" className="w-3 h-3 inline-block align-[-0.1em]" /></span>
+          用于安排每次月赛聚餐+奖金+奖品，支出明细可查看【支出记录】
         </div>
       </div>
 
@@ -100,7 +97,10 @@ export default function FinancePage() {
             </div>
             {/* 赞助费 */}
             <div className="space-y-0.5 pt-1 sm:pt-1.5 border-t" style={{ borderColor: 'rgba(184, 204, 170, 0.25)' }}>
-              <div className="text-[9px] sm:text-[10px] text-golf-500 font-semibold tracking-wide uppercase" style={{ opacity: 0.7 }}>赞助费</div>
+              <div className="flex justify-between items-center">
+                <span className="text-[9px] sm:text-[10px] text-golf-500 font-semibold tracking-wide uppercase" style={{ opacity: 0.7 }}>赞助费</span>
+                <span className="text-[9px] sm:text-[10px] font-medium text-golf-600">¥{(3000 + 1500 + 500).toLocaleString()}</span>
+              </div>
               <div className="flex justify-between">
                 <span className="truncate">创始人托</span>
                 <span className="font-medium">¥3,000</span>

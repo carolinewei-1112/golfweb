@@ -108,7 +108,6 @@ export const members: Member[] = [
   { id: '国弘', name: '国弘', realName: '国弘', nickname: '国弘', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/guohong.png'), background: cosUrl('/images/backgrounds/guohong.jpg') },
   { id: '康序', name: '康序', realName: '康序', nickname: '康序', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/kangxu.png') },
   { id: '颖琪', name: '颖琪', realName: '颖琪', nickname: '颖琪', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: cosUrl('/images/avatars/yingqi.png') },
-  { id: '小明', name: '小明', realName: '小明', nickname: '小明', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/xiaoming.png') },
 ];
 
 /** 球场名称 → 图片文件名映射 */
@@ -163,7 +162,7 @@ export const initialBirdieRecords: BirdieRecord[] = [
 
 // 初始会费收入记录（2026年）
 export const initialMembershipFees: MembershipFee[] = [
-  // 11位会员已缴纳1800元会费（除国弘外）
+  // 12位会员已缴纳1800元会费（含国弘）
   { id: 'F001', memberId: '新来的托', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:00.000Z' },
   { id: 'F002', memberId: '大面', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:01.000Z' },
   { id: 'F003', memberId: 'Raachael', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:02.000Z' },
@@ -174,7 +173,7 @@ export const initialMembershipFees: MembershipFee[] = [
   { id: 'F008', memberId: '纯情浩克', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:07.000Z' },
   { id: 'F009', memberId: '康序', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:08.000Z' },
   { id: 'F010', memberId: '颖琪', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:09.000Z' },
-  { id: 'F011', memberId: '小明', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:10.000Z' },
+  { id: 'F011', memberId: '国弘', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:10.000Z' },
   // 赞助
   { id: 'F012', memberId: '新来的托', amount: 3000, year: 2026, type: 'sponsor', note: '创始人托赞助', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:11.000Z' },
   { id: 'F013', memberId: '大面', amount: 1500, year: 2026, type: 'sponsor', note: '宣传委员面赞助', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:12.000Z' },

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getCourseImage } from '../data'
@@ -38,6 +39,24 @@ function StatBadge({ label, value, icon }: { label: string; value: string | numb
 
 export default function HomePage() {
   const { tournaments, games, progressRanking, getMemberById, announcements, members, birdieRecords } = useStore()
+
+  // 倒计时：比赛日期 2026-04-18
+  const matchDate = new Date('2026-04-18T08:00:00')
+  const [countdown, setCountdown] = useState(() => {
+    const diff = matchDate.getTime() - Date.now()
+    return diff > 0 ? diff : 0
+  })
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const diff = matchDate.getTime() - Date.now()
+      setCountdown(diff > 0 ? diff : 0)
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
+  const countdownDays = Math.floor(countdown / (1000 * 60 * 60 * 24))
+  const countdownHours = Math.floor((countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  const countdownMinutes = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60))
+  const countdownSeconds = Math.floor((countdown % (1000 * 60)) / 1000)
 
   const recentTournaments = [...tournaments]
     .sort((a, b) => b.date.localeCompare(a.date))
@@ -169,8 +188,14 @@ export default function HomePage() {
                 <span className="font-medium text-golf-700">广州君兰</span>
               </div>
             </div>
-            <div className="flex-shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 2px 8px rgba(46, 79, 36, 0.2)' }}>
-              即将开赛 <Icon name="golf" className="w-3.5 h-3.5 inline-block align-[-0.12em]" />
+            <div className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 2px 8px rgba(46, 79, 36, 0.2)' }}>
+              <Logo className="w-4 h-4" />
+              <span>即将开赛</span>
+              {countdown > 0 && (
+                <span className="font-mono text-[10px] sm:text-xs text-white/90">
+                  {countdownDays > 0 && `${countdownDays}天`}{String(countdownHours).padStart(2, '0')}:{String(countdownMinutes).padStart(2, '0')}:{String(countdownSeconds).padStart(2, '0')}
+                </span>
+              )}
             </div>
           </div>
         </div>

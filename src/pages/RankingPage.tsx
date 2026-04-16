@@ -291,11 +291,11 @@ export default function RankingPage() {
                   { background: '#F1F5F9' }
                 }>{r.rank}</span>
               </div>
-              <div className="col-span-3 flex items-center gap-3">
-                <img src={r.member.avatar} alt="" className="w-10 h-10 rounded-xl bg-slate-100 object-cover" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }} />
-                <div>
-                  <div className="text-sm font-semibold flex items-center gap-1" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
-                  <div className="text-xs mt-0.5" style={{ color: '#94a3b8' }}>{getMemberTee(r.member, r.gameCount)}</div>
+              <div className="col-span-3 flex items-center gap-2.5 min-w-0">
+                <img src={r.member.avatar} alt="" className="w-9 h-9 rounded-xl bg-slate-100 object-cover flex-shrink-0" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }} />
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold flex items-center gap-1 truncate" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
+                  <div className="text-xs mt-0.5 truncate" style={{ color: '#94a3b8' }}>{getMemberTee(r.member, r.gameCount)}</div>
                 </div>
               </div>
               <div className="col-span-2 flex items-center justify-center">
