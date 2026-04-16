@@ -64,7 +64,7 @@ export default function Layout() {
           <path d="M11 19v2.2M14.5 19.3v2.2" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
         </svg>
       ),
-      // 会费记录 - 钱包
+      // 会费管理 - 钱包
       finance: (
         <svg viewBox="0 0 24 24" fill="none" className={className}>
           <circle cx="16.5" cy="14" r="2" fill={accent}/>
@@ -100,8 +100,8 @@ export default function Layout() {
     { path: '/ranking', label: '排行榜', iconType: 'ranking', shortLabel: '排行' },
     { path: '/history', label: '历史比赛', iconType: 'history', shortLabel: '比赛' },
     { path: '/birdie', label: '百鸟记录', iconType: 'birdie', shortLabel: '百鸟' },
-    { path: '/finance', label: '会费记录', iconType: 'finance', shortLabel: '会费' },
-    { path: '/rules', label: '规则', iconType: 'rules', shortLabel: '规则' },
+    { path: '/finance', label: '会费管理', iconType: 'finance', shortLabel: '会费' },
+    { path: '/rules', label: '规则与奖励', iconType: 'rules', shortLabel: '规则' },
   ]
 
   const isActive = (path: string) => {

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee } from '../data'
-import { Icon } from '../components/Icons'
+import { Icon, BirdKingBadge } from '../components/Icons'
 
 type RankingType = 'handicap' | 'progress'
 
@@ -29,11 +29,18 @@ interface RankingItem {
 }
 
 export default function RankingPage() {
-  const { overallRanking, progressRanking } = useStore()
+  const { overallRanking, progressRanking, birdieRecords } = useStore()
   const [activeTab, setActiveTab] = useState<RankingType>('handicap')
 
   const isHandicapTab = activeTab === 'handicap'
   const currentRanking: RankingItem[] = isHandicapTab ? overallRanking : progressRanking
+
+  // 鸟王映射：打鸟次数前3名
+  const birdKingMap = (() => {
+    const countMap = new Map<string, number>()
+    birdieRecords.forEach(r => countMap.set(r.memberId, (countMap.get(r.memberId) || 0) + 1))
+    return new Map([...countMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id], i) => [id, i]))
+  })()
 
   return (
     <div className="animate-fade-in space-y-5 sm:space-y-7">
@@ -181,6 +188,7 @@ export default function RankingPage() {
                 <p className={`font-semibold truncate max-w-[88px] ${order === 0 ? 'text-sm sm:text-base mt-3' : 'text-xs sm:text-sm mt-2.5'}`} style={{ color: '#1e293b' }}>
                   {r.member.name}
                 </p>
+                {birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} className="mt-1" />}
 
                 {/* 数据标签 */}
                 {isHandicapTab ? (
@@ -254,7 +262,7 @@ export default function RankingPage() {
               }>{r.rank}</span>
               <img src={r.member.avatar} alt="" className="w-8 h-8 rounded-xl bg-slate-100 flex-shrink-0 object-cover" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }} />
               <div className="flex-1 min-w-0">
-                <div className="text-xs font-semibold truncate" style={{ color: '#1e293b' }}>{r.member.name}</div>
+                <div className="text-xs font-semibold truncate flex items-center gap-1" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
                 <div className="text-[10px] mt-0.5" style={{ color: '#94a3b8' }}>{getMemberTee(r.member, r.gameCount)}</div>
               </div>
               <div className={`text-right text-xs font-bold px-2.5 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
@@ -285,7 +293,7 @@ export default function RankingPage() {
               <div className="col-span-3 flex items-center gap-3">
                 <img src={r.member.avatar} alt="" className="w-10 h-10 rounded-xl bg-slate-100 object-cover" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }} />
                 <div>
-                  <div className="text-sm font-semibold" style={{ color: '#1e293b' }}>{r.member.name}</div>
+                  <div className="text-sm font-semibold flex items-center gap-1" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
                   <div className="text-xs mt-0.5" style={{ color: '#94a3b8' }}>{getMemberTee(r.member, r.gameCount)}</div>
                 </div>
               </div>

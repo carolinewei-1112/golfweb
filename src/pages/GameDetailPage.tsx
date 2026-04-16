@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee, getCourseImage, type Tournament } from '../data'
-import { Icon } from '../components/Icons'
+import { Icon, BirdKingBadge } from '../components/Icons'
 
 type Tab = 'gross' | 'putt'
 type SortBy = 'gross' | 'progress'
@@ -24,10 +24,18 @@ export default function GameDetailPage() {
     getGrossRanking, getPuttRanking,
     getProgressStar,
     getProgressScore, getMemberGames,
+    birdieRecords,
   } = useStore()
 
   const tournament = tournaments.find(t => t.id === id)
   if (!tournament || !id) return <div className="text-center py-20 text-gray-400">未找到该比赛</div>
+
+  // 鸟王映射：打鸟次数前3名
+  const birdKingMap = (() => {
+    const countMap = new Map<string, number>()
+    birdieRecords.forEach(r => countMap.set(r.memberId, (countMap.get(r.memberId) || 0) + 1))
+    return new Map([...countMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([mid], i) => [mid, i]))
+  })()
 
   const game = games.find(g => g.tournamentId === id)
   const [tab, setTab] = useState<Tab>('gross')
@@ -152,7 +160,7 @@ export default function GameDetailPage() {
           <Link to={`/member/${progressStar.member.id}`} className="flex items-center gap-3 sm:gap-4 p-2 rounded-xl hover:bg-white/60 transition-colors">
             <img src={progressStar.member.avatar} alt="" className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gray-100 shadow-sm" />
             <div>
-              <div className="text-sm sm:text-base font-bold text-gray-800">{progressStar.member.name}</div>
+              <div className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-1">{progressStar.member.name}{birdKingMap.has(progressStar.member.id) && <BirdKingBadge rank={birdKingMap.get(progressStar.member.id)!} />}</div>
               <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(progressStar.member, getMemberGames(progressStar.member.id).length)}</div>
               <div className="text-[10px] sm:text-xs text-golf-600 font-semibold mt-0.5">
                 进步系数 <span className="text-golf-500">↑{progressStar.progress}</span>
@@ -302,7 +310,7 @@ export default function GameDetailPage() {
                 <img src={item.member.avatar} alt="" className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow-sm ${isTop3 ? 'ring-2 ring-offset-1 ' + (item.rank === 1 ? 'ring-amber-300/80' : item.rank === 2 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`} />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-xs sm:text-sm font-medium text-gray-800 truncate">{item.member.name}</div>
+                <div className="text-xs sm:text-sm font-medium text-gray-800 truncate flex items-center gap-1">{item.member.name}{birdKingMap.has(item.member.id) && <BirdKingBadge rank={birdKingMap.get(item.member.id)!} />}</div>
                 <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(item.member, getMemberGames(item.member.id).length)}</div>
               </div>
               {tab === 'putt' ? (

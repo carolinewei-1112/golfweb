@@ -538,24 +538,18 @@ export function Icon({ name, className = 'w-[1em] h-[1em] inline-block align-[-0
     // ⛳ 高尔夫球 (用于奖品展示) — 真实高尔夫球：圆球+凹坑纹理+底部阴影
     golfball: (
       <svg viewBox="0 0 24 24" fill="none" className={className}>
-        {/* 底部阴影 */}
-        <ellipse cx="12" cy="20.5" rx="6" ry="1.5" fill="currentColor" opacity="0.08"/>
-        {/* 球体 */}
-        <circle cx="12" cy="11.5" r="8.5" fill="white" stroke="currentColor" strokeWidth={sw}/>
-        {/* 高光 */}
-        <ellipse cx="9" cy="8" rx="3" ry="2" fill={ac} opacity="0.35" transform="rotate(-20 9 8)"/>
-        {/* 凹坑纹理（dimples） */}
-        <circle cx="10" cy="9" r="0.7" stroke="currentColor" strokeWidth="0.6" opacity="0.4"/>
-        <circle cx="14" cy="9" r="0.7" stroke="currentColor" strokeWidth="0.6" opacity="0.4"/>
-        <circle cx="12" cy="7" r="0.7" stroke="currentColor" strokeWidth="0.6" opacity="0.4"/>
-        <circle cx="8.5" cy="12" r="0.7" stroke="currentColor" strokeWidth="0.6" opacity="0.4"/>
-        <circle cx="12" cy="11" r="0.7" stroke="currentColor" strokeWidth="0.6" opacity="0.4"/>
-        <circle cx="15.5" cy="12" r="0.7" stroke="currentColor" strokeWidth="0.6" opacity="0.4"/>
-        <circle cx="10" cy="14" r="0.7" stroke="currentColor" strokeWidth="0.6" opacity="0.4"/>
-        <circle cx="14" cy="14" r="0.7" stroke="currentColor" strokeWidth="0.6" opacity="0.4"/>
-        <circle cx="12" cy="16" r="0.7" stroke="currentColor" strokeWidth="0.6" opacity="0.4"/>
-        <circle cx="9" cy="16.5" r="0.6" stroke="currentColor" strokeWidth="0.5" opacity="0.3"/>
-        <circle cx="15" cy="16.5" r="0.6" stroke="currentColor" strokeWidth="0.5" opacity="0.3"/>
+        {/* 球体外圈 */}
+        <circle cx="12" cy="12" r="9.5" fill="currentColor" opacity="0.15"/>
+        <circle cx="12" cy="12" r="9.5" stroke="currentColor" strokeWidth="1.5"/>
+        {/* 镂空凹坑 - 大圆点，清晰可见 */}
+        <circle cx="12" cy="6.5" r="1.4" fill="currentColor" opacity="0.5"/>
+        <circle cx="8" cy="9" r="1.4" fill="currentColor" opacity="0.5"/>
+        <circle cx="16" cy="9" r="1.4" fill="currentColor" opacity="0.5"/>
+        <circle cx="12" cy="12" r="1.4" fill="currentColor" opacity="0.5"/>
+        <circle cx="7.5" cy="13.5" r="1.2" fill="currentColor" opacity="0.4"/>
+        <circle cx="16.5" cy="13.5" r="1.2" fill="currentColor" opacity="0.4"/>
+        <circle cx="10" cy="16.5" r="1.2" fill="currentColor" opacity="0.4"/>
+        <circle cx="14" cy="16.5" r="1.2" fill="currentColor" opacity="0.4"/>
       </svg>
     ),
   }

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getCourseImage } from '../data'
 import type { ReactNode } from 'react'
-import { Icon, Logo, ClubBrand } from '../components/Icons'
+import { Icon, Logo, ClubBrand, BirdKingBadge } from '../components/Icons'
 
 function Card({ to, icon, title, children, accent }: {
   to: string; icon: ReactNode; title: string; children: ReactNode; accent?: string
@@ -48,6 +48,13 @@ export default function HomePage() {
     .sort((a, b) => b.number - a.number)
     .slice(0, 3)
 
+  // 鸟王映射：打鸟次数前3名
+  const birdKingMap = (() => {
+    const countMap = new Map<string, number>()
+    birdieRecords.forEach(r => countMap.set(r.memberId, (countMap.get(r.memberId) || 0) + 1))
+    return new Map([...countMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id], i) => [id, i]))
+  })()
+
   return (
     <div className="space-y-5 sm:space-y-7 animate-fade-in">
       {/* Hero Banner - 全幅插画背景 + 叠加文字 */}
@@ -88,15 +95,15 @@ export default function HomePage() {
               百鸟会
             </h1>
             <p className="text-sm sm:text-base text-white/80 mt-2 sm:mt-3 leading-relaxed max-w-[280px] sm:max-w-[360px] drop-shadow-md" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3)' }}>
-              高尔夫会员比赛与成绩管理<br/>记录每一次挥杆时刻
+              高尔夫会员 记录每次挥杆时刻
             </p>
             {/* 百鸟进度条 */}
             <div className="mt-3 sm:mt-4 flex items-center gap-2.5 max-w-[240px] sm:max-w-[300px]">
               <div className="flex-1 rounded-full h-1.5 overflow-hidden" style={{ background: 'rgba(255, 255, 255, 0.2)' }}>
                 <div className="h-full rounded-full" style={{ width: `${Math.min((birdieRecords.length / 100) * 100, 100)}%`, background: '#c5e84d', boxShadow: '0 0 8px rgba(197, 232, 77, 0.5)' }} />
               </div>
-              <span className="text-[10px] sm:text-xs font-bold" style={{ color: '#c5e84d', textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}>
-                <Icon name="bird" className="w-3.5 h-3.5 inline-block align-[-0.12em]" /> {birdieRecords.length}/100
+              <span className="text-[10px] sm:text-xs font-bold whitespace-nowrap" style={{ color: '#c5e84d', textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}>
+                百鸟进度 <Icon name="bird" className="w-3.5 h-3.5 inline-block align-[-0.12em]" /> {birdieRecords.length}/100
               </span>
             </div>
           </div>
@@ -244,7 +251,7 @@ export default function HomePage() {
                   )}
                   <img src={r.member.avatar} alt="" className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gray-100 shadow-sm ${isTop3 ? 'ring-2 ring-offset-1 ' + (r.rank === 1 ? 'ring-amber-300/80' : r.rank === 2 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`} />
                 </div>
-                <span className="flex-1 text-xs sm:text-sm font-medium text-gray-700 truncate">{r.member.name}</span>
+                <span className="flex-1 text-xs sm:text-sm font-medium text-gray-700 truncate flex items-center gap-1">{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</span>
                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                   r.latestProgress >= 0 
                     ? 'text-golf-700 bg-golf-50' 
@@ -295,7 +302,7 @@ export default function HomePage() {
                     {member && (
                       <img src={member.avatar} alt={member.name} className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gray-100 flex-shrink-0 shadow-sm" />
                     )}
-                    <span className="flex-1 text-xs sm:text-sm font-medium text-gray-700 truncate">{member?.name || '未知'}</span>
+                    <span className="flex-1 text-xs sm:text-sm font-medium text-gray-700 truncate flex items-center gap-1">{member?.name || '未知'}{member && birdKingMap.has(member.id) && <BirdKingBadge rank={birdKingMap.get(member.id)!} />}</span>
                     {record.location && record.location !== '-' && (
                       <span className="text-[10px] sm:text-xs text-gray-400 px-2 py-0.5 rounded-full truncate max-w-[80px] sm:max-w-[100px]" style={{ background: 'rgba(221, 228, 213, 0.4)' }}>
                         {record.location}

@@ -55,6 +55,54 @@ export default function HistoryPage() {
         </div>
       </div>
 
+      {/* 本月月赛预告 */}
+      <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl card-shadow group" style={{ background: 'rgba(255,255,255,0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.5)' }}>
+        {/* 球场头图 */}
+        <div className="h-40 sm:h-52 overflow-hidden relative">
+          <img
+            src="/images/courses/guangzhou-junlan-preview.jpg"
+            alt="广州君兰高尔夫球场"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          {/* 左上角标签 */}
+          <div className="absolute top-3 sm:top-4 left-3 sm:left-4">
+            <span className="px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold text-white flex items-center gap-1" style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', boxShadow: '0 2px 8px rgba(245, 158, 11, 0.4)' }}>
+              <span className="animate-pulse">📢</span> 本月月赛预告
+            </span>
+          </div>
+          {/* 右上角倒计时 */}
+          <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
+            <span className="px-2.5 py-1.5 rounded-xl text-[10px] sm:text-xs text-white font-medium" style={{ background: 'rgba(0, 0, 0, 0.35)', backdropFilter: 'blur(8px)' }}>
+              4月18日
+            </span>
+          </div>
+          {/* 底部信息 */}
+          <div className="absolute bottom-3 sm:bottom-4 left-4 sm:left-5 text-white">
+            <h3 className="text-xl sm:text-2xl font-bold drop-shadow-lg">4月月赛</h3>
+            <p className="text-xs sm:text-sm text-white/90 drop-shadow-sm mt-0.5">广州君兰高尔夫球场</p>
+          </div>
+        </div>
+        {/* 底部详情 */}
+        <div className="p-4 sm:p-5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm flex-wrap">
+              <div className="px-2.5 py-1.5 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(245, 158, 11, 0.1)' }}>
+                <Icon name="clipboard" className="w-3.5 h-3.5 text-amber-600" />
+                <span className="font-semibold text-amber-700">2025年4月18日</span>
+              </div>
+              <div className="px-2.5 py-1.5 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(221, 228, 213, 0.6)' }}>
+                <Icon name="pin" className="w-3.5 h-3.5 text-golf-600" />
+                <span className="font-medium text-golf-700">广州君兰</span>
+              </div>
+            </div>
+            <div className="flex-shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 2px 8px rgba(46, 79, 36, 0.2)' }}>
+              即将开赛 ⛳
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* 年份筛选 Tab */}
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button

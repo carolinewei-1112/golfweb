@@ -1,10 +1,17 @@
 import { useState } from 'react'
 import { useStore } from '../store'
-import { Icon } from '../components/Icons'
+import { Icon, BirdKingBadge } from '../components/Icons'
 
 export default function FinancePage() {
-  const { members, tournaments, membershipFees, expenses } = useStore()
+  const { members, tournaments, membershipFees, expenses, birdieRecords } = useStore()
   const [activeTab, setActiveTab] = useState<'income' | 'expense'>('income')
+
+  // 鸟王映射：打鸟次数前3名
+  const birdKingMap = (() => {
+    const countMap = new Map<string, number>()
+    birdieRecords.forEach(r => countMap.set(r.memberId, (countMap.get(r.memberId) || 0) + 1))
+    return new Map([...countMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id], i) => [id, i]))
+  })()
 
   // 统计
   const totalIncome = membershipFees.reduce((sum, f) => sum + f.amount, 0)
@@ -31,7 +38,7 @@ export default function FinancePage() {
         </div>
         <div className="relative">
           <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2 text-white drop-shadow-md">
-            <span className="text-xl sm:text-2xl"><Icon name="income" className="w-6 h-6" /></span> 会费记录
+            <span className="text-xl sm:text-2xl"><Icon name="income" className="w-6 h-6" /></span> 会费管理
           </h1>
           <p className="text-xs sm:text-sm mt-1.5 text-white/85 drop-shadow-sm">查看会费和比赛支出</p>
         </div>
@@ -52,8 +59,8 @@ export default function FinancePage() {
           {/* 收入构成 */}
           <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t text-[10px] sm:text-xs text-golf-600 space-y-0.5 sm:space-y-1" style={{ borderColor: 'rgba(184, 204, 170, 0.4)' }}>
             <div className="flex justify-between">
-              <span className="truncate">12位会员</span>
-              <span className="font-medium">¥{1800 * 12}</span>
+              <span className="truncate">12位会员 × ¥1,800</span>
+              <span className="font-medium">¥{(1800 * 12).toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
               <span className="truncate">托赞助</span>
@@ -136,7 +143,7 @@ export default function FinancePage() {
                     <img src={member.avatar} alt={member.name} className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex-shrink-0 shadow-sm" />
                   )}
                   <div className="min-w-0">
-                    <div className="text-xs sm:text-sm font-medium truncate">{member?.name || '未知'}</div>
+                    <div className="text-xs sm:text-sm font-medium truncate flex items-center gap-1">{member?.name || '未知'}{member && birdKingMap.has(member.id) && <BirdKingBadge rank={birdKingMap.get(member.id)!} />}</div>
                     <div className="text-[10px] sm:text-xs text-gray-400 truncate">
                       {fee.year}年 · {fee.type === 'sponsor' ? '赞助' : '会费'}
                       {fee.paymentDate && ` · 缴费:${fee.paymentDate}`}
