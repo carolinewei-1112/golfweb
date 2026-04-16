@@ -63,12 +63,16 @@ export default function FinancePage() {
               <span className="font-medium">¥{(1800 * 12).toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
-              <span className="truncate">托赞助</span>
-              <span className="font-medium">¥3000</span>
+              <span className="truncate">创始人托赞助</span>
+              <span className="font-medium">¥3,000</span>
             </div>
             <div className="flex justify-between">
-              <span className="truncate">面赞助</span>
-              <span className="font-medium">¥1500</span>
+              <span className="truncate">宣传委员面赞助</span>
+              <span className="font-medium">¥1,500</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="truncate">白会长赞助</span>
+              <span className="font-medium">¥500</span>
             </div>
           </div>
         </div>

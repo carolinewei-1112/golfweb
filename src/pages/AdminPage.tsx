@@ -1344,7 +1344,7 @@ function FinanceManager() {
         amount: 3000,
         year: 2026,
         type: 'sponsor',
-        note: '2026年赞助',
+        note: '创始人托赞助',
         paymentDate: new Date().toISOString().slice(0, 10),
         validityPeriod: '2026年4月 - 2027年4月',
       })
@@ -1356,7 +1356,19 @@ function FinanceManager() {
         amount: 1500,
         year: 2026,
         type: 'sponsor',
-        note: '2026年赞助',
+        note: '宣传委员面赞助',
+        paymentDate: new Date().toISOString().slice(0, 10),
+        validityPeriod: '2026年4月 - 2027年4月',
+      })
+      added++
+    }
+    if (!year2026Fees.some(f => f.memberId === '白会长' && f.type === 'sponsor')) {
+      addMembershipFee({
+        memberId: '白会长',
+        amount: 500,
+        year: 2026,
+        type: 'sponsor',
+        note: '白会长赞助',
         paymentDate: new Date().toISOString().slice(0, 10),
         validityPeriod: '2026年4月 - 2027年4月',
       })
@@ -1415,7 +1427,7 @@ function FinanceManager() {
           <div className="bg-blue-50 rounded-xl p-4 mb-4 border border-blue-100">
             <h3 className="text-sm font-bold text-gray-700 mb-2">2026年会费批量录入</h3>
             <p className="text-xs text-gray-500 mb-3">
-              12个会员人均1800元 + 新来的托赞助3000元 + 面赞助1500元
+              12个会员人均1800元 + 创始人托赞助3000元 + 宣传委员面赞助1500元 + 白会长赞助500元
             </p>
             <button
               onClick={handleBatchAdd2026}
