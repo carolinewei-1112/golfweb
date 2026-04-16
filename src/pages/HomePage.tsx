@@ -170,6 +170,12 @@ export default function HomePage() {
               <Icon name="megaphone" className="w-3.5 h-3.5" /> 本月月赛预告
             </span>
           </div>
+          <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
+            <span className="px-2.5 py-1.5 rounded-full text-[10px] sm:text-xs font-semibold text-white/95 flex items-center gap-1.5 backdrop-blur-sm" style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.2)' }}>
+              <Icon name="clipboard" className="w-3 h-3" />
+              2026年4月18日
+            </span>
+          </div>
 
           <div className="absolute bottom-3 sm:bottom-4 left-4 sm:left-5 text-white">
             <h3 className="text-xl sm:text-2xl font-bold drop-shadow-lg">4月月赛</h3>
@@ -183,13 +189,9 @@ export default function HomePage() {
                 <Icon name="pin" className="w-3.5 h-3.5 text-golf-600" />
                 <span className="font-medium text-golf-700">广州君兰</span>
               </div>
-              <div className="px-2.5 py-1.5 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(245, 158, 11, 0.1)' }}>
-                <Icon name="clipboard" className="w-3.5 h-3.5 text-amber-600" />
-                <span className="font-semibold text-amber-700">2026年4月18日</span>
-              </div>
             </div>
             <div className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 2px 8px rgba(46, 79, 36, 0.2)' }}>
-              <img src="https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/logos/logo-cartoon.png" alt="百鸟会" className="w-5 h-5 rounded-full object-cover" />
+              <Icon name="golf" className="w-4.5 h-4.5 text-white" />
               <span>即将开赛</span>
               {countdown > 0 && (
                 <span className="font-mono text-[10px] sm:text-xs text-white/90">
@@ -205,7 +207,7 @@ export default function HomePage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-stretch">
         {/* 历史比赛入口 */}
         <Card to="/history" icon={<Icon name="clipboard" className="w-5 h-5" />} title="近期比赛">
-          <div className="space-y-3">
+          <div className="space-y-4 sm:space-y-5">
             {recentTournaments.slice(0, 3).map(t => {
               const monthMatch = t.name.match(/(\d+)月/)
               const monthLabel = monthMatch ? `${monthMatch[1]}月` : t.name
@@ -227,7 +229,7 @@ export default function HomePage() {
               return (
                 <div key={t.id} className="group">
                   {/* 球场头图 */}
-                  <div className="h-16 sm:h-20 rounded-xl overflow-hidden mb-2 relative">
+                  <div className="h-24 sm:h-32 rounded-xl overflow-hidden mb-2.5 relative">
                     <img
                       src={imageUrl}
                       alt={t.courseName}
@@ -237,17 +239,17 @@ export default function HomePage() {
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                    <div className="absolute bottom-1.5 left-2.5 text-white">
-                      <span className="text-xs font-medium truncate max-w-[140px] block drop-shadow-sm">{t.courseName}</span>
+                    <div className="absolute bottom-2 left-3 text-white">
+                      <span className="text-sm sm:text-base font-semibold truncate max-w-[180px] block drop-shadow-sm">{t.courseName}</span>
                     </div>
                     {/* 参赛人数 badge */}
-                    <div className="absolute top-1.5 right-2 rounded-full px-2 py-0.5 text-white text-[10px] sm:text-xs font-medium" style={{ background: 'rgba(0, 0, 0, 0.4)', backdropFilter: 'blur(4px)' }}>
+                    <div className="absolute top-2 right-2.5 rounded-full px-2.5 py-1 text-white text-[10px] sm:text-xs font-medium" style={{ background: 'rgba(0, 0, 0, 0.4)', backdropFilter: 'blur(4px)' }}>
                       <Icon name="people" className="w-3.5 h-3.5 inline-block align-[-0.1em]" /> {participantCount}人
                     </div>
                   </div>
-                  <div className="flex items-center justify-between py-0.5">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <div className="text-xs sm:text-sm font-bold text-gray-800">{monthLabel}</div>
+                  <div className="flex items-center justify-between py-1">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="text-sm sm:text-base font-bold text-gray-800">{monthLabel}</div>
                       {/* 参赛会员头像 */}
                       {participantAvatars.length > 0 && (
                         <div className="flex -space-x-1.5">
@@ -256,11 +258,11 @@ export default function HomePage() {
                               key={idx}
                               src={avatar}
                               alt=""
-                              className="w-5 h-5 sm:w-5.5 sm:h-5.5 rounded-full border-2 border-white bg-gray-100 shadow-sm"
+                              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-white bg-gray-100 shadow-sm"
                             />
                           ))}
                           {participantCount > 2 && (
-                            <div className="w-5 h-5 sm:w-5.5 sm:h-5.5 rounded-full border-2 border-white flex items-center justify-center text-[10px] text-golf-700 font-medium shadow-sm" style={{ background: '#f0f3ec' }}>
+                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-white flex items-center justify-center text-[10px] sm:text-xs text-golf-700 font-medium shadow-sm" style={{ background: '#f0f3ec' }}>
                               +{participantCount - 2}
                             </div>
                           )}
@@ -268,8 +270,8 @@ export default function HomePage() {
                       )}
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <div className="text-[10px] sm:text-xs text-gray-400">{t.date}</div>
-                      <div className="text-[10px] sm:text-xs text-gray-400 hidden sm:block">S {t.slope} / R {t.rating}</div>
+                      <div className="text-xs sm:text-sm text-gray-400">{t.date}</div>
+                      <div className="text-xs sm:text-sm text-gray-400 hidden sm:block">S {t.slope} / R {t.rating}</div>
                     </div>
                   </div>
                 </div>

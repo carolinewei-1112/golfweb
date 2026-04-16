@@ -236,23 +236,21 @@ export function Icon({ name, className = 'w-[1em] h-[1em] inline-block align-[-0
       </svg>
     ),
 
-    // 💵 纸币(收入)
+    // ➕ 收入(加号圆圈)
     income: (
       <svg viewBox="0 0 24 24" fill="none" className={className}>
-        <rect x="2" y="5.5" width="20" height="13" rx="2.5" fill={ac} opacity="0.2"/>
-        <rect x="2" y="5.5" width="20" height="13" rx="2.5" stroke="currentColor" strokeWidth={sw}/>
-        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth={sw}/>
-        <path d="M11 11.5h2.2M12 10.5v3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+        <circle cx="12" cy="12" r="10" fill={ac} opacity="0.18"/>
+        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={sw}/>
+        <path d="M12 7.5v9M7.5 12h9" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
       </svg>
     ),
 
-    // 💸 飞走的钱(支出)
+    // ➖ 支出(减号圆圈)
     expense: (
       <svg viewBox="0 0 24 24" fill="none" className={className}>
-        <rect x="2" y="5.5" width="20" height="13" rx="2.5" stroke="currentColor" strokeWidth={sw}/>
-        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth={sw}/>
-        <path d="M11 11.5h2.2M12 10.5v3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-        <path d="M18 4l2.5-1.5M19 3.5l1.5 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+        <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.1"/>
+        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={sw}/>
+        <path d="M7.5 12h9" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
       </svg>
     ),
 

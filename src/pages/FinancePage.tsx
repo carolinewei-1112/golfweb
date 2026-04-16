@@ -63,12 +63,11 @@ export default function FinancePage() {
           </div>
           <div className="flex-1 rounded-xl px-3 py-2 text-center" style={{ background: 'rgba(240, 243, 236, 0.6)', border: '1px solid rgba(184, 204, 170, 0.25)' }}>
             <div className="text-[9px] sm:text-[10px] text-gray-400">有效期</div>
-            <div className="text-sm sm:text-base font-bold text-gray-700">12个月</div>
-            <div className="text-[8px] sm:text-[9px] text-gray-400 -mt-0.5">2026年4月 - 2027年3月</div>
+            <div className="text-sm sm:text-base font-bold text-gray-700">1年</div>
+            <div className="text-[8px] sm:text-[9px] text-gray-400 -mt-0.5">2026年4月 - 2027年4月</div>
           </div>
         </div>
         <div className="mt-2 text-[10px] sm:text-xs text-gray-400 flex items-center gap-1">
-          <span className="text-purple-400"><Icon name="bulb" className="w-3 h-3 inline-block align-[-0.1em]" /></span>
           用于安排每次月赛聚餐+奖金+奖品，支出明细可查看【支出记录】
         </div>
       </div>
@@ -80,18 +79,18 @@ export default function FinancePage() {
           backdropFilter: 'blur(12px)',
           border: '1px solid rgba(184, 204, 170, 0.3)',
         }}>
-          <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2">
-            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-xs sm:text-sm" style={{ background: 'rgba(78, 126, 58, 0.1)' }}><Icon name="income" className="w-4 h-4" /></div>
-            <span className="text-[10px] sm:text-xs text-golf-600 font-medium">总收入</span>
+          <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(78, 126, 58, 0.1)' }}><Icon name="income" className="w-4 h-4 sm:w-5 sm:h-5" /></div>
+            <span className="text-xs sm:text-sm text-golf-600 font-medium">总收入</span>
           </div>
-          <div className="text-sm sm:text-xl font-bold text-golf-700">¥{totalIncome.toLocaleString()}</div>
+          <div className="text-lg sm:text-2xl font-bold text-golf-700">¥{totalIncome.toLocaleString()}</div>
           {/* 收入构成 */}
-          <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t text-[10px] sm:text-xs text-golf-600 space-y-1.5 sm:space-y-2" style={{ borderColor: 'rgba(184, 204, 170, 0.4)' }}>
+          <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t text-xs sm:text-sm text-golf-600 space-y-2.5 sm:space-y-3" style={{ borderColor: 'rgba(184, 204, 170, 0.4)' }}>
             {/* 会费 */}
-            <div className="space-y-0.5">
+            <div className="space-y-1">
               <div className="flex justify-between items-center">
-                <span className="text-[9px] sm:text-[10px] text-golf-500 font-semibold tracking-wide uppercase" style={{ opacity: 0.7 }}>会费</span>
-                <span className="text-[9px] sm:text-[10px] font-medium text-golf-600">¥{(1800 * 11).toLocaleString()}</span>
+                <span className="text-[10px] sm:text-xs text-golf-500 font-semibold tracking-wide" style={{ opacity: 0.7 }}>会费</span>
+                <span className="text-[10px] sm:text-xs font-semibold text-golf-600">¥{(1800 * 11).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="truncate">会员 × ¥1,800</span>
@@ -99,10 +98,10 @@ export default function FinancePage() {
               </div>
             </div>
             {/* 赞助费 */}
-            <div className="space-y-0.5 pt-1 sm:pt-1.5 border-t" style={{ borderColor: 'rgba(184, 204, 170, 0.25)' }}>
+            <div className="space-y-1 pt-2 sm:pt-2.5 border-t" style={{ borderColor: 'rgba(184, 204, 170, 0.25)' }}>
               <div className="flex justify-between items-center">
-                <span className="text-[9px] sm:text-[10px] text-golf-500 font-semibold tracking-wide uppercase" style={{ opacity: 0.7 }}>赞助费</span>
-                <span className="text-[9px] sm:text-[10px] font-medium text-golf-600">¥{(3000 + 1500 + 500).toLocaleString()}</span>
+                <span className="text-[10px] sm:text-xs text-golf-500 font-semibold tracking-wide" style={{ opacity: 0.7 }}>赞助费</span>
+                <span className="text-[10px] sm:text-xs font-semibold text-golf-600">¥{(3000 + 1500 + 500).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="truncate">创始人-托</span>
