@@ -141,7 +141,7 @@ export default function HomePage() {
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl card-shadow group" style={{ background: 'rgba(255,255,255,0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.5)' }}>
         <div className="h-40 sm:h-52 overflow-hidden relative">
           <img
-            src="/images/courses/guangzhou-junlan-preview.jpg"
+            src="/images/courses/junlan-aerial-island.png"
             alt="广州君兰高尔夫球场"
             className="w-full h-full object-cover"
           />
