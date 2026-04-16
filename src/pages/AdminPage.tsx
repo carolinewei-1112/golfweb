@@ -3,6 +3,7 @@ import { useStore } from '../store'
 import type { ScoreEntry } from '../data'
 import { getMemberTee, getCourseImage } from '../data'
 import type { Course } from '../courses'
+import { Icon } from '../components/Icons'
 import { searchCourses } from '../courses'
 import { Link } from 'react-router-dom'
 
@@ -64,7 +65,7 @@ function MemberManager() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-base font-bold text-gray-800">👥 会员管理（{members.length} 人）</h2>
+        <h2 className="text-base font-bold text-gray-800"><Icon name="people" className="w-5 h-5 inline-block align-[-0.15em]" /> 会员管理（{members.length} 人）</h2>
         <button
           onClick={() => { resetForm(); setShowForm(!showForm) }}
           className="px-4 py-1.5 bg-golf-700 text-white rounded-lg text-sm hover:bg-golf-800 transition-colors"
@@ -323,7 +324,7 @@ function TournamentCreator() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-base font-bold text-gray-800">🏟️ 发布比赛（共 {tournaments.length} 场）</h2>
+        <h2 className="text-base font-bold text-gray-800"><Icon name="stadium" className="w-5 h-5 inline-block align-[-0.15em]" /> 发布比赛（共 {tournaments.length} 场）</h2>
         <button
           onClick={() => editingId ? handleCancel() : setShowForm(!showForm)}
           className="px-4 py-1.5 bg-golf-700 text-white rounded-lg text-sm hover:bg-golf-800 transition-colors"
@@ -619,7 +620,7 @@ function ScoreInput() {
 
   return (
     <div>
-      <h2 className="text-base font-bold text-gray-800 mb-4">✏️ 成绩录入</h2>
+      <h2 className="text-base font-bold text-gray-800 mb-4"><Icon name="pencil" className="w-5 h-5 inline-block align-[-0.15em]" /> 成绩录入</h2>
 
       {/* 选择比赛 */}
       <div className="mb-4">
@@ -727,7 +728,7 @@ function ScoreInput() {
       {/* 打鸟录入 */}
       {entries.length > 0 && (
         <div className="mb-4">
-          <label className="text-xs text-gray-500 mb-2 block">🐦 打鸟录入（非必填）</label>
+          <label className="text-xs text-gray-500 mb-2 block"><Icon name="bird" className="w-3.5 h-3.5 inline-block align-[-0.1em]" /> 打鸟录入（非必填）</label>
 
           {/* 已录入的打鸟记录 */}
           {birdieEntries.length > 0 && (
@@ -817,7 +818,7 @@ function ScoreInput() {
         {/* 上传按钮 */}
         <label className="flex items-center justify-center w-full h-20 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-golf-500 hover:bg-golf-50 transition-colors">
           <div className="text-center">
-            <div className="text-2xl mb-1">📷</div>
+            <div className="text-2xl mb-1"><Icon name="camera" className="w-7 h-7 mx-auto" /></div>
             <div className="text-xs text-gray-500">点击上传比赛照片</div>
           </div>
           <input
@@ -871,11 +872,11 @@ function PasswordGate({ children }: { children: React.ReactNode }) {
 
   if (!isVerified) {
     return (
-      <div className="text-center py-20">
-        <div className="text-6xl mb-4">🔒</div>
+      <div className="flex flex-col items-center justify-center min-h-[60vh]">
+        <Icon name="lock" className="w-16 h-16 mb-4 block" />
         <h2 className="text-lg font-bold text-gray-800 mb-2">管理后台</h2>
         <p className="text-gray-500 mb-6">请输入密码以进入管理页面</p>
-        <form onSubmit={handleSubmit} className="max-w-xs mx-auto space-y-3">
+        <form onSubmit={handleSubmit} className="w-full max-w-xs space-y-3">
           <input
             type="password"
             value={password}
@@ -885,7 +886,7 @@ function PasswordGate({ children }: { children: React.ReactNode }) {
             autoFocus
           />
           {error && (
-            <div className="text-sm text-red-500">{error}</div>
+            <div className="text-sm text-red-500 text-center">{error}</div>
           )}
           <button
             type="submit"
@@ -905,7 +906,7 @@ function PasswordGate({ children }: { children: React.ReactNode }) {
           onClick={handleLogout}
           className="text-xs text-gray-400 hover:text-gray-600"
         >
-          🔓 退出管理
+          <Icon name="unlock" className="w-4 h-4 inline-block align-[-0.1em]" /> 退出管理
         </button>
       </div>
       {children}
@@ -918,18 +919,18 @@ export default function AdminPage() {
   const [tab, setTab] = useState<AdminTab>('tournament')
 
   const tabs: { key: AdminTab; label: string; icon: string }[] = [
-    { key: 'tournament', label: '发布比赛', icon: '🏟️' },
-    { key: 'scores', label: '成绩录入', icon: '✏️' },
-    { key: 'members', label: '会员管理', icon: '👥' },
-    { key: 'announcement', label: '公告管理', icon: '📢' },
-    { key: 'birdie', label: '百鸟记录', icon: '🐦' },
-    { key: 'finance', label: '会费记录', icon: '💰' },
+    { key: 'tournament', label: '发布比赛', icon: 'stadium' },
+    { key: 'scores', label: '成绩录入', icon: 'pencil' },
+    { key: 'members', label: '会员管理', icon: 'people' },
+    { key: 'announcement', label: '公告管理', icon: 'megaphone' },
+    { key: 'birdie', label: '百鸟记录', icon: 'bird' },
+    { key: 'finance', label: '会费记录', icon: 'moneybag' },
   ]
 
   return (
     <PasswordGate>
       <div className="animate-fade-in">
-        <h1 className="text-xl font-bold text-gray-900 mb-1">🔧 管理后台</h1>
+        <h1 className="text-xl font-bold text-gray-900 mb-1"><Icon name="wrench" className="w-5 h-5 inline-block align-[-0.15em]" /> 管理后台</h1>
         <p className="text-sm text-gray-500 mb-6">录入成绩、维护会员名单、发布比赛</p>
 
         <div className="flex gap-2 mb-6 overflow-x-auto pb-1">
@@ -942,9 +943,9 @@ export default function AdminPage() {
                   ? 'text-white shadow-sm'
                   : 'text-gray-600 hover:bg-white/80 border border-white/50'
               }`}
-              style={tab === t.key ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+              style={tab === t.key ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
             >
-              {t.icon} {t.label}
+              <Icon name={t.icon} className="w-4 h-4 inline-block align-[-0.15em]" /> {t.label}
             </button>
           ))}
         </div>
@@ -1020,7 +1021,7 @@ function BirdieRecordManager() {
 
   return (
     <div>
-      <h2 className="text-base font-bold text-gray-800 mb-4">🐦 百鸟记录管理</h2>
+      <h2 className="text-base font-bold text-gray-800 mb-4"><Icon name="bird" className="w-5 h-5 inline-block align-[-0.15em]" /> 百鸟记录管理</h2>
 
       {/* 进度 */}
       <div className="bg-golf-50 rounded-xl p-4 mb-4">
@@ -1065,8 +1066,8 @@ function BirdieRecordManager() {
               onChange={e => setForm({ ...form, type: e.target.value as 'simulator' | 'course' })}
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-golf-500"
             >
-              <option value="course">🏌️ 球场</option>
-              <option value="simulator">🎯 模拟器</option>
+              <option value="course">球场</option>
+              <option value="simulator">模拟器</option>
             </select>
           </div>
           <div>
@@ -1155,8 +1156,8 @@ function BirdieRecordManager() {
                     <span className="text-sm font-medium">{member?.name || '未知'}</span>
                   </div>
                   <div className="text-xs text-gray-400">
-                    {record.type === 'simulator' && <span className="mr-1">🎯 模拟器</span>}
-                    {record.location && record.location !== '-' && `📍 ${record.location}`}
+                    {record.type === 'simulator' && <span className="mr-1">模拟器</span>}
+                    {record.location && record.location !== '-' && <><Icon name="pin" className="w-3 h-3 inline-block" /> {record.location}</>}
                     {record.date && ((record.location && record.location !== '-') ? ` · ${record.date}` : record.date)}
                     {record.hole && ` · 第${record.hole}洞`}
                   </div>
@@ -1202,7 +1203,7 @@ function AnnouncementManager() {
 
   return (
     <div>
-      <h2 className="text-base font-bold text-gray-800 mb-4">📢 公告管理</h2>
+      <h2 className="text-base font-bold text-gray-800 mb-4"><Icon name="megaphone" className="w-5 h-5 inline-block align-[-0.15em]" /> 公告管理</h2>
 
       {/* 添加公告 */}
       <div className="bg-golf-50 rounded-xl p-4 mb-4">
@@ -1366,7 +1367,7 @@ function FinanceManager() {
 
   return (
     <div>
-      <h2 className="text-base font-bold text-gray-800 mb-4">💰 会费管理</h2>
+      <h2 className="text-base font-bold text-gray-800 mb-4"><Icon name="moneybag" className="w-5 h-5 inline-block align-[-0.15em]" /> 会费管理</h2>
 
       {/* 统计卡片 */}
       <div className="grid grid-cols-3 gap-3 mb-4">
@@ -1394,7 +1395,7 @@ function FinanceManager() {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          💵 收入记录
+          <Icon name="income" className="w-4 h-4 inline-block align-[-0.1em]" /> 收入记录
         </button>
         <button
           onClick={() => setActiveTab('expense')}
@@ -1404,7 +1405,7 @@ function FinanceManager() {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          💸 支出记录
+          <Icon name="expense" className="w-4 h-4 inline-block align-[-0.1em]" /> 支出记录
         </button>
       </div>
 
@@ -1578,9 +1579,9 @@ function FinanceManager() {
                   onChange={e => setExpenseForm({ ...expenseForm, category: e.target.value as 'meal' | 'prize' | 'other' })}
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-golf-500"
                 >
-                  <option value="meal">🍽️ 吃饭</option>
-                  <option value="prize">🎁 奖品</option>
-                  <option value="other">📦 其他</option>
+                  <option value="meal">吃饭</option>
+                  <option value="prize">奖品</option>
+                  <option value="other">其他</option>
                 </select>
               </div>
               <div>
@@ -1629,7 +1630,7 @@ function FinanceManager() {
             )}
             {[...expenses].sort((a, b) => b.createTime.localeCompare(a.createTime)).map(expense => {
               const tournament = tournaments.find(t => t.id === expense.tournamentId)
-              const categoryLabels = { meal: '🍽️ 吃饭', prize: '🎁 奖品', other: '📦 其他' }
+              const categoryLabels = { meal: '吃饭', prize: '奖品', other: '其他' }
               return (
                 <div key={expense.id} className="bg-white rounded-xl border border-gray-100 p-3 flex items-center justify-between">
                   <div>

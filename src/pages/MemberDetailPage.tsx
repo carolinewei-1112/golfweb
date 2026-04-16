@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee, getCourseImage } from '../data'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { Icon } from '../components/Icons'
 
 // 判断是否记录推杆数（2026年4月及以后的比赛才记录推杆，3月及以前不记录）
 function hasPuttData(date: string): boolean {
@@ -85,7 +86,7 @@ export default function MemberDetailPage() {
         {/* 内容区域 */}
         <div className="relative p-5 sm:p-7 text-white">
           <div className="flex items-center gap-3 sm:gap-5">
-            <div className="relative p-0.5 rounded-full shadow-xl" style={{ background: 'linear-gradient(135deg, #3bb873, #1d8f4e)' }}>
+            <div className="relative p-0.5 rounded-full shadow-xl" style={{ background: 'linear-gradient(135deg, #6a9e56, #4e7e3a)' }}>
               <img src={member.avatar} alt="" className="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-gray-100 border-2 sm:border-3 border-white" />
             </div>
             <div className="flex-1 min-w-0">
@@ -120,7 +121,7 @@ export default function MemberDetailPage() {
       {chartData.length > 0 && (
         <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
           <h2 className="text-sm sm:text-base font-bold text-gray-800 mb-4 sm:mb-5 flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>📈</div>
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(78, 126, 58, 0.1)' }}><Icon name="trending" className="w-4 h-4" /></div>
             杆数变化趋势
           </h2>
           <div className="h-48 sm:h-64">
@@ -137,7 +138,7 @@ export default function MemberDetailPage() {
                   }}
                   labelFormatter={(_label: any, payload: any) => payload?.[0]?.payload?.name ?? ''}
                 />
-                <Line type="monotone" dataKey="gross" stroke="#1d8f4e" strokeWidth={2.5} dot={{ r: 4, fill: '#1d8f4e', strokeWidth: 2, stroke: '#fff' }} name="总杆数" />
+                <Line type="monotone" dataKey="gross" stroke="#4e7e3a" strokeWidth={2.5} dot={{ r: 4, fill: '#4e7e3a', strokeWidth: 2, stroke: '#fff' }} name="总杆数" />
                 <Line type="monotone" dataKey="putts" stroke="#8b5cf6" strokeWidth={2} dot={{ r: 3, fill: '#8b5cf6', strokeWidth: 2, stroke: '#fff' }} name="推杆数" strokeDasharray="5 5" connectNulls={false} />
               </LineChart>
             </ResponsiveContainer>
@@ -147,9 +148,9 @@ export default function MemberDetailPage() {
 
       {/* Game History */}
       <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
-        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100" style={{ background: 'rgba(212, 238, 232, 0.3)' }}>
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100" style={{ background: 'rgba(221, 228, 213, 0.3)' }}>
           <h2 className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>📊</div>
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(78, 126, 58, 0.1)' }}><Icon name="chart" className="w-4 h-4" /></div>
             比赛记录与系数分析
           </h2>
         </div>
@@ -179,7 +180,7 @@ export default function MemberDetailPage() {
                   <span className="text-xs sm:text-sm font-medium text-gray-800">
                     {d.tournament.name.match(/(\d+)月/)?.[1] ?? d.tournament.name}月
                   </span>
-                  <span className="text-[10px] sm:text-xs text-gray-400 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.4)' }}>{d.tournament.date}</span>
+                  <span className="text-[10px] sm:text-xs text-gray-400 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(221, 228, 213, 0.4)' }}>{d.tournament.date}</span>
                 </div>
                 <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 truncate">{d.tournament.courseName}</div>
               </div>

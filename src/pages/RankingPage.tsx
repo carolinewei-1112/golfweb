@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee } from '../data'
+import { Icon } from '../components/Icons'
 
 type RankingType = 'handicap' | 'progress'
 
@@ -38,8 +39,8 @@ export default function RankingPage() {
     <div className="animate-fade-in space-y-5 sm:space-y-7">
       {/* 页面标题区 - 天蓝绿渐变 */}
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-5 sm:p-7" style={{
-        background: 'linear-gradient(180deg, #b8dfe8 0%, #9ed4c4 40%, #3a9e5c 80%, #2a8c4e 100%)',
-        boxShadow: '0 4px 24px rgba(19, 92, 51, 0.15)',
+        background: 'linear-gradient(180deg, #b8ccaa 0%, #8cb57a 40%, #4a7a38 80%, #4a7a38 100%)',
+        boxShadow: '0 4px 24px rgba(46, 79, 36, 0.15)',
       }}>
         {/* 云朵 */}
         <div className="absolute top-3 left-[10%] animate-drift">
@@ -51,12 +52,12 @@ export default function RankingPage() {
         {/* 山丘 */}
         <div className="absolute bottom-0 inset-x-0 h-10 overflow-hidden">
           <svg viewBox="0 0 800 40" fill="none" className="w-full h-full" preserveAspectRatio="none">
-            <path d="M0 25 Q200 5 400 20 Q600 35 800 15 L800 40 L0 40 Z" fill="rgba(42, 140, 78, 0.2)" />
+            <path d="M0 25 Q200 5 400 20 Q600 35 800 15 L800 40 L0 40 Z" fill="rgba(61, 102, 48, 0.2)" />
           </svg>
         </div>
         <div className="relative">
-          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#0f4828' }}>
-            <span className="text-xl sm:text-2xl">🏆</span> 总排行榜
+          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#1f3a18' }}>
+            <span className="text-xl sm:text-2xl"><Icon name="trophy" className="w-6 h-6" /></span> 总排行榜
           </h1>
           <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(15, 72, 40, 0.65)' }}>
             {isHandicapTab ? '按平均差点排名，差点越低排名越高' : '按最近一场月赛进步系数排名'}
@@ -68,25 +69,27 @@ export default function RankingPage() {
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button
           onClick={() => setActiveTab('handicap')}
-          className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+          className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
             isHandicapTab
               ? 'text-white shadow-md'
               : 'text-gray-600 hover:bg-white/80 card-shadow'
           }`}
-          style={isHandicapTab ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+          style={isHandicapTab ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
-          <span className="mr-1.5">📊</span>平均差点总排行
+          <Icon name="chart" className="w-4 h-4" />
+          <span>平均差点总排行</span>
         </button>
         <button
           onClick={() => setActiveTab('progress')}
-          className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+          className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
             !isHandicapTab
               ? 'text-white shadow-md'
               : 'text-gray-600 hover:bg-white/80 card-shadow'
           }`}
-          style={!isHandicapTab ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+          style={!isHandicapTab ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
-          <span className="mr-1.5">🐎</span>最近月赛进步排行
+          <Icon name="horse" className="w-4 h-4" />
+          <span>最近月赛进步排行</span>
         </button>
       </div>
 
@@ -109,7 +112,7 @@ export default function RankingPage() {
               'ring-orange-400/60',  // 铜
             ];
             const crownConfigs = [
-              { // 🥇 金冠
+              { // 金冠
                 body: '#FBBF24', bodyStroke: '#D97706',
                 jewel: '#DC2626', jewelStroke: '#B91C1C',
                 band: '#F59E0B', bandStroke: '#B45309',
@@ -118,7 +121,7 @@ export default function RankingPage() {
                 size: 'w-10 h-8 sm:w-12 sm:h-9',
                 top: '-top-6 sm:-top-7',
               },
-              { // 🥈 银冠
+              { // 银冠
                 body: '#CBD5E1', bodyStroke: '#94A3B8',
                 jewel: '#60A5FA', jewelStroke: '#3B82F6',
                 band: '#94A3B8', bandStroke: '#64748B',
@@ -127,7 +130,7 @@ export default function RankingPage() {
                 size: 'w-8 h-6 sm:w-10 sm:h-8',
                 top: '-top-5 sm:-top-6',
               },
-              { // 🥉 铜冠
+              { // 铜冠
                 body: '#F97316', bodyStroke: '#C2410C',
                 jewel: '#FDE68A', jewelStroke: '#F59E0B',
                 band: '#EA580C', bandStroke: '#9A3412',

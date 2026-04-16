@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getCourseImage } from '../data'
 import type { ReactNode } from 'react'
+import { Icon, Logo, ClubBrand } from '../components/Icons'
 
 function Card({ to, icon, title, children, accent }: {
-  to: string; icon: string; title: string; children: ReactNode; accent?: string
+  to: string; icon: ReactNode; title: string; children: ReactNode; accent?: string
 }) {
   return (
     <Link
@@ -12,9 +13,9 @@ function Card({ to, icon, title, children, accent }: {
       className="block rounded-2xl overflow-hidden h-full transition-all duration-300 hover:-translate-y-1 card-shadow hover:card-shadow-hover"
       style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}
     >
-      <div className={`px-4 sm:px-5 py-3.5 ${accent || ''}`} style={!accent ? { background: 'linear-gradient(135deg, rgba(212, 238, 232, 0.5) 0%, rgba(238, 248, 242, 0.5) 100%)' } : undefined}>
+      <div className={`px-4 sm:px-5 py-3.5 ${accent || ''}`} style={!accent ? { background: 'linear-gradient(135deg, rgba(221, 228, 213, 0.5) 0%, rgba(240, 243, 236, 0.5) 100%)' } : undefined}>
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl flex items-center justify-center text-lg" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center text-lg" style={{ background: 'rgba(78, 126, 58, 0.1)' }}>
             {icon}
           </div>
           <h2 className="font-bold text-gray-800 text-sm sm:text-base">{title}</h2>
@@ -25,7 +26,7 @@ function Card({ to, icon, title, children, accent }: {
   )
 }
 
-function StatBadge({ label, value, icon }: { label: string; value: string | number; icon: string }) {
+function StatBadge({ label, value, icon }: { label: string; value: string | number; icon: ReactNode }) {
   return (
     <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm" style={{ background: 'rgba(255, 255, 255, 0.18)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255, 255, 255, 0.15)' }}>
       <span>{icon}</span>
@@ -51,8 +52,8 @@ export default function HomePage() {
     <div className="space-y-5 sm:space-y-7 animate-fade-in">
       {/* Hero Banner - 扁平插画风 */}
       <div className="rounded-3xl overflow-hidden relative" style={{
-        background: 'linear-gradient(180deg, #1a7a4a 0%, #1d8f4e 25%, #2a9e5c 50%, #35a862 70%, #2a8c4e 100%)',
-        boxShadow: '0 4px 24px rgba(19, 92, 51, 0.2), 0 1px 4px rgba(0, 0, 0, 0.06)',
+        background: 'linear-gradient(180deg, #2e4f24 0%, #3a6530 25%, #4a7a38 50%, #5a8e42 70%, #4a7a38 100%)',
+        boxShadow: '0 4px 24px rgba(46, 79, 36, 0.2), 0 1px 4px rgba(0, 0, 0, 0.06)',
       }}>
         {/* 天空装饰 - 云朵 */}
         <div className="absolute top-4 left-[8%] animate-drift" style={{ animationDelay: '0s' }}>
@@ -74,28 +75,28 @@ export default function HomePage() {
         {/* 远景山丘装饰 */}
         <div className="absolute bottom-0 inset-x-0 h-20 overflow-hidden">
           <svg viewBox="0 0 800 80" fill="none" className="w-full h-full" preserveAspectRatio="none">
-            <path d="M0 50 Q100 20 200 35 Q350 55 500 30 Q650 10 800 40 L800 80 L0 80 Z" fill="rgba(15, 72, 40, 0.25)" />
-            <path d="M0 60 Q200 30 400 50 Q600 70 800 45 L800 80 L0 80 Z" fill="rgba(15, 72, 40, 0.15)" />
+            <path d="M0 50 Q100 20 200 35 Q350 55 500 30 Q650 10 800 40 L800 80 L0 80 Z" fill="rgba(31, 58, 24, 0.25)" />
+            <path d="M0 60 Q200 30 400 50 Q600 70 800 45 L800 80 L0 80 Z" fill="rgba(31, 58, 24, 0.15)" />
           </svg>
         </div>
 
         <div className="relative p-5 sm:p-7 pb-8 sm:pb-10">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
             <div className="flex items-center gap-3">
-              <div className="relative">
-                <img src="https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/logos/logo.png" alt="百鸟会" className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/90 p-1 shadow-lg" />
-                <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 border-white/50" style={{ background: '#3bb873' }} />
+              <div className="relative text-white">
+                <Logo className="w-12 h-12 sm:w-14 sm:h-14 drop-shadow-lg" />
+                <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 border-white/50" style={{ background: '#6a9e56' }} />
               </div>
               <div>
                 <h1 className="text-xl sm:text-2xl font-extrabold text-white drop-shadow-md">百鸟会</h1>
-                <p className="text-xs mt-0.5 px-2 py-0.5 rounded-md inline-block font-medium" style={{ background: 'rgba(253, 246, 227, 0.85)', color: '#135c33' }}>GOLF TIME ⛳</p>
+                <p className="text-xs mt-0.5 px-2 py-0.5 rounded-md inline-block font-medium" style={{ background: 'rgba(253, 246, 227, 0.85)', color: '#2e4f24' }}>GOLF TIME <Icon name="golf" className="w-3.5 h-3.5 inline-block align-[-0.1em]" /></p>
               </div>
             </div>
             {/* 统计信息 - 奶油色胶囊 */}
             <div className="flex flex-wrap gap-2">
-              <StatBadge icon="🏌️" value={tournaments.length} label="场比赛" />
-              <StatBadge icon="👤" value={members.length} label="位会员" />
-              <StatBadge icon="🐦" value={`${100 - birdieRecords.length}`} label="只待打" />
+              <StatBadge icon={<Icon name="golfball" className="w-4 h-4 text-white" />} value={tournaments.length} label="场比赛" />
+              <StatBadge icon={<Icon name="person" className="w-4 h-4 text-white" />} value={members.length} label="位会员" />
+              <StatBadge icon={<Icon name="bird" className="w-4 h-4 text-white" />} value={`${100 - birdieRecords.length}`} label="只待打" />
             </div>
           </div>
 
@@ -104,7 +105,7 @@ export default function HomePage() {
             <div className="flex items-stretch gap-2.5 sm:gap-3">
               <div className="flex items-center flex-shrink-0">
                 <div className="h-full rounded-xl flex items-center justify-center text-sm sm:text-base px-2.5 sm:px-3" style={{ background: 'rgba(255, 255, 255, 0.15)' }}>
-                  📢
+                  <Icon name="megaphone" className="w-5 h-5 text-white" />
                 </div>
               </div>
               <div className="flex-1 min-w-0">
@@ -130,7 +131,7 @@ export default function HomePage() {
       {/* 近期比赛 和 排行榜 并排 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-stretch">
         {/* 历史比赛入口 */}
-        <Card to="/history" icon="📋" title="近期比赛">
+        <Card to="/history" icon={<Icon name="clipboard" className="w-5 h-5" />} title="近期比赛">
           <div className="space-y-3">
             {recentTournaments.slice(0, 3).map(t => {
               const monthMatch = t.name.match(/(\d+)月/)
@@ -160,7 +161,7 @@ export default function HomePage() {
                     </div>
                     {/* 参赛人数 badge */}
                     <div className="absolute top-1.5 right-2 rounded-full px-2 py-0.5 text-white text-[10px] sm:text-xs font-medium" style={{ background: 'rgba(0, 0, 0, 0.4)', backdropFilter: 'blur(4px)' }}>
-                      👥 {participantCount}人
+                      <Icon name="people" className="w-3.5 h-3.5 inline-block align-[-0.1em]" /> {participantCount}人
                     </div>
                   </div>
                   <div className="flex items-center justify-between py-0.5">
@@ -178,7 +179,7 @@ export default function HomePage() {
                             />
                           ))}
                           {participantCount > 2 && (
-                            <div className="w-5 h-5 sm:w-5.5 sm:h-5.5 rounded-full border-2 border-white flex items-center justify-center text-[10px] text-golf-700 font-medium shadow-sm" style={{ background: '#eef8f2' }}>
+                            <div className="w-5 h-5 sm:w-5.5 sm:h-5.5 rounded-full border-2 border-white flex items-center justify-center text-[10px] text-golf-700 font-medium shadow-sm" style={{ background: '#f0f3ec' }}>
                               +{participantCount - 2}
                             </div>
                           )}
@@ -200,7 +201,7 @@ export default function HomePage() {
         </Card>
 
         {/* 进步排行榜入口 */}
-        <Card to="/ranking" icon="🏆" title="进步排行" accent="bg-gradient-to-r from-amber-50/50 to-yellow-50/50">
+        <Card to="/ranking" icon={<Icon name="trophy" className="w-5 h-5" />} title="进步排行" accent="bg-gradient-to-r from-amber-50/50 to-yellow-50/50">
           <div className="space-y-1.5 sm:space-y-2 max-h-[360px] overflow-y-auto pr-1">
             {progressRanking.map(r => {
               const crownConfigs = [
@@ -263,20 +264,20 @@ export default function HomePage() {
       </div>
 
       {/* 百鸟记录入口 */}
-      <Card to="/birdie" icon="🐦" title="百鸟记录" accent="bg-gradient-to-r from-sky-50/50 to-blue-50/50">
+      <Card to="/birdie" icon={<Icon name="bird" className="w-5 h-5" />} title="百鸟记录" accent="bg-gradient-to-r from-sky-50/50 to-blue-50/50">
         <div className="space-y-3">
           {/* 百鸟进度 */}
           <div className="flex items-center justify-between mb-2 sm:mb-3">
             <span className="text-xs sm:text-sm text-gray-600">百鸟进度</span>
             <span className="text-base sm:text-lg font-bold text-golf-700">{birdieRecords.length} <span className="text-gray-400 font-normal text-sm">/ 100</span></span>
           </div>
-          <div className="w-full rounded-full h-2.5 mb-3 sm:mb-4 overflow-hidden" style={{ background: 'rgba(212, 238, 232, 0.6)' }}>
+          <div className="w-full rounded-full h-2.5 mb-3 sm:mb-4 overflow-hidden" style={{ background: 'rgba(221, 228, 213, 0.6)' }}>
             <div 
               className="h-2.5 rounded-full transition-all duration-700"
               style={{ 
                 width: `${Math.min((birdieRecords.length / 100) * 100, 100)}%`,
-                background: 'linear-gradient(90deg, #1d8f4e, #3bb873)',
-                boxShadow: '0 0 8px rgba(59, 184, 115, 0.4)',
+                background: 'linear-gradient(90deg, #4e7e3a, #8cc63f)',
+                boxShadow: '0 0 8px rgba(140, 198, 63, 0.4)',
               }}
             />
           </div>
@@ -289,7 +290,7 @@ export default function HomePage() {
                 const member = members.find(m => m.id === record.memberId)
                 return (
                   <div key={record.id} className="flex items-center gap-2.5 sm:gap-3 py-1 px-1 rounded-xl hover:bg-golf-50/50 transition-colors">
-                    <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 shadow-sm" style={{ background: 'linear-gradient(135deg, #d4f0df, #a8e2bf)', color: '#135c33' }}>
+                    <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 shadow-sm" style={{ background: 'linear-gradient(135deg, #dde4d5, #b8ccaa)', color: '#2e4f24' }}>
                       {record.number}
                     </span>
                     {member && (
@@ -297,7 +298,7 @@ export default function HomePage() {
                     )}
                     <span className="flex-1 text-xs sm:text-sm font-medium text-gray-700 truncate">{member?.name || '未知'}</span>
                     {record.location && record.location !== '-' && (
-                      <span className="text-[10px] sm:text-xs text-gray-400 px-2 py-0.5 rounded-full truncate max-w-[80px] sm:max-w-[100px]" style={{ background: 'rgba(212, 238, 232, 0.4)' }}>
+                      <span className="text-[10px] sm:text-xs text-gray-400 px-2 py-0.5 rounded-full truncate max-w-[80px] sm:max-w-[100px]" style={{ background: 'rgba(221, 228, 213, 0.4)' }}>
                         {record.location}
                       </span>
                     )}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useStore } from '../store'
+import { Icon, BirdKingBadge } from '../components/Icons'
 
 export default function BirdiePage() {
   const { birdieRecords, members, getMemberById } = useStore()
@@ -29,8 +30,8 @@ export default function BirdiePage() {
     <div className="animate-fade-in space-y-5 sm:space-y-7">
       {/* 页面标题区 - 天蓝绿Banner */}
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-5 sm:p-7" style={{
-        background: 'linear-gradient(180deg, #b8dfe8 0%, #9ed4c4 40%, #3a9e5c 80%, #2a8c4e 100%)',
-        boxShadow: '0 4px 24px rgba(19, 92, 51, 0.15)',
+        background: 'linear-gradient(180deg, #b8ccaa 0%, #8cb57a 40%, #4a7a38 80%, #4a7a38 100%)',
+        boxShadow: '0 4px 24px rgba(46, 79, 36, 0.15)',
       }}>
         <div className="absolute top-3 right-[15%] animate-drift">
           <div className="w-12 h-4 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.3)' }} />
@@ -40,12 +41,12 @@ export default function BirdiePage() {
         </div>
         <div className="absolute bottom-0 inset-x-0 h-10 overflow-hidden">
           <svg viewBox="0 0 800 40" fill="none" className="w-full h-full" preserveAspectRatio="none">
-            <path d="M0 25 Q200 5 400 20 Q600 35 800 15 L800 40 L0 40 Z" fill="rgba(42, 140, 78, 0.2)" />
+            <path d="M0 25 Q200 5 400 20 Q600 35 800 15 L800 40 L0 40 Z" fill="rgba(61, 102, 48, 0.2)" />
           </svg>
         </div>
         <div className="relative">
-          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#0f4828' }}>
-            <span className="text-xl sm:text-2xl">🐦</span> 百鸟记录
+          <h1 className="text-lg sm:text-2xl font-extrabold flex items-center gap-2" style={{ color: '#1f3a18' }}>
+            <span className="text-xl sm:text-2xl"><Icon name="bird" className="w-6 h-6" /></span> 百鸟记录
           </h1>
           <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'rgba(15, 72, 40, 0.65)' }}>记录百鸟会会员的每一次打鸟瞬间</p>
         </div>
@@ -53,29 +54,29 @@ export default function BirdiePage() {
 
       {/* 进度条 */}
       <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 card-shadow" style={{
-        background: 'linear-gradient(135deg, rgba(212, 238, 232, 0.6) 0%, rgba(238, 248, 242, 0.8) 100%)',
+        background: 'linear-gradient(135deg, rgba(221, 228, 213, 0.6) 0%, rgba(240, 243, 236, 0.8) 100%)',
         backdropFilter: 'blur(12px)',
         border: '1px solid rgba(255, 255, 255, 0.5)',
       }}>
         <div className="flex items-center justify-between mb-3 sm:mb-4">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center text-base" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>🎯</div>
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center text-base" style={{ background: 'rgba(78, 126, 58, 0.1)' }}><Icon name="target" className="w-5 h-5" /></div>
             <span className="text-sm sm:text-base font-semibold text-gray-700">百鸟进度</span>
           </div>
           <span className="text-lg sm:text-2xl font-bold text-golf-700">{progress} <span className="text-gray-400 font-normal text-sm sm:text-base">/ 100</span></span>
         </div>
-        <div className="h-3.5 sm:h-4 bg-white rounded-full overflow-hidden shadow-inner" style={{ border: '1px solid rgba(212, 238, 232, 0.8)' }}>
+        <div className="h-3.5 sm:h-4 bg-white rounded-full overflow-hidden shadow-inner" style={{ border: '1px solid rgba(221, 228, 213, 0.8)' }}>
           <div
             className="h-full rounded-full transition-all duration-700"
             style={{
               width: `${progressPercent}%`,
-              background: 'linear-gradient(90deg, #1d8f4e, #3bb873)',
-              boxShadow: '0 0 12px rgba(59, 184, 115, 0.4)',
+              background: 'linear-gradient(90deg, #4e7e3a, #6a9e56)',
+              boxShadow: '0 0 12px rgba(140, 198, 63, 0.4)',
             }}
           />
         </div>
         <p className="text-[10px] sm:text-xs text-gray-500 mt-2.5">
-          {progress >= 100 ? '🎉 恭喜！百鸟会已完成100只鸟的记录！' : `还差 ${100 - progress} 只鸟就完成百鸟记录啦！加油 💪`}
+          {progress >= 100 ? '恭喜！百鸟会已完成100只鸟的记录！' : `还差 ${100 - progress} 只鸟就完成百鸟记录啦！加油！`}
         </p>
       </div>
 
@@ -83,25 +84,27 @@ export default function BirdiePage() {
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button
           onClick={() => setActiveTab('wall')}
-          className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+          className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
             activeTab === 'wall'
               ? 'text-white shadow-md'
               : 'text-gray-600 hover:bg-white/80 card-shadow'
           }`}
-          style={activeTab === 'wall' ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+          style={activeTab === 'wall' ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
-          <span className="mr-1.5">🏆</span>百鸟墙
+          <Icon name="trophy" className="w-4 h-4" />
+          <span>百鸟墙</span>
         </button>
         <button
           onClick={() => setActiveTab('members')}
-          className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+          className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
             activeTab === 'members'
               ? 'text-white shadow-md'
               : 'text-gray-600 hover:bg-white/80 card-shadow'
           }`}
-          style={activeTab === 'members' ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+          style={activeTab === 'members' ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
-          <span className="mr-1.5">👑</span>鸟王榜
+          <Icon name="crown" className="w-4 h-4" />
+          <span>鸟王榜</span>
         </button>
       </div>
 
@@ -110,7 +113,7 @@ export default function BirdiePage() {
         <>
           {sortedRecords.length === 0 ? (
             <div className="text-center py-16 rounded-2xl card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)' }}>
-              <div className="text-5xl mb-3">🐦</div>
+              <div className="text-5xl mb-3"><Icon name="bird" className="w-12 h-12" /></div>
               <p className="text-sm text-gray-400">还没有打鸟记录，快来创造历史！</p>
             </div>
           ) : (
@@ -124,46 +127,35 @@ export default function BirdiePage() {
                     <div
                       key={num}
                       className="rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 transition-all duration-300 hover:-translate-y-0.5 card-shadow hover:card-shadow-hover"
-                      style={{ background: 'rgba(255, 255, 255, 0.88)', backdropFilter: 'blur(8px)', border: '1px solid rgba(212, 238, 232, 0.6)' }}
+                      style={{ background: 'rgba(255, 255, 255, 0.88)', backdropFilter: 'blur(8px)', border: '1px solid rgba(221, 228, 213, 0.6)' }}
                     >
                       <div className="flex items-center justify-between mb-1.5 sm:mb-2">
                         <div className="flex items-center gap-1">
-                          <span className="text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-0.5 rounded-full" style={{ background: 'rgba(29, 143, 78, 0.1)', color: '#135c33' }}>
+                          <span className="text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-0.5 rounded-full" style={{ background: 'rgba(78, 126, 58, 0.1)', color: '#2e4f24' }}>
                             第{num}鸟
                           </span>
                           {record.type === 'simulator' && (
-                            <span className="text-[10px] sm:text-xs bg-purple-100 text-purple-600 px-1.5 py-0.5 rounded-full">🎯</span>
+                            <span className="text-[10px] sm:text-xs bg-purple-100 text-purple-600 px-1.5 py-0.5 rounded-full"><Icon name="target" className="w-3 h-3 inline-block" /></span>
                           )}
                         </div>
                         {record.date && (
                           <span className="text-[10px] text-gray-400">{record.date}</span>
                         )}
                       </div>
-                      <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                      <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2 min-w-0">
                         <img
                           src={member.avatar}
                           alt={member.name}
-                          className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow-sm"
+                          className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow-sm flex-shrink-0"
                         />
-                        <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">{member.name}</span>
-                        {birdKingMap.has(member.id) && (() => {
-                          const rank = birdKingMap.get(member.id)!;
-                          const configs = [
-                            { emoji: '🥇', label: '鸟王①', bg: 'linear-gradient(135deg, #fef3c7, #fde68a)', text: '#92400e', border: '1px solid rgba(251, 191, 36, 0.4)', shadow: '0 1px 4px rgba(251,191,36,0.25)' },
-                            { emoji: '🥈', label: '鸟王②', bg: 'linear-gradient(135deg, #f1f5f9, #e2e8f0)', text: '#475569', border: '1px solid rgba(148, 163, 184, 0.4)', shadow: '0 1px 4px rgba(148,163,184,0.2)' },
-                            { emoji: '🥉', label: '鸟王③', bg: 'linear-gradient(135deg, #fff7ed, #fed7aa)', text: '#9a3412', border: '1px solid rgba(249, 115, 22, 0.3)', shadow: '0 1px 4px rgba(249,115,22,0.2)' },
-                          ];
-                          const c = configs[rank];
-                          return (
-                            <span className="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap" style={{ background: c.bg, color: c.text, border: c.border, boxShadow: c.shadow }}>
-                              {c.emoji} {c.label}
-                            </span>
-                          );
-                        })()}
+                        <span className="text-xs sm:text-sm font-medium text-gray-800 truncate min-w-0">{member.name}</span>
+                        {birdKingMap.has(member.id) && (
+                          <BirdKingBadge rank={birdKingMap.get(member.id)!} />
+                        )}
                       </div>
-                      {record.location && record.location !== '-' && (
-                        <div className="text-[10px] sm:text-xs text-gray-500 truncate px-2 py-0.5 rounded-full" style={{ background: 'rgba(212, 238, 232, 0.4)' }}>
-                          📍 {record.location}
+                      {record.location && record.location !== '-' && record.location !== '球场' && (
+                        <div className="text-[10px] sm:text-xs text-gray-500 truncate px-2 py-0.5 rounded-full" style={{ background: 'rgba(221, 228, 213, 0.4)' }}>
+                          <Icon name="pin" className="w-3 h-3 inline-block" /> {record.location}
                         </div>
                       )}
                       {record.hole && (
@@ -182,7 +174,7 @@ export default function BirdiePage() {
                     className="rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 opacity-50 flex flex-col items-center justify-center min-h-[80px] sm:min-h-[100px]"
                     style={{ background: 'rgba(249, 250, 251, 0.6)', border: '1px dashed rgba(209, 213, 219, 0.5)' }}
                   >
-                    <span className="text-xl sm:text-2xl text-gray-300">🥚</span>
+                    <span className="text-xl sm:text-2xl text-gray-300"><Icon name="egg" className="w-6 h-6" /></span>
                     <span className="text-[10px] sm:text-xs text-gray-400 mt-1.5">
                       第{num}鸟
                     </span>
@@ -199,7 +191,7 @@ export default function BirdiePage() {
         <>
           {memberStats.length === 0 ? (
             <div className="text-center py-16 rounded-2xl card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)' }}>
-              <div className="text-5xl mb-3">🐦</div>
+              <div className="text-5xl mb-3"><Icon name="bird" className="w-12 h-12 mx-auto" /></div>
               <p className="text-sm text-gray-400">还没有打鸟记录，快来创造历史！</p>
             </div>
           ) : (
@@ -212,11 +204,6 @@ export default function BirdiePage() {
                 ];
                 const isTop3 = index < 3;
                 const crown = isTop3 ? crownConfigs[index] : null;
-                const birdKingColors = [
-                  { bg: 'linear-gradient(135deg, #fef3c7, #fde68a)', text: '#92400e', border: '1px solid rgba(251, 191, 36, 0.4)' },
-                  { bg: 'linear-gradient(135deg, #f1f5f9, #e2e8f0)', text: '#475569', border: '1px solid rgba(148, 163, 184, 0.4)' },
-                  { bg: 'linear-gradient(135deg, #fff7ed, #fed7aa)', text: '#9a3412', border: '1px solid rgba(249, 115, 22, 0.3)' },
-                ];
 
                 return (
                 <div
@@ -265,19 +252,9 @@ export default function BirdiePage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 sm:gap-2">
                         <span className="text-sm sm:text-base font-medium text-gray-800 truncate">{stat.member.name}</span>
-                        {isTop3 && (() => {
-                          const kingConfigs = [
-                            { emoji: '🥇', label: '鸟王①', shadow: '0 1px 4px rgba(251,191,36,0.25)' },
-                            { emoji: '🥈', label: '鸟王②', shadow: '0 1px 4px rgba(148,163,184,0.2)' },
-                            { emoji: '🥉', label: '鸟王③', shadow: '0 1px 4px rgba(249,115,22,0.2)' },
-                          ];
-                          const k = kingConfigs[index];
-                          return (
-                            <span className="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap" style={{ background: birdKingColors[index].bg, color: birdKingColors[index].text, border: birdKingColors[index].border, boxShadow: k.shadow }}>
-                              {k.emoji} {k.label}
-                            </span>
-                          );
-                        })()}
+                        {isTop3 && (
+                          <BirdKingBadge rank={index} />
+                        )}
                       </div>
                     </div>
                     <div className="text-right">
@@ -295,9 +272,9 @@ export default function BirdiePage() {
                             ? 'bg-purple-50 text-purple-600 border border-purple-100'
                             : 'text-golf-600'
                         }`}
-                        style={birdie.type !== 'simulator' ? { background: 'rgba(212, 238, 232, 0.5)', border: '1px solid rgba(168, 226, 191, 0.4)' } : undefined}
+                        style={birdie.type !== 'simulator' ? { background: 'rgba(221, 228, 213, 0.5)', border: '1px solid rgba(184, 204, 170, 0.4)' } : undefined}
                       >
-                        {birdie.type === 'simulator' && '🎯 '}
+                        {birdie.type === 'simulator' && <><Icon name="target" className="w-3 h-3 inline-block" /> </>}
                         第{birdie.number}鸟
                       </span>
                     ))}

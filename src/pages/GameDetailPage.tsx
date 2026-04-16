@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee, getCourseImage, type Tournament } from '../data'
+import { Icon } from '../components/Icons'
 
 type Tab = 'gross' | 'putt'
 type SortBy = 'gross' | 'progress'
@@ -125,7 +126,7 @@ export default function GameDetailPage() {
         <div className="p-4 sm:p-6">
           <div className="flex flex-wrap gap-3 sm:gap-4">
             <span className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
-              👥 {game?.scores.length ?? 0} 人参赛
+              <Icon name="people" className="w-3.5 h-3.5 inline-block" /> {game?.scores.length ?? 0} 人参赛
             </span>
             <span className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
               Slope {tournament.slope}
@@ -140,12 +141,12 @@ export default function GameDetailPage() {
       {/* Stars */}
       {progressStar && (
         <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-5 card-shadow" style={{
-          background: 'linear-gradient(135deg, rgba(212, 238, 232, 0.5) 0%, rgba(238, 248, 242, 0.6) 100%)',
+          background: 'linear-gradient(135deg, rgba(221, 228, 213, 0.5) 0%, rgba(240, 243, 236, 0.6) 100%)',
           backdropFilter: 'blur(12px)',
-          border: '1px solid rgba(168, 226, 191, 0.3)',
+          border: '1px solid rgba(184, 204, 170, 0.3)',
         }}>
           <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-golf-700 mb-3">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(29, 143, 78, 0.1)' }}>🐎</div>
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(78, 126, 58, 0.1)' }}><Icon name="horse" className="w-4 h-4" /></div>
             进步之星
           </div>
           <Link to={`/member/${progressStar.member.id}`} className="flex items-center gap-3 sm:gap-4 p-2 rounded-xl hover:bg-white/60 transition-colors">
@@ -166,25 +167,27 @@ export default function GameDetailPage() {
         <div className="flex gap-2 overflow-x-auto pb-1">
           <button
             onClick={() => setTab('gross')}
-            className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+            className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
               tab === 'gross'
                 ? 'text-white shadow-md'
                 : 'text-gray-600 hover:bg-white/80 card-shadow'
             }`}
-            style={tab === 'gross' ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+            style={tab === 'gross' ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
-            <span className="mr-1.5">🏆</span>杆数排名
+            <Icon name="trophy" className="w-4 h-4" />
+            <span>杆数排名</span>
           </button>
           <button
             onClick={() => setTab('putt')}
-            className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+            className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
               tab === 'putt'
                 ? 'text-white shadow-md'
                 : 'text-gray-600 hover:bg-white/80 card-shadow'
             }`}
-            style={tab === 'putt' ? { background: 'linear-gradient(135deg, #135c33 0%, #1d8f4e 100%)', boxShadow: '0 4px 12px rgba(19, 92, 51, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+            style={tab === 'putt' ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
-            <span className="mr-1.5">⛳</span>推杆排名
+            <Icon name="golf" className="w-4 h-4" />
+            <span>推杆排名</span>
           </button>
         </div>
       )}
@@ -199,7 +202,7 @@ export default function GameDetailPage() {
                 ? 'text-golf-700 shadow-sm'
                 : 'text-gray-500 hover:bg-white/80 card-shadow'
             }`}
-            style={sortBy === 'gross' ? { background: 'rgba(212, 238, 232, 0.6)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+            style={sortBy === 'gross' ? { background: 'rgba(221, 228, 213, 0.6)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
             按杆数
           </button>
@@ -210,7 +213,7 @@ export default function GameDetailPage() {
                 ? 'text-golf-700 shadow-sm'
                 : 'text-gray-500 hover:bg-white/80 card-shadow'
             }`}
-            style={sortBy === 'progress' ? { background: 'rgba(212, 238, 232, 0.6)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+            style={sortBy === 'progress' ? { background: 'rgba(221, 228, 213, 0.6)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
             按进步系数
           </button>
@@ -237,21 +240,21 @@ export default function GameDetailPage() {
           {currentData.map((item: any) => {
             // 前三名皇冠配置（与排行榜一致）
             const crownConfigs = [
-              { // 🥇 金冠
+              { // 金冠
                 body: '#FBBF24', bodyStroke: '#D97706',
                 jewel: '#DC2626', jewelStroke: '#B91C1C',
                 band: '#F59E0B', bandStroke: '#B45309',
                 numColor: '#78350F',
                 glow: 'drop-shadow(0 1px 4px rgba(251,191,36,0.5))',
               },
-              { // 🥈 银冠
+              { // 银冠
                 body: '#CBD5E1', bodyStroke: '#94A3B8',
                 jewel: '#60A5FA', jewelStroke: '#3B82F6',
                 band: '#94A3B8', bandStroke: '#64748B',
                 numColor: '#334155',
                 glow: 'drop-shadow(0 1px 3px rgba(148,163,184,0.45))',
               },
-              { // 🥉 铜冠
+              { // 铜冠
                 body: '#F97316', bodyStroke: '#C2410C',
                 jewel: '#FDE68A', jewelStroke: '#F59E0B',
                 band: '#EA580C', bandStroke: '#9A3412',
