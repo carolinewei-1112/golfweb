@@ -98,12 +98,15 @@ export default function HomePage() {
               高尔夫会员 记录每次挥杆时刻
             </p>
             {/* 百鸟进度条 */}
-            <div className="mt-3 sm:mt-4 flex items-center gap-2.5 max-w-[240px] sm:max-w-[300px]">
+            <div className="mt-3 sm:mt-4 flex items-center gap-2.5 max-w-[280px] sm:max-w-[340px]">
+              <span className="text-[10px] sm:text-xs font-bold whitespace-nowrap" style={{ color: '#c5e84d', textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}>
+                百鸟进度
+              </span>
               <div className="flex-1 rounded-full h-1.5 overflow-hidden" style={{ background: 'rgba(255, 255, 255, 0.2)' }}>
                 <div className="h-full rounded-full" style={{ width: `${Math.min((birdieRecords.length / 100) * 100, 100)}%`, background: '#c5e84d', boxShadow: '0 0 8px rgba(197, 232, 77, 0.5)' }} />
               </div>
               <span className="text-[10px] sm:text-xs font-bold whitespace-nowrap" style={{ color: '#c5e84d', textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}>
-                百鸟进度 <Icon name="bird" className="w-3.5 h-3.5 inline-block align-[-0.12em]" /> {birdieRecords.length}/100
+                <Icon name="bird" className="w-3.5 h-3.5 inline-block align-[-0.12em]" /> {birdieRecords.length}/100
               </span>
             </div>
           </div>
@@ -123,12 +126,55 @@ export default function HomePage() {
               ))}
               {announcements.length === 0 && (
                 <div className="rounded-lg px-3 py-2 text-xs sm:text-sm break-words leading-relaxed font-medium" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.9)' }}>
-                  4月月赛时间4月18日，请各位会员预留时间。
+                  4月月赛时间4月28日，请各位会员预留时间。
                 </div>
               )}
               {announcements.length > 2 && (
                 <div className="text-xs text-white/50 text-right mt-1">还有 {announcements.length - 2} 条公告</div>
               )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 本月月赛预告 */}
+      <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl card-shadow group" style={{ background: 'rgba(255,255,255,0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.5)' }}>
+        <div className="h-40 sm:h-52 overflow-hidden relative">
+          <img
+            src="/images/courses/guangzhou-junlan-preview.jpg"
+            alt="广州君兰高尔夫球场"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          <div className="absolute top-3 sm:top-4 left-3 sm:left-4">
+            <span className="px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold text-white flex items-center gap-1" style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', boxShadow: '0 2px 8px rgba(245, 158, 11, 0.4)' }}>
+              <span className="animate-pulse">📢</span> 本月月赛预告
+            </span>
+          </div>
+          <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
+            <span className="px-2.5 py-1.5 rounded-xl text-[10px] sm:text-xs text-white font-medium" style={{ background: 'rgba(0, 0, 0, 0.35)', backdropFilter: 'blur(8px)' }}>
+              4月28日
+            </span>
+          </div>
+          <div className="absolute bottom-3 sm:bottom-4 left-4 sm:left-5 text-white">
+            <h3 className="text-xl sm:text-2xl font-bold drop-shadow-lg">4月月赛</h3>
+            <p className="text-xs sm:text-sm text-white/90 drop-shadow-sm mt-0.5">广州君兰高尔夫球场</p>
+          </div>
+        </div>
+        <div className="p-4 sm:p-5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm flex-wrap">
+              <div className="px-2.5 py-1.5 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(245, 158, 11, 0.1)' }}>
+                <Icon name="clipboard" className="w-3.5 h-3.5 text-amber-600" />
+                <span className="font-semibold text-amber-700">2026年4月28日</span>
+              </div>
+              <div className="px-2.5 py-1.5 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(221, 228, 213, 0.6)' }}>
+                <Icon name="pin" className="w-3.5 h-3.5 text-golf-600" />
+                <span className="font-medium text-golf-700">广州君兰</span>
+              </div>
+            </div>
+            <div className="flex-shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 2px 8px rgba(46, 79, 36, 0.2)' }}>
+              即将开赛 ⛳
             </div>
           </div>
         </div>
