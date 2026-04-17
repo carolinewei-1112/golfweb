@@ -199,7 +199,7 @@ export default function HomePage() {
       </div>
 
       {/* 近期比赛 和 排行榜 并排 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-start">
         {/* 历史比赛入口 */}
         <Card to="/history" icon={<Icon name="clipboard" className="w-5 h-5" />} title="近期比赛">
           <div className="space-y-4 sm:space-y-5">
@@ -280,7 +280,7 @@ export default function HomePage() {
 
         {/* 进步排行榜入口 */}
         <Card to="/ranking" icon={<Icon name="trophy" className="w-5 h-5" />} title="进步排行" accent="bg-gradient-to-r from-amber-50/50 to-yellow-50/50">
-          <div className="space-y-1.5 sm:space-y-2 max-h-[360px] overflow-y-auto pr-1">
+          <div className="space-y-1.5 sm:space-y-2 pr-1">
             {progressRanking.map(r => {
               const crownConfigs = [
                 { body: '#FBBF24', bodyStroke: '#D97706', jewel: '#DC2626', jewelStroke: '#B91C1C', band: '#F59E0B', bandStroke: '#B45309', numColor: '#78350F', glow: 'drop-shadow(0 1px 3px rgba(251,191,36,0.5))' },
@@ -334,9 +334,6 @@ export default function HomePage() {
               </div>
               );
             })}
-          </div>
-          <div className="mt-3 sm:mt-4 flex items-center gap-1 text-xs text-golf-600 font-semibold">
-            查看完整排行 <span className="text-sm">→</span>
           </div>
         </Card>
       </div>
