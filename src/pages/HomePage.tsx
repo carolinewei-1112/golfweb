@@ -199,10 +199,10 @@ export default function HomePage() {
       </div>
 
       {/* 近期比赛 和 排行榜 并排 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-stretch">
         {/* 历史比赛入口 */}
         <Card to="/history" icon={<Icon name="clipboard" className="w-5 h-5" />} title="近期比赛">
-          <div className="space-y-4 sm:space-y-5">
+          <div className="space-y-3 sm:space-y-4">
             {recentTournaments.slice(0, 3).map(t => {
               const monthMatch = t.name.match(/(\d+)月/)
               const monthLabel = monthMatch ? `${monthMatch[1]}月` : t.name
@@ -224,7 +224,7 @@ export default function HomePage() {
               return (
                 <div key={t.id} className="group">
                   {/* 球场头图 */}
-                  <div className="h-24 sm:h-32 rounded-xl overflow-hidden mb-2.5 relative">
+                  <div className="h-20 sm:h-24 rounded-xl overflow-hidden mb-2 relative">
                     <img
                       src={imageUrl}
                       alt={t.courseName}
