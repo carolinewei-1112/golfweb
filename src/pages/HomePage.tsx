@@ -158,12 +158,7 @@ export default function HomePage() {
 
       {/* 本月月赛预告 */}
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl card-shadow group" style={{ background: 'rgba(255,255,255,0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.5)' }}>
-        <div className="h-40 sm:h-52 overflow-hidden relative">
-          <img
-            src="https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/courses/junlan-aerial-island.png"
-            alt="广州君兰高尔夫球场"
-            className="w-full h-full object-cover"
-          />
+        <div className="h-40 sm:h-52 overflow-hidden relative" style={{ backgroundColor: '#2d5a27', backgroundImage: 'url(https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/courses/junlan-aerial-island.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute top-3 sm:top-4 left-3 sm:left-4">
             <span className="px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold text-white flex items-center gap-1" style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', boxShadow: '0 2px 8px rgba(245, 158, 11, 0.4)' }}>
