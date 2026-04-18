@@ -324,9 +324,10 @@ export default function GameDetailPage() {
         {/* 表头 - 杆数、进步系数 */}
         {tab !== 'putt' && (
           <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-gray-50/80 text-xs text-gray-400 border-b border-gray-100 font-medium">
-            <span className="w-6 sm:w-7 text-center">排名</span>
-            <span className="flex-1 ml-8 sm:ml-11">会员</span>
-            <div className="flex items-center gap-2 sm:gap-4">
+            <span className="w-6 sm:w-7 text-center flex-shrink-0">排名</span>
+            <span className="w-8 sm:w-9 flex-shrink-0"></span>
+            <span className="flex-1 min-w-0">会员</span>
+            <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
               <span className="w-14 sm:w-16 text-right">杆数</span>
               <span className="w-12 sm:w-14 text-right">进步</span>
             </div>

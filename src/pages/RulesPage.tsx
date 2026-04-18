@@ -99,50 +99,157 @@ export default function RulesPage() {
           </h2>
         </div>
         <div className="p-4 sm:p-6 space-y-5 sm:space-y-6 text-xs sm:text-sm text-gray-600">
-          {[
-            {
-              num: '1',
-              title: '差点系统',
-              items: [
-                '每场比赛差点 = 杆数 - 标准杆（72杆）',
-                '会员平均差点 = 参与的所有比赛差点平均值',
-                '平均差点保留一位小数，用于排行榜排序',
-                '差点越低，表示水平越高',
-              ],
-            },
-            {
-              num: '2',
-              title: '进步系数计算',
-              items: [
-                <span key="formula">公式：<span className="px-2 py-0.5 rounded-lg text-[10px] sm:text-xs font-medium" style={{ background: 'rgba(221, 228, 213, 0.6)', color: '#2e4f24' }}>(历史6场平均成绩 - 本场成绩) × 进步因子</span></span>,
-                '进步系数为正数表示进步，负数表示退步',
-                '进步系数数值越大，表示进步越明显',
-              ],
-            },
-            {
-              num: '3',
-              title: 'TEE台规则',
-              items: [
-                '男士：前6场月赛打白TEE，第7场起打蓝TEE',
-                '女士：始终打红TEE',
-              ],
-            },
-          ].map(section => (
-            <div key={section.num}>
-              <h3 className="font-semibold text-gray-800 mb-2.5 flex items-center gap-2.5">
-                <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)' }}>{section.num}</span>
-                {section.title}
-              </h3>
-              <ul className="space-y-1.5 sm:space-y-2 pl-9 sm:pl-10">
-                {section.items.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="text-golf-400 mt-1.5 text-[8px]">●</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+          {/* 1. 差点系统 */}
+          <div>
+            <h3 className="font-semibold text-gray-800 mb-2.5 flex items-center gap-2.5">
+              <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)' }}>1</span>
+              差点系统
+            </h3>
+            <ul className="space-y-1.5 sm:space-y-2 pl-9 sm:pl-10">
+              {['每场比赛差点 = 杆数 - 标准杆（72杆）', '会员平均差点 = 参与的所有比赛差点平均值', '平均差点保留一位小数，用于排行榜排序', '差点越低，表示水平越高'].map((item, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <span className="text-golf-400 mt-1.5 text-[8px]">●</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 2. 进步系数计算 */}
+          <div>
+            <h3 className="font-semibold text-gray-800 mb-2.5 flex items-center gap-2.5">
+              <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)' }}>2</span>
+              进步系数计算
+            </h3>
+
+            <div className="pl-9 sm:pl-10 space-y-3">
+              {/* 公式区 */}
+              <div className="rounded-xl sm:rounded-2xl p-3.5 sm:p-4" style={{
+                background: 'linear-gradient(135deg, rgba(221, 228, 213, 0.3) 0%, rgba(253, 246, 227, 0.2) 100%)',
+                border: '1px solid rgba(184, 204, 170, 0.3)',
+              }}>
+                {/* 最终公式 S */}
+                <div className="flex items-center justify-center py-2.5 sm:py-3 px-3 rounded-xl mb-2.5" style={{ background: 'rgba(255, 255, 255, 0.7)' }}>
+                  <div className="text-center">
+                    <div className="text-sm sm:text-lg font-bold text-gray-800 font-mono tracking-wide">
+                      S = (X - Y) × R
+                    </div>
+                    <div className="mt-1.5 flex flex-wrap justify-center gap-x-3 gap-y-0.5 text-[10px] sm:text-xs text-gray-500">
+                      <span><b className="text-gray-700">X</b> = 近6场平均杆数</span>
+                      <span><b className="text-gray-700">Y</b> = 本场杆数</span>
+                      <span><b className="text-gray-700">R</b> = 进步因子</span>
+                    </div>
+                  </div>
+                </div>
+                {/* 进步因子 R 公式 */}
+                <div className="flex items-center justify-center py-2 px-3 rounded-lg mb-2.5" style={{ background: 'rgba(255, 255, 255, 0.5)' }}>
+                  <div className="text-center">
+                    <div className="text-[11px] sm:text-xs text-gray-500 mb-1">进步因子 R 的计算：</div>
+                    <div className="text-xs sm:text-sm font-bold text-gray-700 font-mono">
+                      R = (72/X)<sup className="text-[8px] sm:text-[10px]">3</sup> × (1 + (72/X)<sup className="text-[8px] sm:text-[10px]">10</sup>) × 10
+                    </div>
+                  </div>
+                </div>
+                <div className="text-[11px] sm:text-xs text-gray-600 space-y-1">
+                  <div className="flex items-start gap-1.5"><span className="text-golf-500 mt-0.5">▸</span><span>S {'>'} 0 表示<b className="text-golf-700">进步</b>，S {'<'} 0 表示<b className="text-red-500">退步</b></span></div>
+                  <div className="flex items-start gap-1.5"><span className="text-golf-500 mt-0.5">▸</span><span>杆数越低 R 值越大，低杆选手每进步1杆获得更高系数</span></div>
+                </div>
+              </div>
+
+              {/* 进步因子 R 曲线图 */}
+              <div className="rounded-xl p-2.5 sm:p-3" style={{ background: 'rgba(255, 255, 255, 0.7)', border: '1px solid rgba(184, 204, 170, 0.2)' }}>
+                <div className="text-[10px] sm:text-xs font-bold text-gray-600 mb-1.5 text-center">进步因子 R 曲线</div>
+                <div className="relative" style={{ paddingBottom: '50%' }}>
+                  <svg viewBox="0 0 400 210" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
+                    <rect x="45" y="10" width="345" height="175" rx="4" fill="rgba(248, 250, 246, 0.8)" />
+                    {/* Y轴 */}
+                    {[0, 5, 10, 15, 20].map(v => {
+                      const y = 185 - (v / 22) * 170
+                      return (
+                        <g key={v}>
+                          <text x="42" y={y + 3} textAnchor="end" fill="#9ca3af" fontSize="8">{v}</text>
+                          <line x1="45" y1={y} x2="390" y2={y} stroke="#e5e7eb" strokeWidth="0.5" strokeDasharray={v === 0 ? '0' : '3,3'} />
+                        </g>
+                      )
+                    })}
+                    {/* X轴 */}
+                    {[130, 115, 100, 90, 80, 72].map(v => {
+                      const x = 55 + ((130 - v) / (130 - 72)) * 335
+                      return <text key={v} x={x} y="200" textAnchor="middle" fill="#9ca3af" fontSize="8">{v}</text>
+                    })}
+                    <text x="215" y="210" textAnchor="middle" fill="#6b7280" fontSize="7.5" fontWeight="bold">平均杆数 (X)</text>
+                    {/* 曲线 */}
+                    <path d={(() => {
+                      const pts: string[] = []
+                      for (let x = 130; x >= 72; x -= 0.5) {
+                        const ratio = 72 / x
+                        const r = Math.pow(ratio, 3) * (1 + Math.pow(ratio, 10)) * 10
+                        const px = 55 + ((130 - x) / (130 - 72)) * 335
+                        const py = 185 - Math.min(r, 22) / 22 * 170
+                        pts.push(`${pts.length === 0 ? 'M' : 'L'}${px.toFixed(1)},${py.toFixed(1)}`)
+                      }
+                      return pts.join(' ')
+                    })()} fill="none" stroke="#4e7e3a" strokeWidth="2.5" strokeLinecap="round" />
+                    <path d={(() => {
+                      const pts: string[] = []
+                      for (let x = 130; x >= 72; x -= 0.5) {
+                        const ratio = 72 / x
+                        const r = Math.pow(ratio, 3) * (1 + Math.pow(ratio, 10)) * 10
+                        const px = 55 + ((130 - x) / (130 - 72)) * 335
+                        const py = 185 - Math.min(r, 22) / 22 * 170
+                        pts.push(`${pts.length === 0 ? 'M' : 'L'}${px.toFixed(1)},${py.toFixed(1)}`)
+                      }
+                      pts.push('L390,185 L55,185 Z')
+                      return pts.join(' ')
+                    })()} fill="url(#cGrad)" opacity="0.25" />
+                    <defs>
+                      <linearGradient id="cGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#4e7e3a" />
+                        <stop offset="100%" stopColor="#4e7e3a" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    {/* 关键点 */}
+                    {[
+                      { x: 100, rVal: 3.87 },
+                      { x: 90, rVal: 5.67 },
+                      { x: 80, rVal: 9.83 },
+                    ].map(pt => {
+                      const px = 55 + ((130 - pt.x) / (130 - 72)) * 335
+                      const py = 185 - Math.min(pt.rVal, 22) / 22 * 170
+                      return (
+                        <g key={pt.x}>
+                          <circle cx={px} cy={py} r="3" fill="#4e7e3a" stroke="white" strokeWidth="1.5" />
+                          <text x={px} y={py - 7} textAnchor="middle" fill="#4e7e3a" fontSize="7.5" fontWeight="bold">{pt.rVal}</text>
+                          <text x={px} y={py + 12} textAnchor="middle" fill="#9ca3af" fontSize="6.5">{pt.x}杆</text>
+                        </g>
+                      )
+                    })}
+                  </svg>
+                </div>
+              </div>
+
+              {/* 夺冠参考 */}
+              <div className="text-[11px] sm:text-xs text-gray-500 rounded-lg px-3 py-2" style={{ background: 'rgba(221, 228, 213, 0.2)' }}>
+                <span className="font-bold text-gray-700">夺冠参考：</span>按经验 S ≈ 30 可夺冠，如平均100杆需打到92杆，平均110杆需打到99杆
+              </div>
             </div>
-          ))}
+          </div>
+
+          {/* 3. TEE台规则 */}
+          <div>
+            <h3 className="font-semibold text-gray-800 mb-2.5 flex items-center gap-2.5">
+              <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)' }}>3</span>
+              TEE台规则
+            </h3>
+            <ul className="space-y-1.5 sm:space-y-2 pl-9 sm:pl-10">
+              {['男士：前6场月赛打白TEE，第7场起打蓝TEE', '女士：始终打红TEE'].map((item, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <span className="text-golf-400 mt-1.5 text-[8px]">●</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 

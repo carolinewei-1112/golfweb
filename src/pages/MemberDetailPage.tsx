@@ -256,8 +256,8 @@ export default function MemberDetailPage() {
                 </div>
                 <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 truncate">{d.tournament.courseName}</div>
               </div>
-              <div className="flex items-center gap-2 sm:gap-4 ml-2 flex-shrink-0">
-                <div className="text-center min-w-[28px] sm:min-w-[40px]">
+              <div className="flex items-center gap-1.5 sm:gap-3 ml-2 flex-shrink-0">
+                <div className="text-center w-[38px] sm:w-[46px]">
                   <div className="text-[10px] sm:text-xs text-gray-400">排名</div>
                   <div className={`text-xs sm:text-sm font-bold ${
                     d.rank === 1 ? 'text-amber-500' :
@@ -266,17 +266,17 @@ export default function MemberDetailPage() {
                     'text-gray-800'
                   }`}>{d.rank}</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center w-[38px] sm:w-[46px]">
                   <div className="text-[10px] sm:text-xs text-gray-400">总杆</div>
                   <div className="text-xs sm:text-sm font-bold text-gray-800">{d.score.grossScore}</div>
                 </div>
                 {hasPuttData(d.tournament.date) && (
-                  <div className="text-center hidden sm:block">
+                  <div className="text-center w-[46px] hidden sm:block">
                     <div className="text-xs text-gray-400">推杆</div>
                     <div className="text-sm text-gray-600">{d.score.putts}</div>
                   </div>
                 )}
-                <div className="text-center min-w-[50px] sm:min-w-[70px]">
+                <div className="text-center w-[56px] sm:w-[72px]">
                   <div className="text-[10px] sm:text-xs text-gray-400">进步系数</div>
                   <div className={`text-xs sm:text-sm font-bold px-1.5 py-0.5 rounded-full ${d.progress == null ? 'text-gray-400' : d.progress > 0 ? 'text-golf-700 bg-golf-50' : d.progress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
                     {d.progress == null ? '--' : `${d.progress > 0 ? '↑' : d.progress < 0 ? '↓' : ''}${Math.abs(d.progress)}`}
