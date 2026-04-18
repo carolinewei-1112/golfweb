@@ -1268,7 +1268,7 @@ function FinanceManager() {
   // 支出表单
   const [expenseForm, setExpenseForm] = useState({
     tournamentId: '',
-    category: 'meal' as 'meal' | 'prize' | 'other',
+    category: 'meal' as 'meal' | 'prize' | 'bonus' | 'drink' | 'other',
     amount: '',
     date: new Date().toISOString().slice(0, 10),
     note: '',

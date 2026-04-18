@@ -243,7 +243,7 @@ export default function FinancePage() {
               runningExpense += exp.amount
               expBalanceMap.set(exp.id, totalIncome - runningExpense)
             })
-            return sortedExp.reverse().map(expense => {
+            return (<>{sortedExp.reverse().map(expense => {
             const tournament = tournaments.find(t => t.id === expense.tournamentId)
             const curBalance = expBalanceMap.get(expense.id) ?? 0
             const categoryLabels: Record<string, string> = { meal: '聚餐', prize: '奖品', bonus: '奖金', drink: '饮料', other: '其他' }
@@ -328,7 +328,7 @@ export default function FinancePage() {
                 </div>
               </div>
             )
-          })})}
+          })}</>)})}
         </div>
       )}
     </div>
