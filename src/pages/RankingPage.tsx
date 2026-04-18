@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useStore } from '../store'
 import { getMemberTee } from '../data'
 import { Icon, BirdKingBadge } from '../components/Icons'
@@ -29,8 +29,14 @@ interface RankingItem {
 }
 
 export default function RankingPage() {
-  const { overallRanking, progressRanking, birdieRecords } = useStore()
-  const [activeTab, setActiveTab] = useState<RankingType>('handicap')
+  const { overallRanking, progressRanking, birdieRecords, tournaments } = useStore()
+  const [searchParams] = useSearchParams()
+  const defaultTab = searchParams.get('tab') === 'progress' ? 'progress' : 'handicap'
+  const [activeTab, setActiveTab] = useState<RankingType>(defaultTab)
+
+  // 获取最近一场月赛的月份
+  const sortedTournaments = [...tournaments].sort((a, b) => b.date.localeCompare(a.date))
+  const latestMonth = sortedTournaments.length > 0 ? new Date(sortedTournaments[0].date).getMonth() + 1 : null
 
   const isHandicapTab = activeTab === 'handicap'
   const currentRanking: RankingItem[] = isHandicapTab ? overallRanking : progressRanking
@@ -75,18 +81,6 @@ export default function RankingPage() {
       {/* Tab切换 */}
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button
-          onClick={() => setActiveTab('handicap')}
-          className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
-            isHandicapTab
-              ? 'text-white shadow-md'
-              : 'text-gray-600 hover:bg-white/80 card-shadow'
-          }`}
-          style={isHandicapTab ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
-        >
-          <Icon name="chart" className="w-4 h-4" />
-          <span>平均差点总排行</span>
-        </button>
-        <button
           onClick={() => setActiveTab('progress')}
           className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
             !isHandicapTab
@@ -96,7 +90,19 @@ export default function RankingPage() {
           style={!isHandicapTab ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
           <Icon name="horse" className="w-4 h-4" />
-          <span>最近月赛进步排行</span>
+          <span>{latestMonth ? `${latestMonth}月月赛进步排行` : '最近月赛进步排行'}</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('handicap')}
+          className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+            isHandicapTab
+              ? 'text-white shadow-md'
+              : 'text-gray-600 hover:bg-white/80 card-shadow'
+          }`}
+          style={isHandicapTab ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+        >
+          <Icon name="chart" className="w-4 h-4" />
+          <span>平均差点排行</span>
         </button>
       </div>
 
@@ -227,7 +233,7 @@ export default function RankingPage() {
             {isHandicapTab ? '平均差点' : '进步系数'}
           </div>
           <div className="col-span-4 text-center">
-            {isHandicapTab ? '平均杆' : '最近杆数/历史平均'}
+            {isHandicapTab ? '平均杆/最佳杆' : '最近杆数/历史平均'}
           </div>
           <div className="col-span-2 text-center">参赛率</div>
         </div>
@@ -240,7 +246,7 @@ export default function RankingPage() {
             {isHandicapTab ? '差点' : '进步'}
           </div>
           <div className="col-span-3 text-center">
-            {isHandicapTab ? '平均杆' : '杆数/平均'}
+            {isHandicapTab ? '均杆/最佳' : '杆数/平均'}
           </div>
         </div>
 
@@ -272,7 +278,7 @@ export default function RankingPage() {
               </div>
               <div className="text-right text-[11px] min-w-[50px]" style={{ color: '#475569' }}>
                 {isHandicapTab ? (
-                  <span>{r.avgScore}</span>
+                  <span>{r.avgScore}<span style={{ color: '#cbd5e1' }}>/</span><span className="text-amber-600">{r.bestScore}</span></span>
                 ) : (
                   <span>{r.latestScore}/{r.avgScore}</span>
                 )}
@@ -306,7 +312,11 @@ export default function RankingPage() {
               </div>
               <div className="col-span-4 flex items-center justify-center">
                 {isHandicapTab ? (
-                  <span className="text-sm px-3 py-1 rounded-lg" style={{ color: '#475569', background: 'rgba(241,245,249,0.7)' }}>{r.avgScore}</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm px-2.5 py-1 rounded-lg" style={{ color: '#475569', background: 'rgba(241,245,249,0.7)' }}>{r.avgScore}</span>
+                    <span style={{ color: '#cbd5e1' }}>/</span>
+                    <span className="text-sm text-amber-600 bg-amber-50 px-2.5 py-1 rounded-lg font-semibold">{r.bestScore}</span>
+                  </div>
                 ) : (
                   <div className="flex items-center gap-1.5">
                     <span className="text-sm px-2.5 py-1 rounded-lg" style={{ color: '#475569', background: 'rgba(241,245,249,0.7)' }}>{r.latestScore}</span>

@@ -12,9 +12,9 @@ function getCourseImageUrl(tournament: Tournament): string {
   return getCourseImage(tournament.courseName)
 }
 
-// 判断是否记录推杆数（2026年4月及以后的比赛才记录推杆，3月及以前不记录）
+// 判断是否记录推杆数（2026年5月及以后的比赛才记录推杆，4月及以前不记录）
 function hasPuttData(date: string): boolean {
-  return date >= '2026-04-01'
+  return date >= '2026-05-01'
 }
 
 export default function GameDetailPage() {
@@ -22,7 +22,6 @@ export default function GameDetailPage() {
   const {
     tournaments, games, getMemberById,
     getGrossRanking, getPuttRanking,
-    getProgressStar,
     getProgressScore, getMemberGames,
     birdieRecords,
   } = useStore()
@@ -39,11 +38,10 @@ export default function GameDetailPage() {
 
   const game = games.find(g => g.tournamentId === id)
   const [tab, setTab] = useState<Tab>('gross')
-  const [sortBy, setSortBy] = useState<SortBy>('gross')
+  const [sortBy, setSortBy] = useState<SortBy>('progress')
 
   const grossRanking = getGrossRanking(id)
   const puttRanking = getPuttRanking(id)
-  const progressStar = getProgressStar(id)
 
   // 获取完整数据（包含杆数和进步系数）
   const fullRanking = (game?.scores ?? [])
@@ -63,6 +61,8 @@ export default function GameDetailPage() {
     .map((r, i) => ({ ...r, rank: i + 1 }))
 
   const showPuttTab = hasPuttData(tournament.date)
+  const playerCount = fullRanking.length
+  const topN = playerCount <= 5 ? 2 : 3  // 参赛≤5人只有前2名，否则前3名
 
   const currentData = tab === 'putt' ? puttRanking : fullRanking
 
@@ -146,29 +146,117 @@ export default function GameDetailPage() {
         </div>
       </div>
 
-      {/* Stars */}
-      {progressStar && (
-        <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-5 card-shadow" style={{
-          background: 'linear-gradient(135deg, rgba(221, 228, 213, 0.5) 0%, rgba(240, 243, 236, 0.6) 100%)',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid rgba(184, 204, 170, 0.3)',
-        }}>
-          <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-golf-700 mb-3">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(78, 126, 58, 0.1)' }}><Icon name="horse" className="w-4 h-4" /></div>
-            进步之星
+      {/* 本场亮点：进步黑马 / 退步红马 / 鸟哥 三模块统一风格 */}
+      {(() => {
+        const withProgress = fullRanking.filter(r => r.progress != null)
+        const bestPlayer = withProgress.length > 0 ? withProgress.reduce((best, r) => (r.progress ?? -999) > (best.progress ?? -999) ? r : best) : null
+        const worstPlayer = withProgress.length > 0 ? withProgress.reduce((worst, r) => (r.progress ?? 999) < (worst.progress ?? 999) ? r : worst) : null
+        const showWorst = worstPlayer && bestPlayer && worstPlayer.member.id !== bestPlayer.member.id && (worstPlayer.progress ?? 0) < 0
+        const gameBirdies = birdieRecords.filter(r => r.date === tournament.date || r.location === tournament.courseName)
+        // 取打鸟最多的那个人作为"鸟哥"
+        const birdCountMap = new Map<string, { count: number, notes: string[] }>()
+        gameBirdies.forEach(b => {
+          const prev = birdCountMap.get(b.memberId) || { count: 0, notes: [] }
+          prev.count++
+          if (b.note) prev.notes.push(b.note)
+          birdCountMap.set(b.memberId, prev)
+        })
+        const birdHero = birdCountMap.size > 0
+          ? [...birdCountMap.entries()].sort((a, b) => b[1].count - a[1].count)[0]
+          : null
+        const birdHeroMember = birdHero ? getMemberById(birdHero[0]) : null
+
+        if (!bestPlayer && gameBirdies.length === 0) return null
+
+        // 计算有几个模块展示
+        const moduleCount = (bestPlayer ? 1 : 0) + (showWorst ? 1 : 0) + (birdHeroMember ? 1 : 0)
+        const gridCols = moduleCount === 3 ? 'grid-cols-3' : moduleCount === 2 ? 'grid-cols-2' : 'grid-cols-1'
+
+        return (
+          <div className={`grid gap-2 sm:gap-2.5 ${gridCols}`}>
+            {/* 进步黑马 */}
+            {bestPlayer && (
+              <Link to={`/member/${bestPlayer.member.id}`} className="group/card relative rounded-2xl p-2.5 sm:p-3 transition-all duration-200 hover:-translate-y-0.5 overflow-hidden card-shadow" style={{
+                background: 'linear-gradient(145deg, rgba(220, 237, 207, 0.55) 0%, rgba(237, 245, 230, 0.65) 100%)',
+                border: '1px solid rgba(184, 204, 170, 0.35)',
+              }}>
+                <div className="absolute -right-3 -top-3 w-12 h-12 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(78,126,58,0.4), transparent)' }} />
+                <div className="flex flex-col items-center text-center gap-1.5">
+                  <div className="relative">
+                    <img src={bestPlayer.member.avatar} alt="" className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-100 shadow-md object-cover ring-2 ring-white/80 group-hover/card:ring-golf-300/60 transition-all" />
+                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center text-[8px] sm:text-[9px] font-black text-white shadow-lg" style={{ background: 'linear-gradient(135deg, #4e7e3a, #6ba04a)' }}>↑</div>
+                  </div>
+                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-golf-700">
+                    <Icon name="horse" className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    进步黑马
+                  </div>
+                  <div className="text-xs sm:text-sm font-bold text-gray-800 truncate w-full flex items-center justify-center gap-0.5">
+                    {bestPlayer.member.name}
+                    {birdKingMap.has(bestPlayer.member.id) && <BirdKingBadge rank={birdKingMap.get(bestPlayer.member.id)!} />}
+                  </div>
+                  <div className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold" style={{ background: 'rgba(78, 126, 58, 0.12)', color: '#3d6b2b' }}>
+                    ↑{(bestPlayer.progress ?? 0).toFixed(1)}
+                  </div>
+                </div>
+              </Link>
+            )}
+
+            {/* 退步红马 */}
+            {showWorst && worstPlayer && (
+              <Link to={`/member/${worstPlayer.member.id}`} className="group/card relative rounded-2xl p-2.5 sm:p-3 transition-all duration-200 hover:-translate-y-0.5 overflow-hidden card-shadow" style={{
+                background: 'linear-gradient(145deg, rgba(254, 221, 221, 0.4) 0%, rgba(255, 241, 241, 0.5) 100%)',
+                border: '1px solid rgba(252, 165, 165, 0.3)',
+              }}>
+                <div className="absolute -right-3 -top-3 w-12 h-12 rounded-full opacity-15" style={{ background: 'radial-gradient(circle, rgba(220,38,38,0.4), transparent)' }} />
+                <div className="flex flex-col items-center text-center gap-1.5">
+                  <div className="relative">
+                    <img src={worstPlayer.member.avatar} alt="" className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-100 shadow-md object-cover ring-2 ring-white/80 group-hover/card:ring-red-300/60 transition-all" />
+                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center text-[8px] sm:text-[9px] font-black text-white shadow-lg" style={{ background: 'linear-gradient(135deg, #dc2626, #ef4444)' }}>↓</div>
+                  </div>
+                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-red-600">
+                    <Icon name="downfall" className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    退步红马
+                  </div>
+                  <div className="text-xs sm:text-sm font-bold text-gray-800 truncate w-full flex items-center justify-center gap-0.5">
+                    {worstPlayer.member.name}
+                    {birdKingMap.has(worstPlayer.member.id) && <BirdKingBadge rank={birdKingMap.get(worstPlayer.member.id)!} />}
+                  </div>
+                  <div className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold" style={{ background: 'rgba(220, 38, 38, 0.1)', color: '#b91c1c' }}>
+                    ↓{Math.abs(worstPlayer.progress ?? 0).toFixed(1)}
+                  </div>
+                </div>
+              </Link>
+            )}
+
+            {/* 打鸟之哥/姐 */}
+            {birdHeroMember && birdHero && (
+              <Link to={`/member/${birdHeroMember.id}`} className="group/card relative rounded-2xl p-2.5 sm:p-3 transition-all duration-200 hover:-translate-y-0.5 overflow-hidden card-shadow" style={{
+                background: 'linear-gradient(145deg, rgba(207, 233, 250, 0.5) 0%, rgba(228, 243, 255, 0.6) 100%)',
+                border: '1px solid rgba(147, 197, 235, 0.35)',
+              }}>
+                <div className="absolute -right-3 -top-3 w-12 h-12 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(14,116,194,0.4), transparent)' }} />
+                <div className="flex flex-col items-center text-center gap-1.5">
+                  <div className="relative">
+                    <img src={birdHeroMember.avatar} alt="" className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-100 shadow-md object-cover ring-2 ring-white/80 group-hover/card:ring-sky-300/60 transition-all" />
+                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center text-[8px] sm:text-[9px] font-black text-white shadow-lg" style={{ background: 'linear-gradient(135deg, #0284c7, #38bdf8)' }}>★</div>
+                  </div>
+                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-sky-700">
+                    <Icon name="birdstar" className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    {birdHeroMember.gender === '男' ? '打鸟之哥' : '打鸟之姐'}
+                  </div>
+                  <div className="text-xs sm:text-sm font-bold text-gray-800 truncate w-full flex items-center justify-center gap-0.5">
+                    {birdHeroMember.name}
+                    {birdKingMap.has(birdHeroMember.id) && <BirdKingBadge rank={birdKingMap.get(birdHeroMember.id)!} />}
+                  </div>
+                  <div className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold" style={{ background: 'rgba(14, 116, 194, 0.1)', color: '#0369a1' }}>
+                    {birdHero[1].notes.length > 0 ? birdHero[1].notes.join('、') : `${birdHero[1].count} 只鸟`}
+                  </div>
+                </div>
+              </Link>
+            )}
           </div>
-          <Link to={`/member/${progressStar.member.id}`} className="flex items-center gap-3 sm:gap-4 p-2 rounded-xl hover:bg-white/60 transition-colors">
-            <img src={progressStar.member.avatar} alt="" className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gray-100 shadow-sm" />
-            <div>
-              <div className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-1">{progressStar.member.name}{birdKingMap.has(progressStar.member.id) && <BirdKingBadge rank={birdKingMap.get(progressStar.member.id)!} />}</div>
-              <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(progressStar.member, getMemberGames(progressStar.member.id).length)}</div>
-              <div className="text-[10px] sm:text-xs text-golf-600 font-semibold mt-0.5">
-                进步系数 <span className="text-golf-500">↑{progressStar.progress}</span>
-              </div>
-            </div>
-          </Link>
-        </div>
-      )}
+        )
+      })()}
 
       {/* 推杆排名Tab - 仅当有推杆数据时显示切换 */}
       {showPuttTab && (
@@ -204,17 +292,6 @@ export default function GameDetailPage() {
       {tab !== 'putt' && (
         <div className="flex items-center gap-2 text-xs sm:text-sm">
           <button
-            onClick={() => setSortBy('gross')}
-            className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
-              sortBy === 'gross'
-                ? 'text-golf-700 shadow-sm'
-                : 'text-gray-500 hover:bg-white/80 card-shadow'
-            }`}
-            style={sortBy === 'gross' ? { background: 'rgba(221, 228, 213, 0.6)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
-          >
-            按杆数
-          </button>
-          <button
             onClick={() => setSortBy('progress')}
             className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
               sortBy === 'progress'
@@ -224,6 +301,17 @@ export default function GameDetailPage() {
             style={sortBy === 'progress' ? { background: 'rgba(221, 228, 213, 0.6)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
             按进步系数
+          </button>
+          <button
+            onClick={() => setSortBy('gross')}
+            className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
+              sortBy === 'gross'
+                ? 'text-golf-700 shadow-sm'
+                : 'text-gray-500 hover:bg-white/80 card-shadow'
+            }`}
+            style={sortBy === 'gross' ? { background: 'rgba(221, 228, 213, 0.6)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+          >
+            按杆数
           </button>
         </div>
       )}
@@ -238,9 +326,9 @@ export default function GameDetailPage() {
           <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-gray-50/80 text-xs text-gray-400 border-b border-gray-100 font-medium">
             <span className="w-6 sm:w-7 text-center">排名</span>
             <span className="flex-1 ml-8 sm:ml-11">会员</span>
-            <div className="flex text-right gap-2 sm:gap-4">
-              <span className="w-12 sm:w-16">杆数</span>
-              <span className="w-10 sm:w-12">进步</span>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <span className="w-14 sm:w-16 text-right">杆数</span>
+              <span className="w-12 sm:w-14 text-right">进步</span>
             </div>
           </div>
         )}
@@ -270,8 +358,8 @@ export default function GameDetailPage() {
                 glow: 'drop-shadow(0 1px 3px rgba(249,115,22,0.4))',
               },
             ];
-            const isTop3 = item.rank >= 1 && item.rank <= 3;
-            const crown = isTop3 ? crownConfigs[item.rank - 1] : null;
+            const isTopN = item.rank >= 1 && item.rank <= topN;
+            const crown = isTopN ? crownConfigs[item.rank - 1] : null;
 
             return (
             <Link
@@ -280,14 +368,14 @@ export default function GameDetailPage() {
               className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-3.5 hover:bg-golf-50/50 transition-colors"
             >
               <span className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 ${
-                item.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm' :
-                item.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-sm' :
-                item.rank === 3 ? 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm' :
+                item.rank === 1 && topN >= 1 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm' :
+                item.rank === 2 && topN >= 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-sm' :
+                item.rank === 3 && topN >= 3 ? 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm' :
                 'bg-gray-100 text-gray-500'
               }`}>{item.rank}</span>
               {/* 头像 + 前三名皇冠 */}
-              <div className={`relative flex-shrink-0 ${isTop3 ? 'mt-1.5' : ''}`}>
-                {isTop3 && crown && (
+              <div className={`relative flex-shrink-0 ${isTopN ? 'mt-1.5' : ''}`}>
+                {isTopN && crown && (
                   <div className="absolute -top-3 sm:-top-3.5 left-1/2 -translate-x-1/2 z-10" style={{ filter: crown.glow }}>
                     <svg viewBox="0 0 48 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-5 sm:w-7 sm:h-5">
                       {/* 皇冠主体 */}
@@ -307,7 +395,7 @@ export default function GameDetailPage() {
                     </svg>
                   </div>
                 )}
-                <img src={item.member.avatar} alt="" className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow-sm ${isTop3 ? 'ring-2 ring-offset-1 ' + (item.rank === 1 ? 'ring-amber-300/80' : item.rank === 2 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`} />
+                <img src={item.member.avatar} alt="" className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow-sm ${isTopN ? 'ring-2 ring-offset-1 ' + (item.rank === 1 ? 'ring-amber-300/80' : item.rank === 2 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`} />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-xs sm:text-sm font-medium text-gray-800 truncate flex items-center gap-1">{item.member.name}{birdKingMap.has(item.member.id) && <BirdKingBadge rank={birdKingMap.get(item.member.id)!} />}</div>
@@ -316,12 +404,12 @@ export default function GameDetailPage() {
               {tab === 'putt' ? (
                 <span className="text-xs sm:text-sm font-bold text-gray-900 bg-gray-50 px-2.5 py-1 rounded-lg">{item.putts} 推</span>
               ) : (
-                <div className="flex text-right gap-2 sm:gap-4 flex-shrink-0">
-                  <span className="w-12 sm:w-16 text-xs sm:text-sm font-bold text-gray-900">{item.grossScore} 杆</span>
-                  <span className={`w-10 sm:w-12 text-[10px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-full ${
+                <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                  <span className="w-14 sm:w-16 text-right text-xs sm:text-sm font-bold text-gray-900">{item.grossScore} 杆</span>
+                  <span className={`w-12 sm:w-14 text-right text-[10px] sm:text-xs font-semibold ${
                     item.progress == null ? 'text-gray-400' : 
-                    item.progress > 0 ? 'text-green-700 bg-green-50' : 
-                    item.progress < 0 ? 'text-red-600 bg-red-50' : 'text-gray-500'
+                    item.progress > 0 ? 'text-green-700' : 
+                    item.progress < 0 ? 'text-red-600' : 'text-gray-500'
                   }`}>
                     {item.progress == null ? '--' : `${item.progress > 0 ? '↑' : item.progress < 0 ? '↓' : ''}${Math.abs(item.progress)}`}
                   </span>
@@ -332,6 +420,7 @@ export default function GameDetailPage() {
           })}
         </div>
       </div>
+
       </div>
     </div>
   )

@@ -275,6 +275,48 @@ export function Icon({ name, className = 'w-[1em] h-[1em] inline-block align-[-0
       </svg>
     ),
 
+    // 📉 退步红马 — 下坠流星 + 向下箭头
+    downfall: (
+      <svg viewBox="0 0 24 24" fill="none" className={className}>
+        {/* 下坠轨迹 */}
+        <path d="M5 4c2 2 4.5 5 6.5 8" stroke="#e8a735" strokeWidth="1.4" strokeLinecap="round" opacity="0.5"/>
+        <path d="M3 6c2.5 2 5 5.5 7 8.5" stroke="#ef6c00" strokeWidth="1" strokeLinecap="round" opacity="0.35"/>
+        {/* 主体箭头 */}
+        <path d="M8 5l10 10v-4" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M18 15h-4" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+        {/* 中心下坠物 */}
+        <circle cx="14" cy="14" r="4.5" fill={ac} opacity="0.2"/>
+        <circle cx="14" cy="14" r="4.5" stroke="currentColor" strokeWidth={sw}/>
+        <path d="M14 12v4M12.5 14.5l1.5 1.5 1.5-1.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+        {/* 碎片装饰 */}
+        <circle cx="6" cy="18" r="1" fill="currentColor" opacity="0.2"/>
+        <circle cx="9.5" cy="20" r="0.8" fill="currentColor" opacity="0.15"/>
+      </svg>
+    ),
+
+    // 🐦 打鸟之星 — 鸟 + 星光，用于打鸟之哥/姐
+    birdstar: (
+      <svg viewBox="0 0 24 24" fill="none" className={className}>
+        {/* 翅膀 */}
+        <ellipse cx="15" cy="13" rx="3" ry="4" transform="rotate(20 15 13)" fill={ac}/>
+        {/* 鸟身 */}
+        <ellipse cx="13" cy="12.5" rx="7.5" ry="7" stroke="currentColor" strokeWidth={sw}/>
+        {/* 鸟嘴 */}
+        <path d="M6 10.5L2 9l0.2 3z" fill={ac} stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+        {/* 眼睛 */}
+        <circle cx="9" cy="10.5" r="2.2" fill="currentColor"/>
+        <circle cx="8.3" cy="9.8" r="0.8" fill="white"/>
+        {/* 尾巴 */}
+        <path d="M18.5 10c1 1.5.5 4-1.5 5.5" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+        <path d="M20.5 11.5c1.2-.8 1.8-2.2 1.2-3.2" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+        {/* 小脚 */}
+        <path d="M11 19v2.2M14.5 19.3v2.2" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+        {/* 星星装饰 */}
+        <path d="M3.5 3l0.5 1.1 1.2 0.17-0.85 0.83 0.2 1.2L3.5 5.7 2.45 6.3l0.2-1.2-0.85-0.83 1.2-0.17z" fill={ac} stroke="currentColor" strokeWidth="0.6"/>
+        <path d="M20 2l0.35 0.7 0.8 0.12-0.58 0.56 0.14 0.8L20 3.8l-0.7 0.38 0.14-0.8-0.58-0.56 0.8-0.12z" fill={ac} stroke="currentColor" strokeWidth="0.5"/>
+      </svg>
+    ),
+
     // 🎯 靶心
     target: (
       <svg viewBox="0 0 24 24" fill="none" className={className}>

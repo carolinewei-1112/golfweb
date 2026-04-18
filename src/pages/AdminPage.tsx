@@ -1614,11 +1614,13 @@ function FinanceManager() {
                 <label className="text-xs text-gray-500 mb-1 block">类别</label>
                 <select
                   value={expenseForm.category}
-                  onChange={e => setExpenseForm({ ...expenseForm, category: e.target.value as 'meal' | 'prize' | 'other' })}
+                  onChange={e => setExpenseForm({ ...expenseForm, category: e.target.value as 'meal' | 'prize' | 'bonus' | 'drink' | 'other' })}
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-golf-500"
                 >
-                  <option value="meal">吃饭</option>
+                  <option value="meal">聚餐</option>
+                  <option value="drink">饮料</option>
                   <option value="prize">奖品</option>
+                  <option value="bonus">奖金</option>
                   <option value="other">其他</option>
                 </select>
               </div>
@@ -1668,7 +1670,7 @@ function FinanceManager() {
             )}
             {[...expenses].sort((a, b) => b.createTime.localeCompare(a.createTime)).map(expense => {
               const tournament = tournaments.find(t => t.id === expense.tournamentId)
-              const categoryLabels = { meal: '吃饭', prize: '奖品', other: '其他' }
+              const categoryLabels = { meal: '聚餐', prize: '奖品', bonus: '奖金', drink: '饮料', other: '其他' }
               return (
                 <div key={expense.id} className="bg-white rounded-xl border border-gray-100 p-3 flex items-center justify-between">
                   <div>

@@ -138,26 +138,24 @@ export default function HomePage() {
               </div>
             </div>
             <div className="flex-1 min-w-0">
-              {announcements.slice(0, 2).map(a => (
+              {announcements.slice(0, 1).map(a => (
                 <div key={a.id} className="rounded-lg px-3 py-2 text-xs sm:text-sm break-words leading-relaxed font-medium" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.9)' }}>
                   {a.content}
                 </div>
               ))}
               {announcements.length === 0 && (
                 <div className="rounded-lg px-3 py-2 text-xs sm:text-sm break-words leading-relaxed font-medium" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(8px)', color: 'rgba(255, 255, 255, 0.9)' }}>
-                  4月月赛时间4月18日，请各位会员预留时间。
+                  4月月赛已圆满完成。5月会安排一场夜场🌙 时间预计是（5月16日 或 17日）
                 </div>
               )}
-              {announcements.length > 2 && (
-                <div className="text-xs text-white/50 text-right mt-1">还有 {announcements.length - 2} 条公告</div>
-              )}
+
             </div>
           </div>
         </div>
       </div>
 
-      {/* 本月月赛预告 */}
-      <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl card-shadow group" style={{ background: 'rgba(255,255,255,0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.5)' }}>
+      {/* 本月月赛预告 - 比赛时间过后自动隐藏 */}
+      {countdown > 0 && <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl card-shadow group" style={{ background: 'rgba(255,255,255,0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.5)' }}>
         <div className="h-40 sm:h-52 overflow-hidden relative" style={{ backgroundColor: '#2d5a27', backgroundImage: 'url(https://birdie-club-1259332535.cos.ap-guangzhou.myqcloud.com/images/courses/junlan-aerial-island.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute top-3 sm:top-4 left-3 sm:left-4">
@@ -182,7 +180,7 @@ export default function HomePage() {
             <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm flex-wrap">
               <div className="px-2.5 py-1.5 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(221, 228, 213, 0.6)' }}>
                 <Icon name="pin" className="w-3.5 h-3.5 text-golf-600" />
-                <span className="font-medium text-golf-700">广州君兰</span>
+                <span className="font-medium text-golf-700">君兰</span>
               </div>
             </div>
             <div className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 2px 8px rgba(46, 79, 36, 0.2)' }}>
@@ -196,12 +194,131 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
+
+      {/* 近期比赛 - 月赛预告过期后自动替换显示 */}
+      {countdown <= 0 && (() => {
+        const latestTournament = [...tournaments].sort((a, b) => b.date.localeCompare(a.date))[0]
+        if (!latestTournament) return null
+        const latestGame = games.find(g => g.tournamentId === latestTournament.id)
+        if (!latestGame) return null
+        const imageUrl = getCourseImage(latestTournament.courseName)
+        // 提取月份
+        const monthMatch = latestTournament.name.match(/(\d+)月/)
+        const monthLabel = monthMatch ? `${monthMatch[1]}月` : latestTournament.name
+        // 按进步系数排名
+        const rankedScores = latestGame.scores
+          .map(s => {
+            const member = getMemberById(s.memberId)
+            const progress = getProgressScore(s.memberId, latestTournament.id, games, tournaments)
+            return { ...s, member, progress }
+          })
+          .filter(s => s.member && s.progress != null)
+          .sort((a, b) => (b.progress ?? -999) - (a.progress ?? -999))
+        const bestProgress = rankedScores[0]
+        const worstProgress = rankedScores[rankedScores.length - 1]
+        const showWorst = worstProgress && bestProgress && worstProgress.memberId !== bestProgress.memberId && (worstProgress.progress ?? 0) < 0
+        // 本场打鸟者
+        const gameBirdies = birdieRecords.filter(r =>
+          r.date === latestTournament.date || r.location === latestTournament.courseName
+        )
+
+        return (
+          <Link to={`/game/${latestTournament.id}`} className="block group">
+            <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow hover:card-shadow-hover transition-all duration-300 hover:-translate-y-1" style={{ background: 'rgba(255,255,255,0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.5)' }}>
+              {/* 顶部球场大图 */}
+              <div className="h-36 sm:h-44 overflow-hidden relative">
+                <img
+                  src={imageUrl}
+                  alt={latestTournament.courseName}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=600&h=300&fit=crop&q=80&auto=format' }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+                {/* 标签 */}
+                <div className="absolute top-3 left-3 flex items-center gap-2">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold text-white flex items-center gap-1" style={{ background: 'linear-gradient(135deg, #4e7e3a 0%, #6ba04a 100%)', boxShadow: '0 2px 8px rgba(78, 126, 58, 0.35)' }}>
+                    <Icon name="golf" className="w-3 h-3" /> 近期比赛
+                  </span>
+                </div>
+                <div className="absolute top-3 right-3">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold text-white/95 flex items-center gap-1.5 backdrop-blur-sm" style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                    <Icon name="people" className="w-3 h-3" /> {latestGame.scores.length}人参赛
+                  </span>
+                </div>
+                {/* 底部信息 */}
+                <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+                  <div className="text-white">
+                    <h3 className="text-lg sm:text-xl font-bold drop-shadow-lg">{monthLabel}</h3>
+                    <p className="text-xs sm:text-sm text-white/85 drop-shadow-sm mt-0.5 flex items-center gap-1.5">
+                      <Icon name="pin" className="w-3 h-3" /> {latestTournament.courseName}
+                    </p>
+                  </div>
+                  <span className="text-[10px] sm:text-xs text-white/70 font-medium flex-shrink-0">{latestTournament.date}</span>
+                </div>
+              </div>
+
+              {/* 亮点数据：进步黑马 / 退步红马 / 鸟哥 */}
+              <div className="p-4 sm:p-5">
+                <div className={`grid gap-3 ${gameBirdies.length > 0 ? 'grid-cols-3' : showWorst ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                  {/* 进步黑马 */}
+                  {bestProgress?.member && bestProgress.progress != null && (
+                    <div className="rounded-xl p-3 flex flex-col items-center gap-1.5 text-center" style={{ background: 'linear-gradient(135deg, rgba(221, 228, 213, 0.5) 0%, rgba(240, 243, 236, 0.3) 100%)' }}>
+                      <img src={bestProgress.member.avatar} alt="" className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl shadow-sm object-cover ring-2 ring-golf-200/60" />
+                      <div className="min-w-0 w-full">
+                        <div className="text-[10px] sm:text-xs text-golf-600 font-bold mb-0.5 flex items-center justify-center gap-0.5"><Icon name="horse" className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> 进步黑马</div>
+                        <div className="text-xs sm:text-sm font-bold text-gray-800 truncate">
+                          {bestProgress.member.name}
+                        </div>
+                        <div className="text-[10px] sm:text-xs font-bold text-golf-600">↑{bestProgress.progress!.toFixed(1)}</div>
+                      </div>
+                    </div>
+                  )}
+                  {/* 退步红马 */}
+                  {showWorst && worstProgress?.member && (
+                    <div className="rounded-xl p-3 flex flex-col items-center gap-1.5 text-center" style={{ background: 'linear-gradient(135deg, rgba(254, 226, 226, 0.4) 0%, rgba(254, 242, 242, 0.5) 100%)' }}>
+                      <img src={worstProgress.member.avatar} alt="" className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl shadow-sm object-cover ring-2 ring-red-200/60" />
+                      <div className="min-w-0 w-full">
+                        <div className="text-[10px] sm:text-xs text-red-500 font-bold mb-0.5 flex items-center justify-center gap-0.5"><Icon name="downfall" className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> 退步红马</div>
+                        <div className="text-xs sm:text-sm font-bold text-gray-800 truncate">
+                          {worstProgress.member.name}
+                        </div>
+                        <div className="text-[10px] sm:text-xs font-bold text-red-500">↓{Math.abs(worstProgress.progress!).toFixed(1)}</div>
+                      </div>
+                    </div>
+                  )}
+                  {/* 鸟哥 - 本场打鸟者 */}
+                  {gameBirdies.length > 0 && (() => {
+                    const birdMember = getMemberById(gameBirdies[0].memberId)
+                    if (!birdMember) return null
+                    return (
+                      <div className="rounded-xl p-3 flex flex-col items-center gap-1.5 text-center" style={{ background: 'linear-gradient(135deg, rgba(186, 230, 253, 0.35) 0%, rgba(224, 242, 254, 0.4) 100%)' }}>
+                        <img src={birdMember.avatar} alt="" className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl shadow-sm object-cover ring-2 ring-sky-200/60" />
+                        <div className="min-w-0 w-full">
+                          <div className="text-[10px] sm:text-xs text-sky-600 font-bold mb-0.5 flex items-center justify-center gap-0.5"><Icon name="birdstar" className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> {birdMember.gender === '男' ? '打鸟之哥' : '打鸟之姐'}</div>
+                          <div className="text-xs sm:text-sm font-bold text-gray-800 truncate">
+                            {birdMember.name}
+                          </div>
+                          <div className="text-[10px] sm:text-xs font-bold text-sky-600">{gameBirdies.filter(b => b.memberId === birdMember.id).length > 1 ? `${gameBirdies.filter(b => b.memberId === birdMember.id).length}只鸟` : gameBirdies[0].note || '打鸟'}</div>
+                        </div>
+                      </div>
+                    )
+                  })()}
+                </div>
+
+                <div className="mt-3 flex items-center gap-1 text-xs text-golf-600 font-semibold group-hover:gap-2 transition-all">
+                  查看完整成绩 <span className="text-sm">→</span>
+                </div>
+              </div>
+            </div>
+          </Link>
+        )
+      })()}
 
       {/* 近期比赛 和 排行榜 并排 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-stretch">
         {/* 历史比赛入口 */}
-        <Card to="/history" icon={<Icon name="clipboard" className="w-5 h-5" />} title="近期比赛">
+        <Card to="/history" icon={<Icon name="clipboard" className="w-5 h-5" />} title="历史比赛">
           <div className="space-y-3 sm:space-y-4">
             {recentTournaments.slice(0, 3).map(t => {
               const monthMatch = t.name.match(/(\d+)月/)
@@ -279,7 +396,7 @@ export default function HomePage() {
         </Card>
 
         {/* 进步排行榜入口 */}
-        <Card to="/ranking" icon={<Icon name="trophy" className="w-5 h-5" />} title="进步排行" accent="bg-gradient-to-r from-amber-50/50 to-yellow-50/50">
+        <Card to="/ranking?tab=progress" icon={<Icon name="trophy" className="w-5 h-5" />} title="进步排行" accent="bg-gradient-to-r from-amber-50/50 to-yellow-50/50">
           <div className="space-y-1.5 sm:space-y-2 pr-1">
             {progressRanking.map(r => {
               const crownConfigs = [

@@ -4,7 +4,7 @@ import { Icon, BirdKingBadge } from '../components/Icons'
 
 export default function FinancePage() {
   const { members, tournaments, membershipFees, expenses, birdieRecords } = useStore()
-  const [activeTab, setActiveTab] = useState<'income' | 'expense'>('income')
+  const [activeTab, setActiveTab] = useState<'income' | 'expense'>('expense')
 
   // 鸟王映射：打鸟次数前3名
   const birdKingMap = (() => {
@@ -68,7 +68,7 @@ export default function FinancePage() {
           </div>
         </div>
         <div className="mt-2 text-[9px] sm:text-[10px] text-gray-400/70 text-center">
-          含月赛聚餐·奖金·奖品 ｜ 明细见「支出记录」
+          用于月赛聚餐及奖励
         </div>
       </div>
 
@@ -233,23 +233,102 @@ export default function FinancePage() {
           {expenses.length === 0 && (
             <div className="text-center py-10 sm:py-12 text-gray-400 text-xs sm:text-sm rounded-2xl card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)' }}>暂无支出记录</div>
           )}
-          {[...expenses].sort((a, b) => b.createTime.localeCompare(a.createTime)).map(expense => {
+          {(() => {
+            const totalIncome = membershipFees.reduce((s, f) => s + f.amount, 0)
+            // 按 createTime 升序排列，逐条累减余额
+            const sortedExp = [...expenses].sort((a, b) => a.createTime.localeCompare(b.createTime))
+            const expBalanceMap = new Map<string, number>()
+            let runningExpense = 0
+            sortedExp.forEach(exp => {
+              runningExpense += exp.amount
+              expBalanceMap.set(exp.id, totalIncome - runningExpense)
+            })
+            return sortedExp.reverse().map(expense => {
             const tournament = tournaments.find(t => t.id === expense.tournamentId)
-            const categoryLabels: Record<string, string> = { meal: '吃饭', prize: '奖品', other: '其他' }
+            const curBalance = expBalanceMap.get(expense.id) ?? 0
+            const categoryLabels: Record<string, string> = { meal: '聚餐', prize: '奖品', bonus: '奖金', drink: '饮料', other: '其他' }
+            const ac = '#c5e84d'
+            const sw = '1.8'
+            const categoryIconsSvg: Record<string, { svg: React.ReactNode; bg: string }> = {
+              meal: {
+                bg: 'rgba(251, 146, 60, 0.12)',
+                svg: (
+                  <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 sm:w-[18px] sm:h-[18px]">
+                    <circle cx="12" cy="12" r="4" fill={ac}/>
+                    <path d="M3 11h18M3 13h18" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+                    <path d="M6 7c0-2.5 1.5-4 3-4s2 1 2 2.5V11" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+                    <path d="M14 7V3M16 7V3M18 7c0-2 0-4-2-4" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+                    <path d="M16 13v5.5a2 2 0 01-2 2h-4a2 2 0 01-2-2V13" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                ),
+              },
+              drink: {
+                bg: 'rgba(59, 130, 246, 0.12)',
+                svg: (
+                  <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 sm:w-[18px] sm:h-[18px]">
+                    <rect x="9" y="12" width="6" height="5" rx="1" fill={ac}/>
+                    <path d="M7 4h10l-1.5 16H8.5L7 4z" stroke="currentColor" strokeWidth={sw} strokeLinejoin="round"/>
+                    <path d="M7 9h10" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+                    <circle cx="17" cy="7" r="2" stroke="currentColor" strokeWidth="1.4"/>
+                  </svg>
+                ),
+              },
+              prize: {
+                bg: 'rgba(168, 85, 247, 0.12)',
+                svg: (
+                  <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 sm:w-[18px] sm:h-[18px]">
+                    <rect x="8" y="10" width="8" height="8" rx="1.5" fill={ac}/>
+                    <rect x="5" y="8" width="14" height="12" rx="2.5" stroke="currentColor" strokeWidth={sw} strokeLinejoin="round"/>
+                    <path d="M12 4v16M8 8h8" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+                    <path d="M9 4h6" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+                  </svg>
+                ),
+              },
+              bonus: {
+                bg: 'rgba(234, 179, 8, 0.12)',
+                svg: (
+                  <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 sm:w-[18px] sm:h-[18px]">
+                    <circle cx="12" cy="12" r="4.5" fill={ac}/>
+                    <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth={sw}/>
+                    <path d="M12 4v1.5M12 18.5V20M4 12h1.5M18.5 12H20" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+                    <text x="12" y="15.5" textAnchor="middle" fill="currentColor" fontSize="8" fontWeight="bold">¥</text>
+                  </svg>
+                ),
+              },
+              other: {
+                bg: 'rgba(107, 114, 128, 0.12)',
+                svg: (
+                  <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 sm:w-[18px] sm:h-[18px]">
+                    <rect x="9" y="10" width="6" height="6" rx="1" fill={ac}/>
+                    <rect x="5" y="4" width="14" height="17" rx="2.5" stroke="currentColor" strokeWidth={sw} strokeLinejoin="round"/>
+                    <path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"/>
+                  </svg>
+                ),
+              },
+            }
+            const iconData = categoryIconsSvg[expense.category] || categoryIconsSvg.other
             return (
-              <div key={expense.id} className="rounded-xl sm:rounded-2xl p-3 sm:p-4 flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 card-shadow hover:card-shadow-hover" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
-                <div className="min-w-0">
-                  <div className="text-xs sm:text-sm font-medium">{categoryLabels[expense.category]}</div>
-                  <div className="text-[10px] sm:text-xs text-gray-400 truncate">
-                    {expense.date}
-                    {tournament && ` · ${tournament.name}`}
-                    {expense.note && ` · ${expense.note}`}
+              <div key={expense.id} className="rounded-xl sm:rounded-2xl p-3 sm:p-4 flex items-center gap-2.5 sm:gap-3 justify-between transition-all duration-200 hover:-translate-y-0.5 card-shadow hover:card-shadow-hover" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: iconData.bg }}>
+                    {iconData.svg}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-xs sm:text-sm font-medium">{categoryLabels[expense.category]}</div>
+                    <div className="text-[10px] sm:text-xs text-gray-400 truncate">
+                      {expense.date}
+                      {tournament && ` · ${tournament.name}`}
+                      {expense.note && ` · ${expense.note}`}
+                    </div>
                   </div>
                 </div>
-                <span className="text-xs sm:text-sm font-bold text-red-600 flex-shrink-0 bg-red-50 px-2.5 py-1 rounded-full">-¥{expense.amount}</span>
+                <div className="flex flex-col items-end flex-shrink-0 gap-0.5">
+                    <span className="text-xs sm:text-sm font-bold text-red-600 bg-red-50 px-2.5 py-1 rounded-full">-¥{expense.amount}</span>
+                    <span className={`text-[9px] sm:text-[10px] font-medium pr-2.5 ${curBalance >= 0 ? 'text-blue-500' : 'text-orange-500'}`}>余额 ¥{curBalance.toLocaleString()}</span>
+                </div>
               </div>
             )
-          })}
+          })})}
         </div>
       )}
     </div>

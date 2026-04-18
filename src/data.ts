@@ -86,7 +86,7 @@ export interface MembershipFee {
 export interface Expense {
   id: string;
   tournamentId?: string; // 关联的比赛ID（可选）
-  category: 'meal' | 'prize' | 'other'; // 支出类别：吃饭、奖品、其他
+  category: 'meal' | 'prize' | 'bonus' | 'drink' | 'other'; // 支出类别：吃饭、奖品、奖金、饮料、其他
   amount: number; // 金额
   date: string; // 日期
   note?: string; // 备注
@@ -118,6 +118,7 @@ export const courseImageMap: Record<string, string> = {
   '顺德均安': 'shunde-junan',
   '芽庄金兰湾': 'yazhuang-jinlanwan',
   '广州南沙': 'guangzhou-nansha',
+  '广州君兰': 'junlan-aerial-island',
 };
 
 /** 根据球场名称获取图片URL */
@@ -136,6 +137,7 @@ export const tournaments: Tournament[] = [
   { id: 'T006', name: '12月月例赛', courseName: '广州假日半岛', date: '2025-12-07', slope: 132, rating: 72.0 },
   { id: 'T007', name: '1月月例赛', courseName: '芽庄金兰湾', date: '2026-01-24', slope: 125, rating: 70.0 },
   { id: 'T008', name: '3月月例赛', courseName: '广州南沙', date: '2026-03-22', slope: 129, rating: 71.2 },
+  { id: 'T009', name: '4月月例赛', courseName: '广州君兰', date: '2026-04-18', slope: 128, rating: 71.0 },
 ];
 
 // 比赛成绩数据
@@ -158,6 +160,7 @@ export const initialBirdieRecords: BirdieRecord[] = [
   { id: 'B015', number: 15, memberId: 'NiKi', location: '甄湖', type: 'course', hole: 5, note: 'A5' },
   { id: 'B016', number: 16, memberId: '纯情浩克', location: '南沙', type: 'course', hole: 6, note: 'D6' },
   { id: 'B017', number: 17, memberId: '国弘', location: '大浩湖', type: 'course', hole: 2, note: '2号洞' },
+  { id: 'B018', number: 18, memberId: '新来的托', location: '君兰', type: 'course', hole: 18, note: '18号洞', date: '2026-04-18' },
 ];
 
 // 初始会费收入记录（2026年）
@@ -285,6 +288,17 @@ export const games: Game[] = [
       { memberId: 'Archer', grossScore: 98, putts: 32 },
       { memberId: '纯情浩克', grossScore: 109, putts: 34 },
       { memberId: '国弘', grossScore: 110, putts: 34 },
+    ]
+  },
+  // 4月18日广州君兰
+  {
+    tournamentId: 'T009',
+    scores: [
+      { memberId: '新来的托', grossScore: 100, putts: 33 },
+      { memberId: 'NiKi', grossScore: 102, putts: 33 },
+      { memberId: '大面', grossScore: 112, putts: 35 },
+      { memberId: 'Archer', grossScore: 120, putts: 35 },
+      { memberId: 'lulu酱', grossScore: 125, putts: 36 },
     ]
   },
 ];

@@ -4,16 +4,16 @@ import { getMemberTee, getCourseImage } from '../data'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { Icon, BirdKingBadge } from '../components/Icons'
 
-// 判断是否记录推杆数（2026年4月及以后的比赛才记录推杆，3月及以前不记录）
+// 判断是否记录推杆数（2026年5月及以后的比赛才记录推杆，4月及以前不记录）
 function hasPuttData(date: string): boolean {
-  return date >= '2026-04-01'
+  return date >= '2026-05-01'
 }
 
 export default function MemberDetailPage() {
   const { id } = useParams<{ id: string }>()
   const {
     getMemberById, getMemberGames, getAvgScore, getAvgPutts,
-    getProgressScore, getGrossRanking,
+    getProgressScore,
     games, tournaments, birdieRecords, members,
   } = useStore()
 
@@ -57,8 +57,17 @@ export default function MemberDetailPage() {
   }))
 
   const detailData = memberGames.slice(-12).reverse().map(g => {
-    const ranking = getGrossRanking(g.tournament.id)
-    const rank = ranking.find(r => r.member.id === member.id)?.rank ?? '-'
+    // 计算该场比赛所有参赛者的进步系数，按进步系数降序排名
+    const game = games.find(gm => gm.tournamentId === g.tournament.id)
+    const progressList = (game?.scores ?? [])
+      .map(s => ({
+        memberId: s.memberId,
+        progress: getProgressScore(s.memberId, g.tournament.id),
+      }))
+      .filter(p => p.progress !== null)
+      .sort((a, b) => (b.progress ?? 0) - (a.progress ?? 0))
+      .map((p, i) => ({ ...p, rank: i + 1 }))
+    const rank = progressList.find(p => p.memberId === member.id)?.rank ?? '-'
     return {
       tournament: g.tournament,
       score: g.score,
@@ -198,7 +207,6 @@ export default function MemberDetailPage() {
                   >
                     {birdie.type === 'simulator' && <><Icon name="target" className="w-3 h-3 inline-block" /> </>}
                     第{birdie.number}鸟
-                    {birdie.date && <span className="text-gray-400 ml-1">({birdie.date.slice(5)})</span>}
                   </span>
                 ))}
               </div>

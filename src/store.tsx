@@ -62,7 +62,7 @@ interface StoreState {
 
 const StoreContext = createContext<StoreState | null>(null)
 
-const STORAGE_KEY = 'golfweb_store_v25'
+const STORAGE_KEY = 'golfweb_store_v26'
 
 function loadStore() {
   try {
@@ -86,11 +86,19 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const tournaments: Tournament[] = saved?.tournaments ?? initTournaments
   const games: Game[] = saved?.games ?? initGames
   const announcements: Announcement[] = saved?.announcements ?? [
+    { id: 'A002', content: '4月月赛已圆满完成。5月会安排一场夜场🌙 时间预计是（5月16日 或 17日）', createTime: '2026-04-18T22:00:00.000Z' },
     { id: 'A001', content: '4月月赛时间4月18日，请各位会员预留时间。', createTime: '2026-04-15T00:00:00.000Z' }
   ]
   const birdieRecords: BirdieRecord[] = saved?.birdieRecords ?? initialBirdieRecords
   const membershipFees: MembershipFee[] = saved?.membershipFees ?? initialMembershipFees
-  const expenses: Expense[] = saved?.expenses ?? []
+  const defaultExpenses: Expense[] = [
+    { id: 'E001', tournamentId: 'T009', category: 'meal', amount: 586.6, date: '2026-04-18', note: '月赛聚餐 乐田饭庄', createTime: '2026-04-18T20:00:00.000Z' },
+    { id: 'E002', tournamentId: 'T009', category: 'drink', amount: 274.8, date: '2026-04-18', note: '月赛饮料 星巴克', createTime: '2026-04-18T20:01:00.000Z' },
+    { id: 'E003', tournamentId: 'T009', category: 'bonus', amount: 600, date: '2026-04-18', note: '月赛进步冠军 大面 奖金', createTime: '2026-04-18T20:02:00.000Z' },
+    { id: 'E004', tournamentId: 'T009', category: 'bonus', amount: 300, date: '2026-04-18', note: '月赛进步季军 新来的托 奖金', createTime: '2026-04-18T20:03:00.000Z' },
+    { id: 'E005', tournamentId: 'T009', category: 'prize', amount: 126.42, date: '2026-04-18', note: '打鸟奖品 新来的托 手套', createTime: '2026-04-18T20:04:00.000Z' },
+  ]
+  const expenses: Expense[] = (saved?.expenses && saved.expenses.length > 0) ? saved.expenses : defaultExpenses
 
   const persist = useCallback((m: Member[], t: Tournament[], g: Game[], a: Announcement[], b: BirdieRecord[], f: MembershipFee[] = membershipFees, e: Expense[] = expenses) => {
     const data = { members: m, tournaments: t, games: g, announcements: a, birdieRecords: b, membershipFees: f, expenses: e }
