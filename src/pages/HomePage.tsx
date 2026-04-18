@@ -11,10 +11,10 @@ function Card({ to, icon, title, children, accent }: {
   return (
     <Link
       to={to}
-      className="block rounded-2xl overflow-hidden h-full transition-all duration-300 hover:-translate-y-1 card-shadow hover:card-shadow-hover"
+      className="flex flex-col rounded-2xl overflow-hidden h-full transition-all duration-300 hover:-translate-y-1 card-shadow hover:card-shadow-hover"
       style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}
     >
-      <div className={`px-4 sm:px-5 py-3.5 ${accent || ''}`} style={!accent ? { background: 'linear-gradient(135deg, rgba(221, 228, 213, 0.5) 0%, rgba(240, 243, 236, 0.5) 100%)' } : undefined}>
+      <div className={`px-4 sm:px-5 py-3.5 flex-shrink-0 ${accent || ''}`} style={!accent ? { background: 'linear-gradient(135deg, rgba(221, 228, 213, 0.5) 0%, rgba(240, 243, 236, 0.5) 100%)' } : undefined}>
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-xl flex items-center justify-center text-lg" style={{ background: 'rgba(78, 126, 58, 0.1)' }}>
             {icon}
@@ -22,7 +22,7 @@ function Card({ to, icon, title, children, accent }: {
           <h2 className="font-bold text-gray-800 text-sm sm:text-base">{title}</h2>
         </div>
       </div>
-      <div className="px-4 sm:px-5 py-3.5 sm:py-4">{children}</div>
+      <div className="px-4 sm:px-5 py-3.5 sm:py-4 flex-1 flex flex-col">{children}</div>
     </Link>
   )
 }
@@ -58,9 +58,11 @@ export default function HomePage() {
   const countdownMinutes = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60))
   const countdownSeconds = Math.floor((countdown % (1000 * 60)) / 1000)
 
-  const recentTournaments = [...tournaments]
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, 4)
+  // 如果近期比赛模块显示（countdown <= 0），则排除最新一场，避免重复
+  const sortedTournaments = [...tournaments].sort((a, b) => b.date.localeCompare(a.date))
+  const recentTournaments = countdown <= 0
+    ? sortedTournaments.slice(1, 5)
+    : sortedTournaments.slice(0, 4)
 
   // 获取最近打鸟记录（按鸟号降序，显示最新的3个）
   const recentBirdies = [...birdieRecords]
@@ -258,52 +260,73 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* 亮点数据：进步黑马 / 退步红马 / 鸟哥 */}
+              {/* 亮点数据：鸟哥 / 进步黑马 / 退步红马 */}
               <div className="p-4 sm:p-5">
                 <div className={`grid gap-3 ${gameBirdies.length > 0 ? 'grid-cols-3' : showWorst ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                  {/* 打鸟哥/姐 - 本场打鸟者 */}
+                  {gameBirdies.length > 0 && (() => {
+                    const birdMember = getMemberById(gameBirdies[0].memberId)
+                    if (!birdMember) return null
+                    return (
+                      <div className="rounded-xl p-3 flex flex-col items-center text-center" style={{ background: 'linear-gradient(135deg, rgba(186, 230, 253, 0.35) 0%, rgba(224, 242, 254, 0.4) 100%)' }}>
+                        <div className="relative flex-shrink-0">
+                          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-sm ring-2 ring-sky-200/60">
+                            <img src={birdMember.avatar} alt="" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center shadow-md ring-1.5 ring-white" style={{ background: 'linear-gradient(135deg, #0284c7, #38bdf8)' }}>
+                            <div style={{ filter: 'brightness(0) invert(1)' }}><Icon name="birdstar" className="w-2.5 h-2.5 sm:w-3 sm:h-3" /></div>
+                          </div>
+                        </div>
+                        <div className="min-w-0 w-full mt-1.5">
+                          <div className="text-[10px] sm:text-xs text-sky-600 font-bold leading-tight">{birdMember.gender === '男' ? '打鸟哥' : '打鸟姐'}</div>
+                          <div className="text-xs sm:text-sm font-bold text-gray-800 truncate mt-0.5">
+                            {birdMember.name}
+                          </div>
+                          <div className="text-[10px] sm:text-xs font-bold text-sky-600 mt-0.5">{gameBirdies.filter(b => b.memberId === birdMember.id).length > 1 ? `${gameBirdies.filter(b => b.memberId === birdMember.id).length}只鸟` : gameBirdies[0].note || '打鸟'}</div>
+                        </div>
+                      </div>
+                    )
+                  })()}
                   {/* 进步黑马 */}
                   {bestProgress?.member && bestProgress.progress != null && (
-                    <div className="rounded-xl p-3 flex flex-col items-center gap-1.5 text-center" style={{ background: 'linear-gradient(135deg, rgba(221, 228, 213, 0.5) 0%, rgba(240, 243, 236, 0.3) 100%)' }}>
-                      <img src={bestProgress.member.avatar} alt="" className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl shadow-sm object-cover ring-2 ring-golf-200/60" />
-                      <div className="min-w-0 w-full">
-                        <div className="text-[10px] sm:text-xs text-golf-600 font-bold mb-0.5 flex items-center justify-center gap-0.5"><Icon name="horse" className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> 进步黑马</div>
-                        <div className="text-xs sm:text-sm font-bold text-gray-800 truncate">
+                    <div className="rounded-xl p-3 flex flex-col items-center text-center" style={{ background: 'linear-gradient(135deg, rgba(221, 228, 213, 0.5) 0%, rgba(240, 243, 236, 0.3) 100%)' }}>
+                      <div className="relative flex-shrink-0">
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-sm ring-2 ring-golf-200/60">
+                          <img src={bestProgress.member.avatar} alt="" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center shadow-md ring-1.5 ring-white" style={{ background: 'linear-gradient(135deg, #4e7e3a, #6ba04a)' }}>
+                          <div style={{ filter: 'brightness(0) invert(1)' }}><Icon name="horse" className="w-2.5 h-2.5 sm:w-3 sm:h-3" /></div>
+                        </div>
+                      </div>
+                      <div className="min-w-0 w-full mt-1.5">
+                        <div className="text-[10px] sm:text-xs text-golf-600 font-bold leading-tight">进步黑马</div>
+                        <div className="text-xs sm:text-sm font-bold text-gray-800 truncate mt-0.5">
                           {bestProgress.member.name}
                         </div>
-                        <div className="text-[10px] sm:text-xs font-bold text-golf-600">↑{bestProgress.progress!.toFixed(1)}</div>
+                        <div className="text-[10px] sm:text-xs font-bold text-golf-600 mt-0.5">↑{bestProgress.progress!.toFixed(1)}</div>
                       </div>
                     </div>
                   )}
                   {/* 退步红马 */}
                   {showWorst && worstProgress?.member && (
-                    <div className="rounded-xl p-3 flex flex-col items-center gap-1.5 text-center" style={{ background: 'linear-gradient(135deg, rgba(254, 226, 226, 0.4) 0%, rgba(254, 242, 242, 0.5) 100%)' }}>
-                      <img src={worstProgress.member.avatar} alt="" className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl shadow-sm object-cover ring-2 ring-red-200/60" />
-                      <div className="min-w-0 w-full">
-                        <div className="text-[10px] sm:text-xs text-red-500 font-bold mb-0.5 flex items-center justify-center gap-0.5"><Icon name="downfall" className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> 退步红马</div>
-                        <div className="text-xs sm:text-sm font-bold text-gray-800 truncate">
+                    <div className="rounded-xl p-3 flex flex-col items-center text-center" style={{ background: 'linear-gradient(135deg, rgba(254, 226, 226, 0.4) 0%, rgba(254, 242, 242, 0.5) 100%)' }}>
+                      <div className="relative flex-shrink-0">
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-sm ring-2 ring-red-200/60">
+                          <img src={worstProgress.member.avatar} alt="" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center shadow-md ring-1.5 ring-white" style={{ background: 'linear-gradient(135deg, #dc2626, #ef4444)' }}>
+                          <div style={{ filter: 'brightness(0) invert(1)' }}><Icon name="downfall" className="w-2.5 h-2.5 sm:w-3 sm:h-3" /></div>
+                        </div>
+                      </div>
+                      <div className="min-w-0 w-full mt-1.5">
+                        <div className="text-[10px] sm:text-xs text-red-500 font-bold leading-tight">退步红马</div>
+                        <div className="text-xs sm:text-sm font-bold text-gray-800 truncate mt-0.5">
                           {worstProgress.member.name}
                         </div>
-                        <div className="text-[10px] sm:text-xs font-bold text-red-500">↓{Math.abs(worstProgress.progress!).toFixed(1)}</div>
+                        <div className="text-[10px] sm:text-xs font-bold text-red-500 mt-0.5">↓{Math.abs(worstProgress.progress!).toFixed(1)}</div>
                       </div>
                     </div>
                   )}
-                  {/* 鸟哥 - 本场打鸟者 */}
-                  {gameBirdies.length > 0 && (() => {
-                    const birdMember = getMemberById(gameBirdies[0].memberId)
-                    if (!birdMember) return null
-                    return (
-                      <div className="rounded-xl p-3 flex flex-col items-center gap-1.5 text-center" style={{ background: 'linear-gradient(135deg, rgba(186, 230, 253, 0.35) 0%, rgba(224, 242, 254, 0.4) 100%)' }}>
-                        <img src={birdMember.avatar} alt="" className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl shadow-sm object-cover ring-2 ring-sky-200/60" />
-                        <div className="min-w-0 w-full">
-                          <div className="text-[10px] sm:text-xs text-sky-600 font-bold mb-0.5 flex items-center justify-center gap-0.5"><Icon name="birdstar" className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> {birdMember.gender === '男' ? '打鸟之哥' : '打鸟之姐'}</div>
-                          <div className="text-xs sm:text-sm font-bold text-gray-800 truncate">
-                            {birdMember.name}
-                          </div>
-                          <div className="text-[10px] sm:text-xs font-bold text-sky-600">{gameBirdies.filter(b => b.memberId === birdMember.id).length > 1 ? `${gameBirdies.filter(b => b.memberId === birdMember.id).length}只鸟` : gameBirdies[0].note || '打鸟'}</div>
-                        </div>
-                      </div>
-                    )
-                  })()}
                 </div>
 
                 <div className="mt-3 flex items-center gap-1 text-xs text-golf-600 font-semibold group-hover:gap-2 transition-all">
@@ -320,7 +343,7 @@ export default function HomePage() {
         {/* 历史比赛入口 */}
         <Card to="/history" icon={<Icon name="clipboard" className="w-5 h-5" />} title="历史比赛">
           <div className="space-y-3 sm:space-y-4">
-            {recentTournaments.slice(0, 3).map(t => {
+            {recentTournaments.slice(0, 2).map(t => {
               const monthMatch = t.name.match(/(\d+)月/)
               const monthLabel = monthMatch ? `${monthMatch[1]}月` : t.name
               const imageUrl = getCourseImage(t.courseName)
@@ -390,7 +413,7 @@ export default function HomePage() {
               )
             })}
           </div>
-          <div className="mt-3 sm:mt-4 flex items-center gap-1 text-xs text-golf-600 font-semibold group-hover:gap-2 transition-all">
+          <div className="mt-auto pt-3 sm:pt-4 flex items-center gap-1 text-xs text-golf-600 font-semibold group-hover:gap-2 transition-all">
             查看全部比赛 <span className="text-sm">→</span>
           </div>
         </Card>

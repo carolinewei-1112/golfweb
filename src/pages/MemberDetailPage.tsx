@@ -59,6 +59,8 @@ export default function MemberDetailPage() {
   const detailData = memberGames.slice(-12).reverse().map(g => {
     // 计算该场比赛所有参赛者的进步系数，按进步系数降序排名
     const game = games.find(gm => gm.tournamentId === g.tournament.id)
+    const playerCount = game?.scores.length ?? 0
+    const topN = playerCount <= 5 ? 2 : 3 // 参赛≤5人只有前2名，否则前3名
     const progressList = (game?.scores ?? [])
       .map(s => ({
         memberId: s.memberId,
@@ -73,6 +75,7 @@ export default function MemberDetailPage() {
       score: g.score,
       progress: getProgressScore(member.id, g.tournament.id),
       rank,
+      topN,
     }
   })
 
@@ -259,7 +262,7 @@ export default function MemberDetailPage() {
                   <div className={`text-xs sm:text-sm font-bold ${
                     d.rank === 1 ? 'text-amber-500' :
                     d.rank === 2 ? 'text-gray-500' :
-                    d.rank === 3 ? 'text-amber-700' :
+                    d.rank === 3 && d.topN >= 3 ? 'text-amber-700' :
                     'text-gray-800'
                   }`}>{d.rank}</div>
                 </div>

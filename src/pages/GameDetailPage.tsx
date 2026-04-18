@@ -174,6 +174,33 @@ export default function GameDetailPage() {
 
         return (
           <div className={`grid gap-2 sm:gap-2.5 ${gridCols}`}>
+            {/* 打鸟哥/姐 */}
+            {birdHeroMember && birdHero && (
+              <Link to={`/member/${birdHeroMember.id}`} className="group/card relative rounded-2xl p-2.5 sm:p-3 transition-all duration-200 hover:-translate-y-0.5 overflow-hidden card-shadow" style={{
+                background: 'linear-gradient(145deg, rgba(207, 233, 250, 0.5) 0%, rgba(228, 243, 255, 0.6) 100%)',
+                border: '1px solid rgba(147, 197, 235, 0.35)',
+              }}>
+                <div className="absolute -right-3 -top-3 w-12 h-12 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(14,116,194,0.4), transparent)' }} />
+                <div className="flex flex-col items-center text-center gap-1.5">
+                  <div className="relative">
+                    <img src={birdHeroMember.avatar} alt="" className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-100 shadow-md object-cover ring-2 ring-white/80 group-hover/card:ring-sky-300/60 transition-all" />
+                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center shadow-md ring-1.5 ring-white" style={{ background: 'linear-gradient(135deg, #0284c7, #38bdf8)' }}>
+                      <div style={{ filter: 'brightness(0) invert(1)' }}><Icon name="birdstar" className="w-2.5 h-2.5 sm:w-3 sm:h-3" /></div>
+                    </div>
+                  </div>
+                  <div className="text-[10px] sm:text-[11px] font-bold text-sky-700">
+                    {birdHeroMember.gender === '男' ? '打鸟哥' : '打鸟姐'}
+                  </div>
+                  <div className="text-xs sm:text-sm font-bold text-gray-800 truncate w-full text-center">
+                    {birdHeroMember.name}
+                  </div>
+                  <div className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold" style={{ background: 'rgba(14, 116, 194, 0.1)', color: '#0369a1' }}>
+                    {birdHero[1].notes.length > 0 ? birdHero[1].notes.join('、') : `${birdHero[1].count} 只鸟`}
+                  </div>
+                </div>
+              </Link>
+            )}
+
             {/* 进步黑马 */}
             {bestPlayer && (
               <Link to={`/member/${bestPlayer.member.id}`} className="group/card relative rounded-2xl p-2.5 sm:p-3 transition-all duration-200 hover:-translate-y-0.5 overflow-hidden card-shadow" style={{
@@ -184,15 +211,15 @@ export default function GameDetailPage() {
                 <div className="flex flex-col items-center text-center gap-1.5">
                   <div className="relative">
                     <img src={bestPlayer.member.avatar} alt="" className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-100 shadow-md object-cover ring-2 ring-white/80 group-hover/card:ring-golf-300/60 transition-all" />
-                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center text-[8px] sm:text-[9px] font-black text-white shadow-lg" style={{ background: 'linear-gradient(135deg, #4e7e3a, #6ba04a)' }}>↑</div>
+                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center shadow-md ring-1.5 ring-white" style={{ background: 'linear-gradient(135deg, #4e7e3a, #6ba04a)' }}>
+                      <div style={{ filter: 'brightness(0) invert(1)' }}><Icon name="horse" className="w-2.5 h-2.5 sm:w-3 sm:h-3" /></div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-golf-700">
-                    <Icon name="horse" className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  <div className="text-[10px] sm:text-[11px] font-bold text-golf-700">
                     进步黑马
                   </div>
-                  <div className="text-xs sm:text-sm font-bold text-gray-800 truncate w-full flex items-center justify-center gap-0.5">
+                  <div className="text-xs sm:text-sm font-bold text-gray-800 truncate w-full text-center">
                     {bestPlayer.member.name}
-                    {birdKingMap.has(bestPlayer.member.id) && <BirdKingBadge rank={birdKingMap.get(bestPlayer.member.id)!} />}
                   </div>
                   <div className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold" style={{ background: 'rgba(78, 126, 58, 0.12)', color: '#3d6b2b' }}>
                     ↑{(bestPlayer.progress ?? 0).toFixed(1)}
@@ -211,45 +238,18 @@ export default function GameDetailPage() {
                 <div className="flex flex-col items-center text-center gap-1.5">
                   <div className="relative">
                     <img src={worstPlayer.member.avatar} alt="" className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-100 shadow-md object-cover ring-2 ring-white/80 group-hover/card:ring-red-300/60 transition-all" />
-                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center text-[8px] sm:text-[9px] font-black text-white shadow-lg" style={{ background: 'linear-gradient(135deg, #dc2626, #ef4444)' }}>↓</div>
+                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center shadow-md ring-1.5 ring-white" style={{ background: 'linear-gradient(135deg, #dc2626, #ef4444)' }}>
+                      <div style={{ filter: 'brightness(0) invert(1)' }}><Icon name="downfall" className="w-2.5 h-2.5 sm:w-3 sm:h-3" /></div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-red-600">
-                    <Icon name="downfall" className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  <div className="text-[10px] sm:text-[11px] font-bold text-red-600">
                     退步红马
                   </div>
-                  <div className="text-xs sm:text-sm font-bold text-gray-800 truncate w-full flex items-center justify-center gap-0.5">
+                  <div className="text-xs sm:text-sm font-bold text-gray-800 truncate w-full text-center">
                     {worstPlayer.member.name}
-                    {birdKingMap.has(worstPlayer.member.id) && <BirdKingBadge rank={birdKingMap.get(worstPlayer.member.id)!} />}
                   </div>
                   <div className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold" style={{ background: 'rgba(220, 38, 38, 0.1)', color: '#b91c1c' }}>
                     ↓{Math.abs(worstPlayer.progress ?? 0).toFixed(1)}
-                  </div>
-                </div>
-              </Link>
-            )}
-
-            {/* 打鸟之哥/姐 */}
-            {birdHeroMember && birdHero && (
-              <Link to={`/member/${birdHeroMember.id}`} className="group/card relative rounded-2xl p-2.5 sm:p-3 transition-all duration-200 hover:-translate-y-0.5 overflow-hidden card-shadow" style={{
-                background: 'linear-gradient(145deg, rgba(207, 233, 250, 0.5) 0%, rgba(228, 243, 255, 0.6) 100%)',
-                border: '1px solid rgba(147, 197, 235, 0.35)',
-              }}>
-                <div className="absolute -right-3 -top-3 w-12 h-12 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(14,116,194,0.4), transparent)' }} />
-                <div className="flex flex-col items-center text-center gap-1.5">
-                  <div className="relative">
-                    <img src={birdHeroMember.avatar} alt="" className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-100 shadow-md object-cover ring-2 ring-white/80 group-hover/card:ring-sky-300/60 transition-all" />
-                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full flex items-center justify-center text-[8px] sm:text-[9px] font-black text-white shadow-lg" style={{ background: 'linear-gradient(135deg, #0284c7, #38bdf8)' }}>★</div>
-                  </div>
-                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-sky-700">
-                    <Icon name="birdstar" className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                    {birdHeroMember.gender === '男' ? '打鸟之哥' : '打鸟之姐'}
-                  </div>
-                  <div className="text-xs sm:text-sm font-bold text-gray-800 truncate w-full flex items-center justify-center gap-0.5">
-                    {birdHeroMember.name}
-                    {birdKingMap.has(birdHeroMember.id) && <BirdKingBadge rank={birdKingMap.get(birdHeroMember.id)!} />}
-                  </div>
-                  <div className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold" style={{ background: 'rgba(14, 116, 194, 0.1)', color: '#0369a1' }}>
-                    {birdHero[1].notes.length > 0 ? birdHero[1].notes.join('、') : `${birdHero[1].count} 只鸟`}
                   </div>
                 </div>
               </Link>

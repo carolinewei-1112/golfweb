@@ -294,7 +294,7 @@ export function Icon({ name, className = 'w-[1em] h-[1em] inline-block align-[-0
       </svg>
     ),
 
-    // 🐦 打鸟之星 — 鸟 + 星光，用于打鸟之哥/姐
+    // 🐦 打鸟之星 — 鸟 + 星光，用于打鸟哥/姐
     birdstar: (
       <svg viewBox="0 0 24 24" fill="none" className={className}>
         {/* 翅膀 */}
