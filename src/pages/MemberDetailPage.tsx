@@ -84,7 +84,7 @@ export default function MemberDetailPage() {
   return (
     <div className="animate-fade-in space-y-5 sm:space-y-7">
       <div className="flex items-center justify-between">
-        <Link to="/ranking" className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-gray-400 hover:text-golf-600 transition-colors px-3 py-1.5 rounded-xl hover:bg-golf-50/50">
+        <Link to="/ranking" className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-golf-700 transition-all duration-200 px-3.5 py-2 rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)', border: '1px solid rgba(78,126,58,0.2)' }}>
           ← 返回排行榜
         </Link>
       </div>
@@ -107,10 +107,11 @@ export default function MemberDetailPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/55 to-black/80" />
         
         {/* 内容区域 */}
-        <div className="relative p-5 sm:p-7 text-white">
-          <div className="flex items-center gap-3 sm:gap-5">
-            <div className="relative p-0.5 rounded-full shadow-xl" style={{ background: 'linear-gradient(135deg, #6a9e56, #4e7e3a)' }}>
-              <img src={member.avatar} alt="" className="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-gray-100 border-2 sm:border-3 border-white" />
+        <div className="relative px-5 sm:px-7 pt-8 sm:pt-10 pb-5 sm:pb-7 text-white">
+          <div className="flex items-start gap-3 sm:gap-5">
+            {/* 左侧：头像 + 姓名 + 基本信息 */}
+            <div className="relative p-0.5 rounded-full shadow-xl flex-shrink-0" style={{ background: 'linear-gradient(135deg, #6a9e56, #4e7e3a)' }}>
+              <img src={member.avatar} alt="" className="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-gray-100 border-2 sm:border-3 border-white" />
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-lg sm:text-2xl font-bold text-white truncate flex items-center gap-2">
@@ -124,21 +125,21 @@ export default function MemberDetailPage() {
                 <span className="sm:hidden">{joinDate.slice(5)}</span>
                 <span className="px-2 py-0.5 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.2)' }}>{getMemberTee(member, memberGames.length)}</span>
               </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mt-5 sm:mt-7">
-            {[
-              { label: '累计场次', value: `${memberGames.length}场/${tournaments.length}场`, color: 'text-blue-300' },
-              { label: '平均杆数', value: avgScore || '-', color: 'text-emerald-300' },
-              { label: '最佳/最差', value: `${bestScore}/${worstScore}`, color: 'text-white' },
-              ...(hasAnyPuttData ? [{ label: '平均推杆', value: avgPutts || '-', color: 'text-purple-300' }] : []),
-            ].map(s => (
-              <div key={s.label} className="rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 text-center" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.12)' }}>
-                <div className="text-[10px] sm:text-xs text-white/55 mb-0.5 sm:mb-1">{s.label}</div>
-                <div className={`text-sm sm:text-lg font-bold ${s.color}`}>{s.value}</div>
+              {/* 统计数据放右侧，紧跟在个人信息下方 */}
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2.5 sm:mt-4">
+                {[
+                  { label: '场次', value: `${memberGames.length}/${tournaments.length}`, color: 'text-blue-300' },
+                  { label: '均杆', value: avgScore || '-', color: 'text-emerald-300' },
+                  { label: '最佳/最差', value: `${bestScore}/${worstScore}`, color: 'text-white' },
+                  ...(hasAnyPuttData ? [{ label: '推杆', value: avgPutts || '-', color: 'text-purple-300' }] : []),
+                ].map(s => (
+                  <div key={s.label} className="flex items-center gap-1 sm:gap-1.5 rounded-full px-2 sm:px-2.5 py-0.5 sm:py-1" style={{ background: 'rgba(255, 255, 255, 0.12)', backdropFilter: 'blur(8px)' }}>
+                    <span className="text-[10px] sm:text-xs text-white/50">{s.label}</span>
+                    <span className={`text-[11px] sm:text-sm font-bold ${s.color}`}>{s.value}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>

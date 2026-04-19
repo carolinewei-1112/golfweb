@@ -94,9 +94,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const defaultExpenses: Expense[] = [
     { id: 'E001', tournamentId: 'T009', category: 'meal', amount: 586.6, date: '2026-04-18', note: '月赛聚餐 乐田饭庄', createTime: '2026-04-18T20:00:00.000Z' },
     { id: 'E002', tournamentId: 'T009', category: 'drink', amount: 274.8, date: '2026-04-18', note: '月赛饮料 星巴克', createTime: '2026-04-18T20:01:00.000Z' },
-    { id: 'E003', tournamentId: 'T009', category: 'bonus', amount: 600, date: '2026-04-18', note: '月赛进步冠军 大面 奖金', createTime: '2026-04-18T20:02:00.000Z' },
-    { id: 'E004', tournamentId: 'T009', category: 'bonus', amount: 300, date: '2026-04-18', note: '月赛进步季军 新来的托 奖金', createTime: '2026-04-18T20:03:00.000Z' },
-    { id: 'E005', tournamentId: 'T009', category: 'prize', amount: 126.42, date: '2026-04-18', note: '打鸟奖品 新来的托 手套', createTime: '2026-04-18T20:04:00.000Z' },
+    { id: 'E003', tournamentId: 'T009', category: 'bonus', amount: 600, date: '2026-04-18', note: '月赛进步冠军 奖金 大面', createTime: '2026-04-18T20:02:00.000Z' },
+    { id: 'E004', tournamentId: 'T009', category: 'bonus', amount: 300, date: '2026-04-18', note: '月赛进步季军 奖金 新来的托', createTime: '2026-04-18T20:03:00.000Z' },
+    { id: 'E005', tournamentId: 'T009', category: 'prize', amount: 126.42, date: '2026-04-18', note: '打鸟奖品 手套 新来的托', createTime: '2026-04-18T20:04:00.000Z' },
   ]
   const expenses: Expense[] = (saved?.expenses && saved.expenses.length > 0) ? saved.expenses : defaultExpenses
 

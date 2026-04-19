@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { Icon, BirdKingBadge } from '../components/Icons'
 
@@ -140,11 +141,13 @@ export default function BirdiePage() {
                         )}
                       </div>
                       <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2 min-w-0">
-                        <img
-                          src={member.avatar}
-                          alt={member.name}
-                          className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow-sm flex-shrink-0"
-                        />
+                        <Link to={`/member/${member.id}`} className="flex-shrink-0 hover:scale-105 active:scale-95 transition-transform">
+                          <img
+                            src={member.avatar}
+                            alt={member.name}
+                            className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow-sm"
+                          />
+                        </Link>
                         <div className="min-w-0 flex-1">
                           <span className="text-xs sm:text-sm font-medium text-gray-800 block truncate">{member.name}</span>
                           {birdKingMap.has(member.id) && (
@@ -225,7 +228,7 @@ export default function BirdiePage() {
                       {index + 1}
                     </span>
                     {/* 头像 + 前三名皇冠 */}
-                    <div className={`relative flex-shrink-0 ${isTop3 ? 'mt-2' : ''}`}>
+                    <Link to={`/member/${stat.member.id}`} className={`relative flex-shrink-0 hover:scale-105 active:scale-95 transition-transform ${isTop3 ? 'mt-2' : ''}`}>
                       {isTop3 && crown && (
                         <div className="absolute -top-3.5 sm:-top-4 left-1/2 -translate-x-1/2 z-10" style={{ filter: crown.glow }}>
                           <svg viewBox="0 0 48 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-5 sm:w-8 sm:h-6">
@@ -247,7 +250,7 @@ export default function BirdiePage() {
                         alt={stat.member.name}
                         className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gray-100 shadow-sm ${isTop3 ? 'ring-2 ring-offset-1 ' + (index === 0 ? 'ring-amber-300/80' : index === 1 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`}
                       />
-                    </div>
+                    </Link>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 sm:gap-2">
                         <span className="text-sm sm:text-base font-medium text-gray-800 truncate">{stat.member.name}</span>

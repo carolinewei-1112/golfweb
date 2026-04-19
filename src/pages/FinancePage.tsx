@@ -341,7 +341,7 @@ export default function FinancePage() {
                     <div className="text-xs sm:text-sm font-medium">{categoryLabels[expense.category]}</div>
                     <div className="text-[10px] sm:text-xs text-gray-400 truncate">
                       {expense.date}
-                      {tournament && ` · ${tournament.name}`}
+                      {tournament && ` · ${tournament.name.replace('月例赛', '月赛')}`}
                       {expense.note && ` · ${expense.note}`}
                     </div>
                   </div>

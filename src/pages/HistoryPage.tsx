@@ -110,8 +110,8 @@ export default function HistoryPage() {
               className="block rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 card-shadow hover:card-shadow-hover group"
               style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}
             >
-              {/* 球场头图 */}
-              <div className="h-28 sm:h-36 overflow-hidden relative">
+              {/* 球场头图 - 所有信息都在图片上 */}
+              <div className="h-36 sm:h-44 overflow-hidden relative">
                 <img
                   src={getCourseImageUrl(t)}
                   alt={t.courseName}
@@ -120,54 +120,40 @@ export default function HistoryPage() {
                     (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&h=300&fit=crop&q=80&auto=format'
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-3 sm:bottom-4 left-4 sm:left-5 text-white">
-                  <h3 className="text-lg sm:text-xl font-bold drop-shadow-lg">{monthLabel}</h3>
-                  <p className="text-xs sm:text-sm text-white/85 truncate max-w-[220px] drop-shadow-sm">{t.courseName}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+                {/* 右上：日期 */}
+                <div className="absolute top-2 right-2.5 rounded-full px-2.5 py-1 text-white text-[10px] sm:text-xs font-medium" style={{ background: 'rgba(0, 0, 0, 0.35)', backdropFilter: 'blur(4px)' }}>
+                  {t.date}
                 </div>
-                <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
-                  <span className="px-2.5 py-1.5 rounded-xl text-[10px] sm:text-xs text-white font-medium" style={{ background: 'rgba(0, 0, 0, 0.35)', backdropFilter: 'blur(8px)' }}>
-                    {t.date}
-                  </span>
-                </div>
-                {/* 参赛人数 badge */}
-                <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 rounded-full px-2.5 py-1 sm:px-3 sm:py-1.5 text-white text-[10px] sm:text-xs flex items-center gap-1 font-medium" style={{ background: 'rgba(0, 0, 0, 0.4)', backdropFilter: 'blur(4px)' }}>
-                  <span><Icon name="people" className="w-3.5 h-3.5" /></span>
-                  <span>{participantCount}人</span>
-                </div>
-              </div>
-              <div className="p-3.5 sm:p-5">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm flex-wrap">
-                    {bestScore != null && (
-                      <div className="px-2.5 py-1 rounded-full" style={{ background: 'rgba(221, 228, 213, 0.6)' }}>
-                        <span className="text-gray-400">最佳</span>
-                        <span className="ml-1 font-bold text-golf-700">{bestScore} 杆</span>
-                      </div>
-                    )}
-                    <div className="bg-gray-50 px-2.5 py-1 rounded-full">
-                      <span className="text-gray-400">难度</span>
-                      <span className="ml-1 text-gray-600 font-medium">S {t.slope}</span>
-                    </div>
+                {/* 左下：月份 + 球场名 */}
+                <div className="absolute bottom-2.5 left-3 text-white">
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-sm sm:text-base font-bold drop-shadow-md">{monthLabel}</span>
+                    <span className="text-xs sm:text-sm text-white/85 drop-shadow-sm">{t.courseName}</span>
                   </div>
-                  {/* 参赛会员头像 */}
-                  {participantAvatars.length > 0 && (
-                    <div className="flex -space-x-1.5 sm:-space-x-2 flex-shrink-0">
-                      {participantAvatars.slice(0, 3).map((avatar, idx) => (
-                        <img
-                          key={idx}
-                          src={avatar}
-                          alt=""
-                          className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white bg-gray-100 shadow-sm"
-                        />
-                      ))}
-                      {participantCount > 3 && (
-                        <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white flex items-center justify-center text-[10px] sm:text-xs text-golf-700 font-medium shadow-sm" style={{ background: '#f0f3ec' }}>
-                          +{participantCount - 3}
-                        </div>
-                      )}
-                    </div>
-                  )}
+                  {/* 最佳 + 难度标签 */}
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    {bestScore != null && (
+                      <span className="inline-flex items-center text-[10px] sm:text-xs text-white/90 font-medium px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)' }}>
+                        最佳 <span className="ml-0.5 font-bold">{bestScore}杆</span>
+                      </span>
+                    )}
+                    <span className="inline-flex items-center text-[10px] sm:text-xs text-white/90 font-medium px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)' }}>
+                      难度 <span className="ml-0.5 font-bold">S{t.slope}</span>
+                    </span>
+                  </div>
+                </div>
+                {/* 右下：头像 + 等X人参赛 */}
+                <div className="absolute bottom-2.5 right-2.5 flex items-center">
+                  {participantAvatars.slice(0, 2).map((avatar, idx) => (
+                    <img
+                      key={idx}
+                      src={avatar}
+                      alt=""
+                      className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-[1.5px] border-white/70 bg-gray-100 shadow-sm -ml-1 first:ml-0"
+                    />
+                  ))}
+                  <span className="text-[10px] sm:text-xs text-white/80 font-medium ml-1.5 drop-shadow-sm">等{participantCount}人参赛</span>
                 </div>
               </div>
             </Link>

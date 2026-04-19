@@ -258,29 +258,33 @@ export default function RankingPage() {
             style={{ borderBottom: idx < currentRanking.length - 1 ? '1px solid rgba(241,245,249,0.8)' : 'none' }}
           >
             {/* Mobile Layout */}
-            <div className="sm:hidden flex items-center gap-2.5">
-              <span className={`inline-flex w-6 h-6 items-center justify-center rounded-lg text-[10px] font-bold flex-shrink-0 ${
-                r.rank <= 3 ? 'text-white' : 'text-slate-500'
-              }`} style={
-                r.rank === 1 ? { background: 'linear-gradient(135deg, #FBBF24, #D97706)' } :
-                r.rank === 2 ? { background: 'linear-gradient(135deg, #94A3B8, #64748B)' } :
-                r.rank === 3 ? { background: 'linear-gradient(135deg, #F97316, #C2410C)' } :
-                { background: '#F1F5F9' }
-              }>{r.rank}</span>
-              <img src={r.member.avatar} alt="" className="w-8 h-8 rounded-xl bg-slate-100 flex-shrink-0 object-cover" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }} />
-              <div className="flex-1 min-w-0">
-                <div className="text-xs font-semibold truncate flex items-center gap-1" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
-                <div className="text-[10px] mt-0.5" style={{ color: '#94a3b8' }}>{getMemberTee(r.member, r.gameCount)}</div>
+            <div className="sm:hidden grid grid-cols-10 gap-1 items-center">
+              <div className="col-span-1 flex items-center">
+                <span className={`inline-flex w-6 h-6 items-center justify-center rounded-lg text-[10px] font-bold ${
+                  r.rank <= 3 ? 'text-white' : 'text-slate-500'
+                }`} style={
+                  r.rank === 1 ? { background: 'linear-gradient(135deg, #FBBF24, #D97706)' } :
+                  r.rank === 2 ? { background: 'linear-gradient(135deg, #94A3B8, #64748B)' } :
+                  r.rank === 3 ? { background: 'linear-gradient(135deg, #F97316, #C2410C)' } :
+                  { background: '#F1F5F9' }
+                }>{r.rank}</span>
               </div>
-              <div className={`text-right text-xs font-bold px-2.5 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
+              <div className="col-span-4 flex items-center gap-1.5 min-w-0">
+                <img src={r.member.avatar} alt="" className="w-8 h-8 rounded-xl bg-slate-100 flex-shrink-0 object-cover" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }} />
+                <div className="min-w-0">
+                  <div className="text-xs font-semibold truncate flex items-center gap-1" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
+                  <div className="text-[10px] mt-0.5" style={{ color: '#94a3b8' }}>{getMemberTee(r.member, r.gameCount)}</div>
+                </div>
+              </div>
+              <div className={`col-span-2 text-center text-xs font-bold px-1.5 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
                 style={{ background: isHandicapTab ? 'rgba(220,252,231,0.6)' : undefined }}>
                 {isHandicapTab ? r.handicapIndex : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
               </div>
-              <div className="text-right text-[11px] min-w-[50px]" style={{ color: '#475569' }}>
+              <div className="col-span-3 text-center text-[11px]" style={{ color: '#475569' }}>
                 {isHandicapTab ? (
-                  <span>{r.avgScore}<span style={{ color: '#cbd5e1' }}>/</span><span className="text-amber-600">{r.bestScore}</span></span>
+                  <span>{r.avgScore}<span style={{ color: '#cbd5e1' }}>/</span><span className="text-amber-600 font-semibold">{r.bestScore}</span></span>
                 ) : (
-                  <span>{r.latestScore}/{r.avgScore}</span>
+                  <span>{r.latestScore}<span style={{ color: '#cbd5e1' }}>/</span>{r.avgScore}</span>
                 )}
               </div>
             </div>

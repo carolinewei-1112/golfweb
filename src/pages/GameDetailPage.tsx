@@ -73,7 +73,7 @@ export default function GameDetailPage() {
   return (
     <div className="animate-fade-in space-y-5 sm:space-y-7">
       <div className="flex items-center justify-between">
-        <Link to="/history" className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-gray-400 hover:text-golf-600 transition-colors px-3 py-1.5 rounded-xl hover:bg-golf-50">
+        <Link to="/history" className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-golf-700 transition-all duration-200 px-3.5 py-2 rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)', border: '1px solid rgba(78,126,58,0.2)' }}>
           ← 返回历史比赛
         </Link>
       </div>
@@ -82,7 +82,7 @@ export default function GameDetailPage() {
       {/* Game Info with Course Image */}
       <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
         {/* 球场头图 */}
-        <div className="h-40 sm:h-52 overflow-hidden relative">
+        <div className="h-48 sm:h-60 overflow-hidden relative">
           <img
             src={getCourseImageUrl(tournament)}
             alt={tournament.courseName}
@@ -92,9 +92,21 @@ export default function GameDetailPage() {
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
-          <div className="absolute bottom-4 sm:bottom-5 left-4 sm:left-6 text-white">
-            <h1 className="text-xl sm:text-3xl font-bold drop-shadow-lg">{monthLabel}</h1>
-            <p className="text-white/90 mt-1 sm:mt-1.5 text-sm sm:text-base drop-shadow-sm">{tournament.courseName}</p>
+          <div className="absolute bottom-3 sm:bottom-5 left-4 sm:left-6 text-white">
+            <h1 className="text-xl sm:text-3xl font-bold drop-shadow-lg flex items-baseline gap-2 sm:gap-3">
+              {monthLabel}<span className="text-sm sm:text-xl font-medium text-white/90">{tournament.courseName}</span>
+            </h1>
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2 sm:mt-2.5">
+              <span className="flex items-center gap-1 text-[10px] sm:text-xs text-white/90 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(4px)' }}>
+                <Icon name="people" className="w-3 h-3 sm:w-3.5 sm:h-3.5 inline-block" /> {game?.scores.length ?? 0} 人参赛
+              </span>
+              <span className="text-[10px] sm:text-xs text-white/90 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(4px)' }}>
+                Slope {tournament.slope}
+              </span>
+              <span className="text-[10px] sm:text-xs text-white/90 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(4px)' }}>
+                Rating {tournament.rating}
+              </span>
+            </div>
           </div>
           <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
             <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm text-white font-medium" style={{ background: 'rgba(0, 0, 0, 0.35)', backdropFilter: 'blur(8px)' }}>
@@ -131,19 +143,7 @@ export default function GameDetailPage() {
           )}
         </div>
 
-        <div className="p-4 sm:p-6">
-          <div className="flex flex-wrap gap-3 sm:gap-4">
-            <span className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
-              <Icon name="people" className="w-3.5 h-3.5 inline-block" /> {game?.scores.length ?? 0} 人参赛
-            </span>
-            <span className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
-              Slope {tournament.slope}
-            </span>
-            <span className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
-              Rating {tournament.rating}
-            </span>
-          </div>
-        </div>
+
       </div>
 
       {/* 本场亮点：进步黑马 / 退步红马 / 鸟哥 三模块统一风格 */}
@@ -295,10 +295,10 @@ export default function GameDetailPage() {
             onClick={() => setSortBy('progress')}
             className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
               sortBy === 'progress'
-                ? 'text-golf-700 shadow-sm'
+                ? 'text-white shadow-md'
                 : 'text-gray-500 hover:bg-white/80 card-shadow'
             }`}
-            style={sortBy === 'progress' ? { background: 'rgba(221, 228, 213, 0.6)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+            style={sortBy === 'progress' ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 2px 8px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
             按进步系数
           </button>
@@ -306,10 +306,10 @@ export default function GameDetailPage() {
             onClick={() => setSortBy('gross')}
             className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
               sortBy === 'gross'
-                ? 'text-golf-700 shadow-sm'
+                ? 'text-white shadow-md'
                 : 'text-gray-500 hover:bg-white/80 card-shadow'
             }`}
-            style={sortBy === 'gross' ? { background: 'rgba(221, 228, 213, 0.6)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+            style={sortBy === 'gross' ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 2px 8px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
           >
             按杆数
           </button>
