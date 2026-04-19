@@ -90,55 +90,60 @@ export default function MemberDetailPage() {
       </div>
 
       <div className="space-y-5 sm:space-y-7">
-      {/* Profile Card with Full Background */}
+      {/* Profile Card */}
       <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ border: '1px solid rgba(255,255,255,0.3)' }}>
-        {/* 全屏背景图片 - 优先使用background，否则使用头像高斯模糊 */}
+        {/* 背景图片 */}
         <div className="absolute inset-0">
           <img
             src={member.background || member.avatar}
             alt=""
             className={`w-full h-full object-cover ${member.background ? '' : 'blur-xl scale-150'}`}
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none'
-            }}
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
           />
         </div>
-        {/* 渐变遮罩 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/55 to-black/80" />
-        
-        {/* 内容区域 */}
-        <div className="relative px-5 sm:px-7 pt-8 sm:pt-10 pb-5 sm:pb-7 text-white">
-          <div className="flex items-start gap-3 sm:gap-5">
-            {/* 左侧：头像 + 姓名 + 基本信息 */}
-            <div className="relative p-0.5 rounded-full shadow-xl flex-shrink-0" style={{ background: 'linear-gradient(135deg, #6a9e56, #4e7e3a)' }}>
-              <img src={member.avatar} alt="" className="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-gray-100 border-2 sm:border-3 border-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/75" />
+
+        {/* 内容 */}
+        <div className="relative pt-7 sm:pt-10 pb-3 sm:pb-4">
+          {/* 上半：头像 + 姓名居中 */}
+          <div className="flex flex-col items-center px-5">
+            <div className="relative">
+              <div className="p-[2.5px] rounded-full shadow-2xl" style={{ background: 'linear-gradient(135deg, #a8d98a, #4e7e3a, #2d5a1e)' }}>
+                <img src={member.avatar} alt="" className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-100 border-2 border-white" />
+              </div>
+              {birdKingRank >= 0 && (
+                <div className="absolute -bottom-1 -right-1">
+                  <BirdKingBadge rank={birdKingRank} />
+                </div>
+              )}
             </div>
-            <div className="flex-1 min-w-0">
-              <h1 className="text-lg sm:text-2xl font-bold text-white truncate flex items-center gap-2">
-                {member.name}
-                {birdKingRank >= 0 && <BirdKingBadge rank={birdKingRank} />}
-              </h1>
-              <div className="flex flex-wrap gap-x-3 sm:gap-x-5 gap-y-0.5 sm:gap-y-1 mt-1.5 sm:mt-2.5 text-xs sm:text-sm text-white/75">
-                <span className="truncate">{member.realName || member.name}</span>
-                <span className="px-2 py-0.5 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.2)' }}>{member.gender}</span>
-                <span className="hidden sm:inline">入会 {joinDate}</span>
-                <span className="sm:hidden">{joinDate.slice(5)}</span>
-                <span className="px-2 py-0.5 rounded-full" style={{ background: 'rgba(253, 246, 227, 0.2)' }}>{getMemberTee(member, memberGames.length)}</span>
-              </div>
-              {/* 统计数据放右侧，紧跟在个人信息下方 */}
-              <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2.5 sm:mt-4">
-                {[
-                  { label: '场次', value: `${memberGames.length}/${tournaments.length}`, color: 'text-blue-300' },
-                  { label: '均杆', value: avgScore || '-', color: 'text-emerald-300' },
-                  { label: '最佳/最差', value: `${bestScore}/${worstScore}`, color: 'text-white' },
-                  ...(hasAnyPuttData ? [{ label: '推杆', value: avgPutts || '-', color: 'text-purple-300' }] : []),
-                ].map(s => (
-                  <div key={s.label} className="flex items-center gap-1 sm:gap-1.5 rounded-full px-2 sm:px-2.5 py-0.5 sm:py-1" style={{ background: 'rgba(255, 255, 255, 0.12)', backdropFilter: 'blur(8px)' }}>
-                    <span className="text-[10px] sm:text-xs text-white/50">{s.label}</span>
-                    <span className={`text-[11px] sm:text-sm font-bold ${s.color}`}>{s.value}</span>
-                  </div>
-                ))}
-              </div>
+            <h1 className="text-lg sm:text-xl font-bold text-white mt-2 drop-shadow-lg">{member.name}</h1>
+            <div className="flex items-center gap-2 sm:gap-3 mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-white/60">
+              <span>{member.realName || member.name}</span>
+              <span className="w-0.5 h-0.5 rounded-full bg-white/35" />
+              <span>{member.gender}</span>
+              <span className="w-0.5 h-0.5 rounded-full bg-white/35" />
+              <span>{getMemberTee(member, memberGames.length)}</span>
+              <span className="w-0.5 h-0.5 rounded-full bg-white/35" />
+              <span className="hidden sm:inline">{joinDate}入会</span>
+              <span className="sm:hidden">{joinDate.slice(5)}入会</span>
+            </div>
+          </div>
+
+          {/* 下半：统计数据横排 */}
+          <div className="mx-3 sm:mx-4 mt-3 sm:mt-3.5 px-1.5 sm:px-2 py-1.5 sm:py-2">
+            <div className={`grid ${hasAnyPuttData ? 'grid-cols-4' : 'grid-cols-3'}`}>
+              {[
+                { label: '场次', value: `${memberGames.length}/${tournaments.length}`, accent: '#93c5fd' },
+                { label: '均杆', value: avgScore || '-', accent: '#6ee7b7' },
+                { label: '最佳/最差', value: `${bestScore}/${worstScore}`, accent: '#ffffff' },
+                ...(hasAnyPuttData ? [{ label: '推杆', value: avgPutts || '-', accent: '#c4b5fd' }] : []),
+              ].map((s, i, arr) => (
+                <div key={s.label} className={`flex flex-col items-center py-0.5 ${i < arr.length - 1 ? 'border-r border-white/10' : ''}`}>
+                  <span className="text-[9px] sm:text-[10px] text-white/45 font-medium">{s.label}</span>
+                  <span className="text-xs sm:text-sm font-bold" style={{ color: s.accent }}>{s.value}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -253,9 +258,9 @@ export default function MemberDetailPage() {
                   <span className="text-xs sm:text-sm font-medium text-gray-800">
                     {d.tournament.name.match(/(\d+)月/)?.[1] ?? d.tournament.name}月
                   </span>
-                  <span className="text-[10px] sm:text-xs text-gray-400 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(221, 228, 213, 0.4)' }}>{d.tournament.date}</span>
+                  <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">{d.tournament.courseName}</span>
                 </div>
-                <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 truncate">{d.tournament.courseName}</div>
+                <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5">{d.tournament.date}</div>
               </div>
               <div className="flex items-center gap-1.5 sm:gap-3 ml-2 flex-shrink-0">
                 <div className="text-center w-[38px] sm:w-[46px]">
