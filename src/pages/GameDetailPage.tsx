@@ -4,7 +4,6 @@ import { useStore } from '../store'
 import { getMemberTee, getCourseImage, type Tournament } from '../data'
 import { Icon, BirdKingBadge } from '../components/Icons'
 
-type Tab = 'gross' | 'putt'
 type SortBy = 'gross' | 'progress'
 
 // 获取球场头图URL
@@ -12,17 +11,11 @@ function getCourseImageUrl(tournament: Tournament): string {
   return getCourseImage(tournament.courseName)
 }
 
-// 判断是否有有效推杆数据（至少有一个选手推杆数 > 0）
-function hasPuttData(_date: string, game?: { scores: { putts: number }[] }): boolean {
-  if (!game) return false
-  return game.scores.some(s => s.putts > 0)
-}
-
 export default function GameDetailPage() {
   const { id } = useParams<{ id: string }>()
   const {
     tournaments, games, getMemberById,
-    getGrossRanking, getPuttRanking,
+    getGrossRanking,
     getProgressScore, getMemberGames,
     birdieRecords,
   } = useStore()
@@ -38,11 +31,9 @@ export default function GameDetailPage() {
   })()
 
   const game = games.find(g => g.tournamentId === id)
-  const [tab, setTab] = useState<Tab>('gross')
   const [sortBy, setSortBy] = useState<SortBy>('progress')
 
   const grossRanking = getGrossRanking(id)
-  const puttRanking = getPuttRanking(id)
 
   // 获取完整数据（包含杆数和进步系数）
   const fullRanking = (game?.scores ?? [])
@@ -61,11 +52,8 @@ export default function GameDetailPage() {
     })
     .map((r, i) => ({ ...r, rank: i + 1 }))
 
-  const showPuttTab = hasPuttData(tournament.date, game)
   const playerCount = fullRanking.length
   const topN = playerCount <= 5 ? 2 : 3  // 参赛≤5人只有前2名，否则前3名
-
-  const currentData = tab === 'putt' ? puttRanking : fullRanking
 
   // 提取月份
   const monthMatch = tournament.name.match(/(\d+)月/)
@@ -259,39 +247,8 @@ export default function GameDetailPage() {
         )
       })()}
 
-      {/* 推杆排名Tab - 仅当有推杆数据时显示切换 */}
-      {showPuttTab && (
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          <button
-            onClick={() => setTab('gross')}
-            className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
-              tab === 'gross'
-                ? 'text-white shadow-md'
-                : 'text-gray-600 hover:bg-white/80 card-shadow'
-            }`}
-            style={tab === 'gross' ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
-          >
-            <Icon name="trophy" className="w-4 h-4" />
-            <span>杆数排名</span>
-          </button>
-          <button
-            onClick={() => setTab('putt')}
-            className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
-              tab === 'putt'
-                ? 'text-white shadow-md'
-                : 'text-gray-600 hover:bg-white/80 card-shadow'
-            }`}
-            style={tab === 'putt' ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
-          >
-            <Icon name="golf" className="w-4 h-4" />
-            <span>推杆排名</span>
-          </button>
-        </div>
-      )}
-
       {/* 排序切换 */}
-      {tab !== 'putt' && (
-        <div className="flex items-center gap-2 text-xs sm:text-sm">
+      <div className="flex items-center gap-2 text-xs sm:text-sm">
           <button
             onClick={() => setSortBy('progress')}
             className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
@@ -315,15 +272,13 @@ export default function GameDetailPage() {
             按杆数
           </button>
         </div>
-      )}
 
       {/* Ranking Table */}
       <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
-        {currentData.length === 0 && (
+        {fullRanking.length === 0 && (
           <div className="px-4 sm:px-5 py-10 sm:py-12 text-center text-gray-400 text-sm">暂无数据</div>
         )}
         {/* 表头 - 杆数、进步系数 */}
-        {tab !== 'putt' && (
           <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-gray-50/80 text-xs text-gray-400 border-b border-gray-100 font-medium">
             <span className="w-6 sm:w-7 text-center flex-shrink-0">排名</span>
             <span className="w-8 sm:w-9 flex-shrink-0"></span>
@@ -333,9 +288,8 @@ export default function GameDetailPage() {
               <span className="w-12 sm:w-14 text-right">进步</span>
             </div>
           </div>
-        )}
         <div className="divide-y divide-gray-50">
-          {currentData.map((item: any) => {
+          {fullRanking.map((item: any) => {
             // 前三名皇冠配置（与排行榜一致）
             const crownConfigs = [
               { // 金冠
@@ -403,10 +357,7 @@ export default function GameDetailPage() {
                 <div className="text-xs sm:text-sm font-medium text-gray-800 truncate flex items-center gap-1">{item.member.name}{birdKingMap.has(item.member.id) && <BirdKingBadge rank={birdKingMap.get(item.member.id)!} />}</div>
                 <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(item.member, getMemberGames(item.member.id).length)}</div>
               </div>
-              {tab === 'putt' ? (
-                <span className="text-xs sm:text-sm font-bold text-gray-900 bg-gray-50 px-2.5 py-1 rounded-lg">{item.putts} 推</span>
-              ) : (
-                <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+              <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
                   <span className="w-14 sm:w-16 text-right text-xs sm:text-sm font-bold text-gray-900">{item.grossScore} 杆</span>
                   <span className={`w-12 sm:w-14 text-right text-[10px] sm:text-xs font-semibold ${
                     item.progress == null ? 'text-gray-400' : 
@@ -416,7 +367,6 @@ export default function GameDetailPage() {
                     {item.progress == null ? '--' : `${item.progress > 0 ? '↑' : item.progress < 0 ? '↓' : ''}${Math.abs(item.progress)}`}
                   </span>
                 </div>
-              )}
             </Link>
             );
           })}

@@ -4,15 +4,10 @@ import { getMemberTee, getCourseImage } from '../data'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { Icon, BirdKingBadge } from '../components/Icons'
 
-// 判断是否记录推杆数（2026年5月及以后的比赛才记录推杆，4月及以前不记录）
-function hasPuttData(date: string): boolean {
-  return date >= '2026-05-01'
-}
-
 export default function MemberDetailPage() {
   const { id } = useParams<{ id: string }>()
   const {
-    getMemberById, getMemberGames, getAvgScore, getAvgPutts,
+    getMemberById, getMemberGames, getAvgScore,
     getProgressScore,
     games, tournaments, birdieRecords, members,
   } = useStore()
@@ -33,12 +28,8 @@ export default function MemberDetailPage() {
 
   const memberGames = getMemberGames(member.id)
   const avgScore = getAvgScore(member.id)
-  const avgPutts = getAvgPutts(member.id)
   const bestScore = memberGames.length > 0 ? Math.min(...memberGames.map(g => g.score.grossScore)) : '-'
   const worstScore = memberGames.length > 0 ? Math.max(...memberGames.map(g => g.score.grossScore)) : '-'
-
-  // 判断是否有推杆数据（是否有2026年3月及以后的比赛）
-  const hasAnyPuttData = memberGames.some(g => hasPuttData(g.tournament.date))
 
   // 入会时间：按第一场参赛比赛日期算
   const joinDate = memberGames.length > 0 ? memberGames[0].tournament.date : member.joinDate
@@ -53,7 +44,6 @@ export default function MemberDetailPage() {
     name: g.tournament.name.replace('月例赛', ''),
     date: hasCrossYear ? g.tournament.date : g.tournament.date.slice(5),
     gross: g.score.grossScore,
-    putts: hasPuttData(g.tournament.date) ? g.score.putts : null,
   }))
 
   const detailData = memberGames.slice(-12).reverse().map(g => {
@@ -132,12 +122,11 @@ export default function MemberDetailPage() {
 
           {/* 下半：统计数据横排 */}
           <div className="mx-3 sm:mx-4 mt-3 sm:mt-3.5 px-1.5 sm:px-2 py-1.5 sm:py-2">
-            <div className={`grid ${hasAnyPuttData ? 'grid-cols-4' : 'grid-cols-3'}`}>
+            <div className="grid grid-cols-3">
               {[
                 { label: '场次', value: `${memberGames.length}/${tournaments.length}`, accent: '#93c5fd' },
                 { label: '均杆', value: avgScore || '-', accent: '#6ee7b7' },
                 { label: '最佳/最差', value: `${bestScore}/${worstScore}`, accent: '#ffffff' },
-                ...(hasAnyPuttData ? [{ label: '推杆', value: avgPutts || '-', accent: '#c4b5fd' }] : []),
               ].map((s, i, arr) => (
                 <div key={s.label} className={`flex flex-col items-center py-0.5 ${i < arr.length - 1 ? 'border-r border-white/10' : ''}`}>
                   <span className="text-[9px] sm:text-[10px] text-white/45 font-medium">{s.label}</span>
@@ -164,14 +153,13 @@ export default function MemberDetailPage() {
                 <YAxis domain={['dataMin - 4', 'dataMax + 4']} tick={{ fontSize: 10 }} stroke="#94a3b8" />
                 <Tooltip
                   contentStyle={{ borderRadius: 16, border: '1px solid #e2e8f0', fontSize: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
-                  formatter={(value: number, name: string) => {
-                    if (value === null) return ['-', name === '总杆数' ? '杆数' : '推杆数']
-                    return [value, name === '总杆数' ? '杆数' : '推杆数']
+                  formatter={(value: number) => {
+                    if (value === null) return ['-', '杆数']
+                    return [value, '杆数']
                   }}
                   labelFormatter={(_label: any, payload: any) => payload?.[0]?.payload?.name ?? ''}
                 />
                 <Line type="monotone" dataKey="gross" stroke="#4e7e3a" strokeWidth={2.5} dot={{ r: 4, fill: '#4e7e3a', strokeWidth: 2, stroke: '#fff' }} name="总杆数" />
-                <Line type="monotone" dataKey="putts" stroke="#8b5cf6" strokeWidth={2} dot={{ r: 3, fill: '#8b5cf6', strokeWidth: 2, stroke: '#fff' }} name="推杆数" strokeDasharray="5 5" connectNulls={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -276,12 +264,6 @@ export default function MemberDetailPage() {
                   <div className="text-[10px] sm:text-xs text-gray-400">总杆</div>
                   <div className="text-xs sm:text-sm font-bold text-gray-800">{d.score.grossScore}</div>
                 </div>
-                {hasPuttData(d.tournament.date) && (
-                  <div className="text-center w-[46px] hidden sm:block">
-                    <div className="text-xs text-gray-400">推杆</div>
-                    <div className="text-sm text-gray-600">{d.score.putts}</div>
-                  </div>
-                )}
                 <div className="text-center w-[56px] sm:w-[72px]">
                   <div className="text-[10px] sm:text-xs text-gray-400">进步系数</div>
                   <div className={`text-xs sm:text-sm font-bold px-1.5 py-0.5 rounded-full ${d.progress == null ? 'text-gray-400' : d.progress > 0 ? 'text-golf-700 bg-golf-50' : d.progress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>

@@ -470,16 +470,6 @@ function TournamentCreator() {
   )
 }
 
-// 判断是否记录推杆数（2026年4月及以后的比赛才记录推杆，3月及以前不记录）
-function hasPuttData(date: string): boolean {
-  return date >= '2026-04-01'
-}
-
-// 判断比赛是否需要显示推杆数输入（成绩录入时所有比赛都显示推杆数输入框）
-function showPuttInputForScoreEntry(_date: string): boolean {
-  return true // 所有比赛都显示推杆数输入框
-}
-
 // ============ 成绩录入 ============
 // 打鸟记录条目
 interface BirdieEntry {
@@ -497,7 +487,6 @@ function ScoreInput() {
   
   // 获取当前选中的比赛
   const selectedTournamentData = tournaments.find(t => t.id === selectedTournament)
-  const showPuttInput = selectedTournamentData ? showPuttInputForScoreEntry(selectedTournamentData.date) : true
 
   // 选择比赛时加载已有成绩和照片
   const handleSelectTournament = (tid: string) => {
@@ -542,7 +531,7 @@ function ScoreInput() {
   }
 
   // 更新成绩
-  const updateScore = (memberId: string, field: 'grossScore' | 'putts', value: number) => {
+  const updateScore = (memberId: string, field: 'grossScore', value: number) => {
     setEntries(entries.map(e =>
       e.memberId === memberId ? { ...e, [field]: value } : e
     ))
@@ -670,17 +659,16 @@ function ScoreInput() {
       {entries.length > 0 && (
         <div className="bg-white rounded-xl border border-gray-100 overflow-hidden mb-4">
           {/* 表头 */}
-          <div className={`grid gap-2 px-4 py-2 bg-gray-50 text-xs font-medium text-gray-500 ${showPuttInput ? 'grid-cols-12' : 'grid-cols-10'}`}>
+          <div className="grid grid-cols-10 gap-2 px-4 py-2 bg-gray-50 text-xs font-medium text-gray-500">
             <div className="col-span-4">球员</div>
-            <div className={`text-center ${showPuttInput ? 'col-span-3' : 'col-span-3'}`}>总杆数</div>
-            {showPuttInput && <div className="col-span-3 text-center">推杆数</div>}
-            <div className={`text-center ${showPuttInput ? 'col-span-2' : 'col-span-3'}`}>操作</div>
+            <div className="col-span-3 text-center">总杆数</div>
+            <div className="col-span-3 text-center">操作</div>
           </div>
           {entries.map(entry => {
             const member = getMemberById(entry.memberId)
             if (!member) return null
             return (
-              <div key={entry.memberId} className={`grid gap-2 px-4 py-2.5 border-t border-gray-50 items-center ${showPuttInput ? 'grid-cols-12' : 'grid-cols-10'}`}>
+              <div key={entry.memberId} className="grid grid-cols-10 gap-2 px-4 py-2.5 border-t border-gray-50 items-center">
                 <div className="col-span-4 flex items-center gap-2">
                   <img src={member.avatar} alt="" className="w-6 h-6 rounded-full bg-gray-100" />
                   <div className="min-w-0">
@@ -688,7 +676,7 @@ function ScoreInput() {
                     <div className="text-xs text-gray-400">{getMemberTee(member, getMemberGames(member.id).length)}</div>
                   </div>
                 </div>
-                <div className={showPuttInput ? 'col-span-3' : 'col-span-3'}>
+                <div className="col-span-3">
                   <input
                     type="number"
                     min="50" max="200"
@@ -699,19 +687,7 @@ function ScoreInput() {
                     placeholder="必填"
                   />
                 </div>
-                {showPuttInput && (
-                  <div className="col-span-3">
-                    <input
-                      type="number"
-                      min="18" max="60"
-                      value={entry.putts || ''}
-                      onChange={e => updateScore(entry.memberId, 'putts', parseInt(e.target.value) || 0)}
-                      className="w-full px-2 py-1.5 border border-gray-200 rounded-lg text-sm text-center focus:outline-none focus:border-golf-500 bg-gray-50"
-                      placeholder="可选"
-                    />
-                  </div>
-                )}
-                <div className={`text-center ${showPuttInput ? 'col-span-2' : 'col-span-3'}`}>
+                <div className="col-span-3 text-center">
                   <button
                     onClick={() => removePlayer(entry.memberId)}
                     className="text-xs text-red-400 hover:text-red-600"

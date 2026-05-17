@@ -6,11 +6,9 @@ import {
   getProgressRanking as calcProgressRanking,
   getMemberGames as calcMemberGames,
   getAvgScore as calcAvgScore,
-  getAvgPutts as calcAvgPutts,
   getHandicapIndex as calcHandicapIndex,
   getProgressScore as calcProgressScore,
   getGrossRanking as calcGrossRanking,
-  getPuttRanking as calcPuttRanking,
   getProgressStar as calcProgressStar,
 } from './data'
 
@@ -53,10 +51,8 @@ interface StoreState {
   getHandicapIndex: (memberId: string) => number
   getMemberGames: (memberId: string) => { tournament: Tournament; score: ScoreEntry }[]
   getAvgScore: (memberId: string) => number
-  getAvgPutts: (memberId: string) => number
   getProgressScore: (memberId: string, tournamentId: string) => number | null
   getGrossRanking: (tournamentId: string) => any[]
-  getPuttRanking: (tournamentId: string) => any[]
   getProgressStar: (tournamentId: string) => { member: Member; progress: number } | null
 }
 
@@ -185,10 +181,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     [games, tournaments]
   )
 
-  const getAvgPutts = useCallback((memberId: string) =>
-    calcAvgPutts(memberId, games, tournaments),
-    [games, tournaments]
-  )
 
   const getHandicapIndex = useCallback((memberId: string) =>
     calcHandicapIndex(memberId, games, tournaments),
@@ -202,11 +194,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const getGrossRanking = useCallback((tournamentId: string) =>
     calcGrossRanking(tournamentId, games, tournaments, members),
-    [games, tournaments, members]
-  )
-
-  const getPuttRanking = useCallback((tournamentId: string) =>
-    calcPuttRanking(tournamentId, games, tournaments, members),
     [games, tournaments, members]
   )
 
@@ -277,9 +264,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       addMember, updateMember, addTournament, updateTournament, deleteTournament, updateGameScores, updateGamePhotos, addAnnouncement, deleteAnnouncement,
       addBirdieRecord, deleteBirdieRecord, updateBirdieRecord, getMemberById,
       addMembershipFee, deleteMembershipFee, addExpense, deleteExpense,
-      overallRanking, progressRanking, getMemberGames, getAvgScore, getAvgPutts, getHandicapIndex,
+      overallRanking, progressRanking, getMemberGames, getAvgScore, getHandicapIndex,
       getProgressScore,
-      getGrossRanking, getPuttRanking, getProgressStar,
+      getGrossRanking, getProgressStar,
     }}>
       {children}
     </StoreContext.Provider>

@@ -345,13 +345,6 @@ export function getAvgScore(memberId: string, gameList: Game[], tournamentList: 
   return Math.round(mg.reduce((sum, g) => sum + g.score.grossScore, 0) / mg.length);
 }
 
-/** 历史平均推杆数 - 四舍五入保留整数 */
-export function getAvgPutts(memberId: string, gameList: Game[], tournamentList: Tournament[]): number {
-  const mg = getMemberGames(memberId, gameList, tournamentList);
-  if (mg.length === 0) return 0;
-  return Math.round(mg.reduce((sum, g) => sum + g.score.putts, 0) / mg.length);
-}
-
 /** 获取会员的平均差点指数
  * 每场比赛差点 = 杆数 - 72
  * 平均差点 = 所有参与比赛的差点平均值
@@ -423,21 +416,6 @@ export function getGrossRanking(tournamentId: string, gameList: Game[], tourname
     .map((s, i) => ({ ...s, rank: i + 1 }));
 }
 
-/** 获取比赛的推杆数排名 */
-export function getPuttRanking(tournamentId: string, gameList: Game[], tournamentList: Tournament[], memberList: Member[]) {
-  const game = gameList.find(g => g.tournamentId === tournamentId);
-  if (!game) return [];
-  const tournament = tournamentList.find(t => t.id === tournamentId)!;
-
-  return game.scores
-    .map(s => {
-      const member = memberList.find(m => m.id === s.memberId)!;
-      return { ...s, member, tournament };
-    })
-    .sort((a, b) => a.putts - b.putts)
-    .map((s, i) => ({ ...s, rank: i + 1 }));
-}
-
 /** 获取比赛的进步系数之星（进步系数最大者） */
 export function getProgressStar(
   tournamentId: string,
@@ -484,7 +462,6 @@ export function getOverallRanking(gameList?: Game[], tournamentList?: Tournament
         participationRate: Math.round((gameCount / totalTournaments) * 100),
         bestScore: Math.min(...getMemberGames(m.id, gl, tl).map(g => g.score.grossScore)),
         worstScore: Math.max(...getMemberGames(m.id, gl, tl).map(g => g.score.grossScore)),
-        avgPutts: getAvgPutts(m.id, gl, tl),
       };
     })
     .sort((a, b) => a.handicapIndex - b.handicapIndex)
@@ -527,7 +504,6 @@ export function getProgressRanking(gameList?: Game[], tournamentList?: Tournamen
         participationRate: Math.round((gameCount / totalTournaments) * 100),
         bestScore: Math.min(...getMemberGames(s.memberId, gl, tl).map(g => g.score.grossScore)),
         worstScore: Math.max(...getMemberGames(s.memberId, gl, tl).map(g => g.score.grossScore)),
-        avgPutts: getAvgPutts(s.memberId, gl, tl),
       };
     })
     .filter((x): x is NonNullable<typeof x> => x !== null)
