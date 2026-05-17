@@ -37,6 +37,7 @@ export const courseDatabase: Course[] = [
   { name: '惠州棕榈岛高尔夫', city: '惠州', region: '广东', slope: 131, rating: 72.0 },
   { name: '中山长江高尔夫球场', city: '中山', region: '广东', slope: 126, rating: 70.8 },
   { name: '中山雅居乐长江高尔夫', city: '中山', region: '广东', slope: 128, rating: 71.5 },
+  { name: '中山温泉', city: '中山', region: '广东', slope: 127, rating: 71.0 },
   { name: '江门恩平泉林黄金小镇', city: '江门', region: '广东', slope: 125, rating: 70.5 },
   { name: '清远狮子湖高尔夫', city: '清远', region: '广东', slope: 127, rating: 71.0 },
 

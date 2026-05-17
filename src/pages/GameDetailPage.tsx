@@ -12,9 +12,10 @@ function getCourseImageUrl(tournament: Tournament): string {
   return getCourseImage(tournament.courseName)
 }
 
-// 判断是否记录推杆数（2026年5月及以后的比赛才记录推杆，4月及以前不记录）
-function hasPuttData(date: string): boolean {
-  return date >= '2026-05-01'
+// 判断是否有有效推杆数据（至少有一个选手推杆数 > 0）
+function hasPuttData(_date: string, game?: { scores: { putts: number }[] }): boolean {
+  if (!game) return false
+  return game.scores.some(s => s.putts > 0)
 }
 
 export default function GameDetailPage() {
@@ -60,7 +61,7 @@ export default function GameDetailPage() {
     })
     .map((r, i) => ({ ...r, rank: i + 1 }))
 
-  const showPuttTab = hasPuttData(tournament.date)
+  const showPuttTab = hasPuttData(tournament.date, game)
   const playerCount = fullRanking.length
   const topN = playerCount <= 5 ? 2 : 3  // 参赛≤5人只有前2名，否则前3名
 

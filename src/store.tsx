@@ -86,6 +86,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const tournaments: Tournament[] = saved?.tournaments ?? initTournaments
   const games: Game[] = saved?.games ?? initGames
   const announcements: Announcement[] = saved?.announcements ?? [
+    { id: 'A003', content: '5月月赛在一场酣畅淋漓的雨中完成🌧️ 6月月赛时间收集中，有安排的会员提前报备～', createTime: '2026-05-18T00:00:00.000Z' },
     { id: 'A002', content: '4月月赛已圆满完成。5月会安排一场夜场🌙 时间预计是（5月16日 或 17日）', createTime: '2026-04-18T22:00:00.000Z' },
     { id: 'A001', content: '4月月赛时间4月18日，请各位会员预留时间。', createTime: '2026-04-15T00:00:00.000Z' }
   ]
