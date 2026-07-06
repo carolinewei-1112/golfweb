@@ -58,7 +58,7 @@ interface StoreState {
 
 const StoreContext = createContext<StoreState | null>(null)
 
-const STORAGE_KEY = 'golfweb_store_v26'
+const STORAGE_KEY = 'golfweb_store_v27'
 
 function loadStore() {
   try {
