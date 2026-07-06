@@ -321,10 +321,10 @@ export const games: Game[] = [
   {
     tournamentId: 'T011',
     scores: [
-      { memberId: 'Archer', grossScore: 100, putts: 0 },
+      { memberId: '新来的托', grossScore: 96, putts: 0 },
+      { memberId: 'Archer', grossScore: 101, putts: 0 },
       { memberId: 'NiKi', grossScore: 101, putts: 0 },
-      { memberId: '新来的托', grossScore: 102, putts: 0 },
-      { memberId: '大面', grossScore: 109, putts: 0 },
+      { memberId: '大面', grossScore: 107, putts: 0 },
       { memberId: '康序', grossScore: 119, putts: 0 },
       { memberId: 'Raachael', grossScore: 120, putts: 0 },
       { memberId: 'lulu酱', grossScore: 120, putts: 0 },
