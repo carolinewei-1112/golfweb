@@ -82,6 +82,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const tournaments: Tournament[] = saved?.tournaments ?? initTournaments
   const games: Game[] = saved?.games ?? initGames
   const announcements: Announcement[] = saved?.announcements ?? [
+    { id: 'A004', content: '7月月赛已圆满结束。打了2场的同学，是按2场平均杆计算成绩。', createTime: '2026-07-06T00:00:00.000Z' },
     { id: 'A003', content: '6月月赛预计【6月13日/14日】有安排的会员提前报备，可协调时间！！！', createTime: '2026-05-18T00:00:00.000Z' },
     { id: 'A002', content: '4月月赛已圆满完成。5月会安排一场夜场🌙 时间预计是（5月16日 或 17日）', createTime: '2026-04-18T22:00:00.000Z' },
     { id: 'A001', content: '4月月赛时间4月18日，请各位会员预留时间。', createTime: '2026-04-15T00:00:00.000Z' }
@@ -89,11 +90,15 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const birdieRecords: BirdieRecord[] = saved?.birdieRecords ?? initialBirdieRecords
   const membershipFees: MembershipFee[] = saved?.membershipFees ?? initialMembershipFees
   const defaultExpenses: Expense[] = [
-    { id: 'E001', tournamentId: 'T009', category: 'meal', amount: 586.6, date: '2026-04-18', note: '月赛聚餐 乐田饭庄', createTime: '2026-04-18T20:00:00.000Z' },
+    { id: 'E001', tournamentId: 'T009', category: 'meal', amount: 488.8, date: '2026-04-18', note: '月赛聚餐 乐田饭庄（备注：6个人586.6元，其中1名嘉宾费用已AA）', createTime: '2026-04-18T20:00:00.000Z' },
     { id: 'E002', tournamentId: 'T009', category: 'drink', amount: 274.8, date: '2026-04-18', note: '月赛饮料 星巴克', createTime: '2026-04-18T20:01:00.000Z' },
     { id: 'E003', tournamentId: 'T009', category: 'bonus', amount: 600, date: '2026-04-18', note: '月赛进步冠军 奖金 大面', createTime: '2026-04-18T20:02:00.000Z' },
     { id: 'E004', tournamentId: 'T009', category: 'bonus', amount: 300, date: '2026-04-18', note: '月赛进步季军 奖金 新来的托', createTime: '2026-04-18T20:03:00.000Z' },
-    { id: 'E005', tournamentId: 'T009', category: 'prize', amount: 126.42, date: '2026-04-18', note: '打鸟奖品 手套 新来的托', createTime: '2026-04-18T20:04:00.000Z' },
+    { id: 'E005', tournamentId: 'T009', category: 'prize', amount: 104, date: '2026-04-18', note: '打鸟奖品 球 新来的托', createTime: '2026-04-18T20:04:00.000Z' },
+    { id: 'E006', tournamentId: 'T010', category: 'meal', amount: 579.67, date: '2026-05-17', note: '月赛聚餐费用（备注：8个人773元，其中2名嘉宾已AA）', createTime: '2026-05-17T20:00:00.000Z' },
+    { id: 'E007', tournamentId: 'T010', category: 'bonus', amount: 600, date: '2026-05-17', note: '月赛冠军 奖金 康序', createTime: '2026-05-17T20:01:00.000Z' },
+    { id: 'E008', tournamentId: 'T010', category: 'bonus', amount: 100, date: '2026-05-17', note: '月赛亚军 奖金 大面', createTime: '2026-05-17T20:02:00.000Z' },
+    { id: 'E009', tournamentId: 'T010', category: 'bonus', amount: 300, date: '2026-05-17', note: '月赛季军 奖金 新来的托', createTime: '2026-05-17T20:03:00.000Z' },
   ]
   const expenses: Expense[] = (saved?.expenses && saved.expenses.length > 0) ? saved.expenses : defaultExpenses
 
