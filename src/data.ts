@@ -120,6 +120,7 @@ export const courseImageMap: Record<string, string> = {
   '广州南沙': 'guangzhou-nansha',
   '广州君兰': 'junlan-aerial-island',
   '中山温泉': 'guangzhou-zhongshanwenquan',
+  '深圳云海谷': 'shenzhen-yunhaigu',
 };
 
 /** 根据球场名称获取图片URL */
@@ -140,6 +141,7 @@ export const tournaments: Tournament[] = [
   { id: 'T008', name: '3月月例赛', courseName: '广州南沙', date: '2026-03-22', slope: 129, rating: 71.2 },
   { id: 'T009', name: '4月月例赛', courseName: '广州君兰', date: '2026-04-18', slope: 128, rating: 71.0 },
   { id: 'T010', name: '5月月例赛', courseName: '中山温泉', date: '2026-05-17', slope: 127, rating: 71.0 },
+  { id: 'T011', name: '7月月例赛', courseName: '深圳云海谷', date: '2026-07-05', slope: 131, rating: 72.0 },
 ];
 
 // 比赛成绩数据
@@ -313,6 +315,20 @@ export const games: Game[] = [
       { memberId: '康序', grossScore: 119, putts: 0 },
       { memberId: 'lulu酱', grossScore: 126, putts: 0 },
       { memberId: '潇湉', grossScore: 127, putts: 0 },
+    ]
+  },
+  // 7月5日深圳云海谷
+  {
+    tournamentId: 'T011',
+    scores: [
+      { memberId: 'Archer', grossScore: 100, putts: 0 },
+      { memberId: 'NiKi', grossScore: 101, putts: 0 },
+      { memberId: '新来的托', grossScore: 102, putts: 0 },
+      { memberId: '大面', grossScore: 109, putts: 0 },
+      { memberId: '康序', grossScore: 119, putts: 0 },
+      { memberId: 'Raachael', grossScore: 120, putts: 0 },
+      { memberId: 'lulu酱', grossScore: 120, putts: 0 },
+      { memberId: '纯情浩克', grossScore: 126, putts: 0 },
     ]
   },
 ];
