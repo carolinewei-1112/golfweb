@@ -165,6 +165,8 @@ export const initialBirdieRecords: BirdieRecord[] = [
   { id: 'B016', number: 16, memberId: '纯情浩克', location: '南沙', type: 'course', hole: 6, note: 'D6' },
   { id: 'B017', number: 17, memberId: '国弘', location: '大浩湖', type: 'course', hole: 2, note: '2号洞' },
   { id: 'B018', number: 18, memberId: '新来的托', location: '君兰', type: 'course', hole: 18, note: '18号洞', date: '2026-04-18' },
+  { id: 'B019', number: 19, memberId: 'Archer', location: '东莞银利', type: 'course', hole: 10, note: '10号洞', date: '2026-06-28' },
+  { id: 'B020', number: 20, memberId: '新来的托', location: '广州君兰', type: 'course', hole: 6, note: '6号洞', date: '2026-06-27' },
 ];
 
 // 初始会费收入记录（2026年）
