@@ -58,7 +58,7 @@ interface StoreState {
 
 const StoreContext = createContext<StoreState | null>(null)
 
-const STORAGE_KEY = 'golfweb_store_v27'
+const STORAGE_KEY = 'golfweb_store_v28'
 
 function loadStore() {
   try {
@@ -99,6 +99,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     { id: 'E007', tournamentId: 'T010', category: 'bonus', amount: 600, date: '2026-05-17', note: '月赛冠军 奖金 康序', createTime: '2026-05-17T20:01:00.000Z' },
     { id: 'E008', tournamentId: 'T010', category: 'bonus', amount: 100, date: '2026-05-17', note: '月赛亚军 奖金 大面', createTime: '2026-05-17T20:02:00.000Z' },
     { id: 'E009', tournamentId: 'T010', category: 'bonus', amount: 300, date: '2026-05-17', note: '月赛季军 奖金 新来的托', createTime: '2026-05-17T20:03:00.000Z' },
+    { id: 'E010', tournamentId: 'T011', category: 'meal', amount: 2248, date: '2026-07-05', note: '月赛聚餐（8人参与）', createTime: '2026-07-05T20:00:00.000Z' },
   ]
   const expenses: Expense[] = (saved?.expenses && saved.expenses.length > 0) ? saved.expenses : defaultExpenses
 
