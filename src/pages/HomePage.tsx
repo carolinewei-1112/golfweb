@@ -222,7 +222,7 @@ export default function HomePage() {
         const showWorst = worstProgress && bestProgress && worstProgress.memberId !== bestProgress.memberId && (worstProgress.progress ?? 0) < 0
         // 本场打鸟者
         const gameBirdies = birdieRecords.filter(r =>
-          r.date === latestTournament.date || r.location === latestTournament.courseName
+          r.date ? r.date === latestTournament.date : r.location === latestTournament.courseName
         )
 
         return (

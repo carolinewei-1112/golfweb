@@ -141,7 +141,7 @@ export default function GameDetailPage() {
         const bestPlayer = withProgress.length > 0 ? withProgress.reduce((best, r) => (r.progress ?? -999) > (best.progress ?? -999) ? r : best) : null
         const worstPlayer = withProgress.length > 0 ? withProgress.reduce((worst, r) => (r.progress ?? 999) < (worst.progress ?? 999) ? r : worst) : null
         const showWorst = worstPlayer && bestPlayer && worstPlayer.member.id !== bestPlayer.member.id && (worstPlayer.progress ?? 0) < 0
-        const gameBirdies = birdieRecords.filter(r => r.date === tournament.date || r.location === tournament.courseName)
+        const gameBirdies = birdieRecords.filter(r => r.date ? r.date === tournament.date : r.location === tournament.courseName)
         // 取打鸟最多的那个人作为"鸟哥"
         const birdCountMap = new Map<string, { count: number, notes: string[] }>()
         gameBirdies.forEach(b => {
