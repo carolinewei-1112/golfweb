@@ -126,7 +126,7 @@ export const courseImageMap: Record<string, string> = {
 
 /** 同名图片更新时用于绕过浏览器/CDN缓存 */
 const courseImageVersionMap: Record<string, string> = {
-  '东莞银利': '20260831-2',
+  '东莞银利': '20260831-3',
 };
 
 /** 根据球场名称获取图片URL */
@@ -139,7 +139,7 @@ export function getCourseImage(courseName: string): string {
 
 /** 针对不同球场构图设置封面裁剪焦点 */
 const courseImagePositionMap: Record<string, string> = {
-  '东莞银利': 'center',
+  '东莞银利': '62% 64%',
 };
 
 export function getCourseImagePosition(courseName: string): string {
