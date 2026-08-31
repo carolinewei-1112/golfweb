@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useStore } from '../store'
-import { getMemberTee, getCourseImage, type Tournament } from '../data'
+import { getMemberTee, getCourseImage, getCourseImagePosition, type Tournament } from '../data'
 import { Icon, BirdKingBadge } from '../components/Icons'
 
 type SortBy = 'gross' | 'progress'
@@ -71,24 +71,17 @@ export default function GameDetailPage() {
       {/* Game Info with Course Image */}
       <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
         {/* 球场头图 */}
-        <div className="h-48 sm:h-60 overflow-hidden relative bg-gray-900">
-          <img
-            src={getCourseImageUrl(tournament)}
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-70"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-          />
+        <div className="h-52 sm:h-72 overflow-hidden relative bg-gray-900">
           <img
             src={getCourseImageUrl(tournament)}
             alt={tournament.courseName}
-            className="absolute inset-0 w-full h-full object-contain"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: getCourseImagePosition(tournament.courseName) }}
             onError={(e) => {
               (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=1200&h=400&fit=crop&q=80&auto=format'
-              ;(e.target as HTMLImageElement).className = 'absolute inset-0 w-full h-full object-cover'
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-3 sm:bottom-5 left-4 sm:left-6 text-white">
             <h1 className="text-xl sm:text-3xl font-bold drop-shadow-lg flex items-baseline gap-2 sm:gap-3">
               {monthLabel}<span className="text-sm sm:text-xl font-medium text-white/90">{tournament.courseName}</span>
@@ -149,7 +142,7 @@ export default function GameDetailPage() {
         const bestPlayer = withProgress.length > 0 ? withProgress.reduce((best, r) => (r.progress ?? -999) > (best.progress ?? -999) ? r : best) : null
         const worstPlayer = withProgress.length > 0 ? withProgress.reduce((worst, r) => (r.progress ?? 999) < (worst.progress ?? 999) ? r : worst) : null
         const showWorst = worstPlayer && bestPlayer && worstPlayer.member.id !== bestPlayer.member.id && (worstPlayer.progress ?? 0) < 0
-        const gameBirdies = birdieRecords.filter(r => r.date ? r.date === tournament.date : r.location === tournament.courseName)
+        const gameBirdies = birdieRecords.filter(r => r.date === tournament.date)
         // 取打鸟最多的那个人作为"鸟哥"
         const birdCountMap = new Map<string, { count: number, notes: string[] }>()
         gameBirdies.forEach(b => {

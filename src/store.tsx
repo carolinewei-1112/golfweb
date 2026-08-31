@@ -58,7 +58,7 @@ interface StoreState {
 
 const StoreContext = createContext<StoreState | null>(null)
 
-const STORAGE_KEY = 'golfweb_store_v33'
+const STORAGE_KEY = 'golfweb_store_v35'
 
 function loadStore() {
   try {
@@ -82,7 +82,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const tournaments: Tournament[] = saved?.tournaments ?? initTournaments
   const games: Game[] = saved?.games ?? initGames
   const announcements: Announcement[] = saved?.announcements ?? [
-    { id: 'A005', content: '8月月赛已圆满结束~', createTime: '2026-08-28T22:00:00.000Z' },
+    { id: 'A005', content: '8月月赛已圆满结束！9月月赛预计9月12日周或9月19日周，这两周如果有事的会员提前举手🙋🏻‍♀️。', createTime: '2026-08-28T22:00:00.000Z' },
     { id: 'A004', content: '7月月赛已圆满结束。打了2场的同学，是按2场平均杆计算成绩。', createTime: '2026-07-06T00:00:00.000Z' },
     { id: 'A003', content: '6月月赛预计【6月13日/14日】有安排的会员提前报备，可协调时间！！！', createTime: '2026-05-18T00:00:00.000Z' },
     { id: 'A002', content: '4月月赛已圆满完成。5月会安排一场夜场🌙 时间预计是（5月16日 或 17日）', createTime: '2026-04-18T22:00:00.000Z' },

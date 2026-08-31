@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store'
-import { getCourseImage, getProgressScore } from '../data'
+import { getCourseImage, getCourseImagePosition, getProgressScore } from '../data'
 import type { ReactNode } from 'react'
 import { Icon, Logo, ClubBrand, BirdKingBadge } from '../components/Icons'
 
@@ -220,30 +220,22 @@ export default function HomePage() {
         const bestProgress = rankedScores[0]
         const worstProgress = rankedScores[rankedScores.length - 1]
         const showWorst = worstProgress && bestProgress && worstProgress.memberId !== bestProgress.memberId && (worstProgress.progress ?? 0) < 0
-        // 本场打鸟者
-        const gameBirdies = birdieRecords.filter(r =>
-          r.date ? r.date === latestTournament.date : r.location === latestTournament.courseName
-        )
+        // 本场打鸟者：必须与比赛日期完全一致，避免同球场旧记录被误算
+        const gameBirdies = birdieRecords.filter(r => r.date === latestTournament.date)
 
         return (
           <Link to={`/game/${latestTournament.id}`} className="block group">
             <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow hover:card-shadow-hover transition-all duration-300 hover:-translate-y-1" style={{ background: 'rgba(255,255,255,0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.5)' }}>
               {/* 顶部球场大图 */}
-              <div className="h-36 sm:h-44 overflow-hidden relative bg-gray-900">
-                <img
-                  src={imageUrl}
-                  alt=""
-                  aria-hidden="true"
-                  className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-70"
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-                />
+              <div className="h-40 sm:h-52 overflow-hidden relative bg-gray-900">
                 <img
                   src={imageUrl}
                   alt={latestTournament.courseName}
-                  className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
-                  onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=600&h=300&fit=crop&q=80&auto=format'; (e.target as HTMLImageElement).className = 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700' }}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  style={{ objectPosition: getCourseImagePosition(latestTournament.courseName) }}
+                  onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=600&h=300&fit=crop&q=80&auto=format' }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 {/* 标签 */}
                 <div className="absolute top-3 left-3 flex items-center gap-2">
                   <span className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold text-white flex items-center gap-1" style={{ background: 'linear-gradient(135deg, #4e7e3a 0%, #6ba04a 100%)', boxShadow: '0 2px 8px rgba(78, 126, 58, 0.35)' }}>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store'
-import { getCourseImage, type Tournament } from '../data'
+import { getCourseImage, getCourseImagePosition, type Tournament } from '../data'
 import { Icon } from '../components/Icons'
 
 // 获取球场头图URL
@@ -111,24 +111,17 @@ export default function HistoryPage() {
               style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}
             >
               {/* 球场头图 - 所有信息都在图片上 */}
-              <div className="h-36 sm:h-44 overflow-hidden relative bg-gray-900">
-                <img
-                  src={getCourseImageUrl(t)}
-                  alt=""
-                  aria-hidden="true"
-                  className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-70"
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-                />
+              <div className="h-40 sm:h-52 overflow-hidden relative bg-gray-900">
                 <img
                   src={getCourseImageUrl(t)}
                   alt={t.courseName}
-                  className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  style={{ objectPosition: getCourseImagePosition(t.courseName) }}
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&h=300&fit=crop&q=80&auto=format'
-                    ;(e.target as HTMLImageElement).className = 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 {/* 右上：日期 */}
                 <div className="absolute top-2 right-2.5 rounded-full px-2.5 py-1 text-white text-[10px] sm:text-xs font-medium" style={{ background: 'rgba(0, 0, 0, 0.35)', backdropFilter: 'blur(4px)' }}>
                   {t.date}

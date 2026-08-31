@@ -124,10 +124,26 @@ export const courseImageMap: Record<string, string> = {
   '东莞银利': 'dongguan-yinli',
 };
 
+/** 同名图片更新时用于绕过浏览器/CDN缓存 */
+const courseImageVersionMap: Record<string, string> = {
+  '东莞银利': '20260831-2',
+};
+
 /** 根据球场名称获取图片URL */
 export function getCourseImage(courseName: string): string {
   const key = courseImageMap[courseName];
-  return key ? cosUrl(`/images/courses/${key}.png`) : '';
+  if (!key) return '';
+  const version = courseImageVersionMap[courseName];
+  return `${cosUrl(`/images/courses/${key}.png`)}${version ? `?v=${version}` : ''}`;
+}
+
+/** 针对不同球场构图设置封面裁剪焦点 */
+const courseImagePositionMap: Record<string, string> = {
+  '东莞银利': 'center',
+};
+
+export function getCourseImagePosition(courseName: string): string {
+  return courseImagePositionMap[courseName] ?? 'center';
 }
 
 // 比赛列表（2025-2026年）
