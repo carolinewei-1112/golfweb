@@ -124,22 +124,22 @@ export const courseImageMap: Record<string, string> = {
   '东莞银利': 'dongguan-yinli',
 };
 
-/** 同名图片更新时用于绕过浏览器/CDN缓存 */
-const courseImageVersionMap: Record<string, string> = {
-  '东莞银利': '20260831-3',
+/** 已针对网站横幅比例预裁剪的本地球场图片 */
+const localCourseImageMap: Record<string, string> = {
+  '东莞银利': '/images/courses/dongguan-yinli.png',
 };
 
 /** 根据球场名称获取图片URL */
 export function getCourseImage(courseName: string): string {
+  const localImage = localCourseImageMap[courseName];
+  if (localImage) return localImage;
   const key = courseImageMap[courseName];
-  if (!key) return '';
-  const version = courseImageVersionMap[courseName];
-  return `${cosUrl(`/images/courses/${key}.png`)}${version ? `?v=${version}` : ''}`;
+  return key ? cosUrl(`/images/courses/${key}.png`) : '';
 }
 
 /** 针对不同球场构图设置封面裁剪焦点 */
 const courseImagePositionMap: Record<string, string> = {
-  '东莞银利': '62% 64%',
+  '东莞银利': 'center',
 };
 
 export function getCourseImagePosition(courseName: string): string {
