@@ -142,6 +142,7 @@ export const tournaments: Tournament[] = [
   { id: 'T009', name: '4月月例赛', courseName: '广州君兰', date: '2026-04-18', slope: 128, rating: 71.0 },
   { id: 'T010', name: '5月月例赛', courseName: '中山温泉', date: '2026-05-17', slope: 127, rating: 71.0 },
   { id: 'T011', name: '7月月例赛', courseName: '深圳云海谷', date: '2026-07-05', slope: 131, rating: 72.0 },
+  { id: 'T012', name: '8月月例赛', courseName: '东莞银利', date: '2026-08-28', slope: 128, rating: 71.0 },
 ];
 
 // 比赛成绩数据
@@ -167,6 +168,7 @@ export const initialBirdieRecords: BirdieRecord[] = [
   { id: 'B018', number: 18, memberId: '新来的托', location: '君兰', type: 'course', hole: 18, note: '18号洞', date: '2026-04-18' },
   { id: 'B019', number: 19, memberId: 'Archer', location: '东莞银利', type: 'course', hole: 10, note: '10号洞', date: '2026-06-28' },
   { id: 'B020', number: 20, memberId: '新来的托', location: '广州君兰', type: 'course', hole: 6, note: '6号洞', date: '2026-06-27' },
+  { id: 'B021', number: 21, memberId: '新来的托', location: '东莞银利', type: 'course', hole: 18, note: '18号洞', date: '2026-08-28' },
 ];
 
 // 初始会费收入记录（2026年）
@@ -331,6 +333,20 @@ export const games: Game[] = [
       { memberId: 'Raachael', grossScore: 120, putts: 0 },
       { memberId: 'lulu酱', grossScore: 120, putts: 0 },
       { memberId: '纯情浩克', grossScore: 126, putts: 0 },
+    ]
+  },
+  // 8月28日东莞银利
+  {
+    tournamentId: 'T012',
+    scores: [
+      { memberId: '新来的托', grossScore: 96, putts: 0 },
+      { memberId: '大面', grossScore: 116, putts: 0 },
+      { memberId: 'Raachael', grossScore: 122, putts: 0 },
+      { memberId: 'lulu酱', grossScore: 128, putts: 0 },
+      { memberId: 'NiKi', grossScore: 107, putts: 0 },
+      { memberId: 'Archer', grossScore: 104, putts: 0 },
+      { memberId: '纯情浩克', grossScore: 126, putts: 0 },
+      { memberId: '国弘', grossScore: 105, putts: 0 },
     ]
   },
 ];
