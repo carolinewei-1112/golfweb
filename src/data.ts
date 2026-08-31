@@ -159,6 +159,7 @@ export const initialBirdieRecords: BirdieRecord[] = [
   { id: 'B008', number: 8, memberId: '国弘', location: '球场', type: 'course' },
   { id: 'B009', number: 9, memberId: 'Archer', location: '球场', type: 'course' },
   { id: 'B010', number: 10, memberId: '新来的托', location: '球场', type: 'course' },
+  { id: 'B011', number: 11, memberId: '新来的托', location: '东莞银利', type: 'course', hole: 5, note: 'A5' },
   { id: 'B012', number: 12, memberId: '新来的托', location: '球场', type: 'course' },
   { id: 'B013', number: 13, memberId: '国弘', location: '球场', type: 'course' },
   { id: 'B014', number: 14, memberId: '新来的托', location: '球场', type: 'course' },
@@ -168,11 +169,10 @@ export const initialBirdieRecords: BirdieRecord[] = [
   { id: 'B018', number: 18, memberId: '新来的托', location: '君兰', type: 'course', hole: 18, note: '18号洞', date: '2026-04-18' },
   { id: 'B019', number: 19, memberId: 'Archer', location: '东莞银利', type: 'course', hole: 10, note: '10号洞', date: '2026-06-28' },
   { id: 'B020', number: 20, memberId: '新来的托', location: '广州君兰', type: 'course', hole: 6, note: '6号洞', date: '2026-06-27' },
-  { id: 'B021', number: 21, memberId: '新来的托', location: '东莞银利', type: 'course', hole: 18, note: '18号洞', date: '2026-08-28' },
   { id: 'B022', number: 22, memberId: '新来的托', location: '广州君兰', type: 'course', hole: 2, note: '2号洞', date: '2026-07-19' },
   { id: 'B023', number: 23, memberId: '新来的托', location: '顺德均安', type: 'course', hole: 6, note: '6号洞', date: '2026-07-25' },
   { id: 'B024', number: 24, memberId: '新来的托', location: '珠海金湾', type: 'course', hole: 7, note: '7号洞', date: '2026-07-31' },
-  { id: 'B011', number: 25, memberId: '新来的托', location: '东莞银利', type: 'course', hole: 5, note: '5号洞', date: '2026-08-28' },
+  { id: 'B021', number: 25, memberId: '新来的托', location: '东莞银利', type: 'course', hole: 18, note: '18号洞', date: '2026-08-28' },
 ];
 
 // 初始会费收入记录（2026年）
