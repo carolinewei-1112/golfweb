@@ -8,6 +8,7 @@ type RankingType = 'handicap' | 'progress'
 
 interface RankingItem {
   rank: number
+  awardRank?: number | null
   member: {
     id: string
     name: string
@@ -40,6 +41,10 @@ export default function RankingPage() {
 
   const isHandicapTab = activeTab === 'handicap'
   const currentRanking: RankingItem[] = isHandicapTab ? overallRanking : progressRanking
+  const podiumRanking = isHandicapTab
+    ? currentRanking.slice(0, 3)
+    : currentRanking.filter(r => r.awardRank != null && r.awardRank <= 3)
+  const getDisplayedRank = (item: RankingItem) => isHandicapTab ? item.rank : item.awardRank
 
   // 鸟王映射：打鸟次数前3名
   const birdKingMap = (() => {
@@ -114,7 +119,7 @@ export default function RankingPage() {
         boxShadow: '0 2px 20px rgba(19,92,51,0.06)',
       }}>
         <div className="flex items-end justify-center gap-3 sm:gap-6">
-          {currentRanking.slice(0, 3).map((r, i) => {
+          {podiumRanking.map((r, i) => {
             // 视觉顺序：第2名(左) | 第1名(居中突出) | 第3名(右)
             // i=0 → 第1名(金冠), i=1 → 第2名(银冠), i=2 → 第3名(铜冠)
             const order = i; // order即排名索引: 0=金, 1=银, 2=铜
@@ -261,11 +266,11 @@ export default function RankingPage() {
             <div className="sm:hidden grid grid-cols-10 gap-1 items-center">
               <div className="col-span-1 flex items-center">
                 <span className={`inline-flex w-6 h-6 items-center justify-center rounded-lg text-[10px] font-bold ${
-                  r.rank <= 3 ? 'text-white' : 'text-slate-500'
+                  getDisplayedRank(r) != null && getDisplayedRank(r)! <= 3 ? 'text-white' : 'text-slate-500'
                 }`} style={
-                  r.rank === 1 ? { background: 'linear-gradient(135deg, #FBBF24, #D97706)' } :
-                  r.rank === 2 ? { background: 'linear-gradient(135deg, #94A3B8, #64748B)' } :
-                  r.rank === 3 ? { background: 'linear-gradient(135deg, #F97316, #C2410C)' } :
+                  getDisplayedRank(r) === 1 ? { background: 'linear-gradient(135deg, #FBBF24, #D97706)' } :
+                  getDisplayedRank(r) === 2 ? { background: 'linear-gradient(135deg, #94A3B8, #64748B)' } :
+                  getDisplayedRank(r) === 3 ? { background: 'linear-gradient(135deg, #F97316, #C2410C)' } :
                   { background: '#F1F5F9' }
                 }>{r.rank}</span>
               </div>
@@ -293,11 +298,11 @@ export default function RankingPage() {
             <div className="hidden sm:contents">
               <div className="col-span-1 flex items-center">
                 <span className={`inline-flex w-7 h-7 items-center justify-center rounded-lg text-xs font-bold ${
-                  r.rank <= 3 ? 'text-white' : 'text-slate-500'
+                  getDisplayedRank(r) != null && getDisplayedRank(r)! <= 3 ? 'text-white' : 'text-slate-500'
                 }`} style={
-                  r.rank === 1 ? { background: 'linear-gradient(135deg, #FBBF24, #D97706)' } :
-                  r.rank === 2 ? { background: 'linear-gradient(135deg, #94A3B8, #64748B)' } :
-                  r.rank === 3 ? { background: 'linear-gradient(135deg, #F97316, #C2410C)' } :
+                  getDisplayedRank(r) === 1 ? { background: 'linear-gradient(135deg, #FBBF24, #D97706)' } :
+                  getDisplayedRank(r) === 2 ? { background: 'linear-gradient(135deg, #94A3B8, #64748B)' } :
+                  getDisplayedRank(r) === 3 ? { background: 'linear-gradient(135deg, #F97316, #C2410C)' } :
                   { background: '#F1F5F9' }
                 }>{r.rank}</span>
               </div>

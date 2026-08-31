@@ -484,8 +484,8 @@ export function getProgressStar(
   let best: { memberId: string; progress: number } | null = null;
   for (const s of game.scores) {
     const p = getProgressScore(s.memberId, tournamentId, gameList, tournamentList);
-    // 现在找进步系数最大者（正数越大表示进步越大）
-    if (p !== null && (best === null || p > best.progress)) {
+    // 只有非负进步系数才具备获奖资格
+    if (p !== null && p >= 0 && (best === null || p > best.progress)) {
       best = { memberId: s.memberId, progress: p };
     }
   }
@@ -538,7 +538,7 @@ export function getProgressRanking(gameList?: Game[], tournamentList?: Tournamen
   const latestGame = gl.find(g => g.tournamentId === latestTournament.id);
   if (!latestGame) return [];
 
-  return latestGame.scores
+  const ranking = latestGame.scores
     .map(s => {
       const member = ml.find(m => m.id === s.memberId);
       if (!member) return null;
@@ -562,6 +562,12 @@ export function getProgressRanking(gameList?: Game[], tournamentList?: Tournamen
       };
     })
     .filter((x): x is NonNullable<typeof x> => x !== null)
-    .sort((a, b) => b.latestProgress - a.latestProgress)
-    .map((r, i) => ({ ...r, rank: i + 1 }));
+    .sort((a, b) => b.latestProgress - a.latestProgress);
+
+  let awardRank = 0;
+  return ranking.map((r, i) => ({
+    ...r,
+    rank: i + 1,
+    awardRank: r.latestProgress >= 0 ? ++awardRank : null,
+  }));
 }

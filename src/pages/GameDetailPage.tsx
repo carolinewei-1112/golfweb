@@ -36,7 +36,7 @@ export default function GameDetailPage() {
   const grossRanking = getGrossRanking(id)
 
   // 获取完整数据（包含杆数和进步系数）
-  const fullRanking = (game?.scores ?? [])
+  const sortedRanking = (game?.scores ?? [])
     .map(s => {
       const member = getMemberById(s.memberId)!
       const progress = getProgressScore(s.memberId, id)
@@ -50,7 +50,15 @@ export default function GameDetailPage() {
         return (b.progress ?? -999) - (a.progress ?? -999)
       }
     })
-    .map((r, i) => ({ ...r, rank: i + 1 }))
+
+  let eligibleProgressRank = 0
+  const fullRanking = sortedRanking.map((r, i) => {
+    const rank = i + 1
+    const awardRank = sortBy === 'gross'
+      ? rank
+      : r.progress !== null && r.progress >= 0 ? ++eligibleProgressRank : null
+    return { ...r, rank, awardRank }
+  })
 
   const playerCount = fullRanking.length
   const topN = playerCount <= 5 ? 2 : 3  // 参赛≤5人只有前2名，否则前3名
@@ -139,7 +147,8 @@ export default function GameDetailPage() {
       {/* 本场亮点：进步黑马 / 退步红马 / 鸟哥 三模块统一风格 */}
       {(() => {
         const withProgress = fullRanking.filter(r => r.progress != null)
-        const bestPlayer = withProgress.length > 0 ? withProgress.reduce((best, r) => (r.progress ?? -999) > (best.progress ?? -999) ? r : best) : null
+        const awardEligiblePlayers = withProgress.filter(r => (r.progress ?? -1) >= 0)
+        const bestPlayer = awardEligiblePlayers.length > 0 ? awardEligiblePlayers.reduce((best, r) => (r.progress ?? -999) > (best.progress ?? -999) ? r : best) : null
         const worstPlayer = withProgress.length > 0 ? withProgress.reduce((worst, r) => (r.progress ?? 999) < (worst.progress ?? 999) ? r : worst) : null
         const showWorst = worstPlayer && bestPlayer && worstPlayer.member.id !== bestPlayer.member.id && (worstPlayer.progress ?? 0) < 0
         const gameBirdies = birdieRecords.filter(r => r.date === tournament.date)
@@ -315,8 +324,9 @@ export default function GameDetailPage() {
                 glow: 'drop-shadow(0 1px 3px rgba(249,115,22,0.4))',
               },
             ];
-            const isTopN = item.rank >= 1 && item.rank <= topN;
-            const crown = isTopN ? crownConfigs[item.rank - 1] : null;
+            const displayedRank = item.awardRank;
+            const isTopN = displayedRank != null && displayedRank <= topN;
+            const crown = isTopN ? crownConfigs[displayedRank - 1] : null;
 
             return (
             <Link
@@ -325,9 +335,9 @@ export default function GameDetailPage() {
               className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-3.5 hover:bg-golf-50/50 transition-colors"
             >
               <span className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 ${
-                item.rank === 1 && topN >= 1 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm' :
-                item.rank === 2 && topN >= 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-sm' :
-                item.rank === 3 && topN >= 3 ? 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm' :
+                displayedRank === 1 && topN >= 1 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm' :
+                displayedRank === 2 && topN >= 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-sm' :
+                displayedRank === 3 && topN >= 3 ? 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm' :
                 'bg-gray-100 text-gray-500'
               }`}>{item.rank}</span>
               {/* 头像 + 前三名皇冠 */}
@@ -343,16 +353,16 @@ export default function GameDetailPage() {
                       <circle cx="39" cy="11" r="3" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1"/>
                       {/* 冠带 + 名次数字 */}
                       <rect x="5" y="26" width="38" height="9" rx="2" fill={crown.band} stroke={crown.bandStroke} strokeWidth="1"/>
-                      <text x="24" y="33.5" textAnchor="middle" fill={crown.numColor} fontSize="8.5" fontWeight="800" fontFamily="'SF Pro Display', system-ui, -apple-system, sans-serif">{item.rank}</text>
+                      <text x="24" y="33.5" textAnchor="middle" fill={crown.numColor} fontSize="8.5" fontWeight="800" fontFamily="'SF Pro Display', system-ui, -apple-system, sans-serif">{displayedRank}</text>
                       {/* 金冠宝石装饰 */}
-                      {item.rank === 1 && <>
+                      {displayedRank === 1 && <>
                         <circle cx="13" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
                         <circle cx="35" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
                       </>}
                     </svg>
                   </div>
                 )}
-                <img src={item.member.avatar} alt="" className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow-sm ${isTopN ? 'ring-2 ring-offset-1 ' + (item.rank === 1 ? 'ring-amber-300/80' : item.rank === 2 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`} />
+                <img src={item.member.avatar} alt="" className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow-sm ${isTopN ? 'ring-2 ring-offset-1 ' + (displayedRank === 1 ? 'ring-amber-300/80' : displayedRank === 2 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`} />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-xs sm:text-sm font-medium text-gray-800 truncate flex items-center gap-1">{item.member.name}{birdKingMap.has(item.member.id) && <BirdKingBadge rank={birdKingMap.get(item.member.id)!} />}</div>

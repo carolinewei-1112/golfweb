@@ -217,7 +217,7 @@ export default function HomePage() {
           })
           .filter(s => s.member && s.progress != null)
           .sort((a, b) => (b.progress ?? -999) - (a.progress ?? -999))
-        const bestProgress = rankedScores[0]
+        const bestProgress = rankedScores.find(s => (s.progress ?? -1) >= 0)
         const worstProgress = rankedScores[rankedScores.length - 1]
         const showWorst = worstProgress && bestProgress && worstProgress.memberId !== bestProgress.memberId && (worstProgress.progress ?? 0) < 0
         // 本场打鸟者：必须与比赛日期完全一致，避免同球场旧记录被误算
@@ -358,7 +358,7 @@ export default function HomePage() {
                   ...s,
                   progress: getProgressScore(s.memberId, t.id, games, tournaments)
                 }))
-                .filter(s => s.progress !== null)
+                .filter(s => s.progress !== null && s.progress >= 0)
                 .sort((a, b) => (b.progress ?? 0) - (a.progress ?? 0))
                 .slice(0, 3).map(s => {
                 const member = getMemberById(s.memberId)
@@ -418,20 +418,21 @@ export default function HomePage() {
                 { body: '#CBD5E1', bodyStroke: '#94A3B8', jewel: '#60A5FA', jewelStroke: '#3B82F6', band: '#94A3B8', bandStroke: '#64748B', numColor: '#334155', glow: 'drop-shadow(0 1px 2px rgba(148,163,184,0.45))' },
                 { body: '#F97316', bodyStroke: '#C2410C', jewel: '#FDE68A', jewelStroke: '#F59E0B', band: '#EA580C', bandStroke: '#9A3412', numColor: '#431407', glow: 'drop-shadow(0 1px 2px rgba(249,115,22,0.4))' },
               ];
-              const isTop3 = r.rank >= 1 && r.rank <= 3;
-              const crown = isTop3 ? crownConfigs[r.rank - 1] : null;
+              const awardRank = r.awardRank;
+              const isTop3 = awardRank != null && awardRank <= 3;
+              const crown = isTop3 ? crownConfigs[awardRank - 1] : null;
 
               return (
               <div key={r.member.id} className="flex items-center gap-2 sm:gap-3 py-1 rounded-xl px-1 hover:bg-golf-50/50 transition-colors">
                 <span className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0 ${
-                  r.rank === 1 ? 'text-white shadow-sm' :
-                  r.rank === 2 ? 'text-white shadow-sm' :
-                  r.rank === 3 ? 'text-white shadow-sm' :
+                  awardRank === 1 ? 'text-white shadow-sm' :
+                  awardRank === 2 ? 'text-white shadow-sm' :
+                  awardRank === 3 ? 'text-white shadow-sm' :
                   'bg-gray-100 text-gray-500'
                 }`} style={
-                  r.rank === 1 ? { background: 'linear-gradient(135deg, #facc15, #eab308)' } :
-                  r.rank === 2 ? { background: 'linear-gradient(135deg, #9ca3af, #6b7280)' } :
-                  r.rank === 3 ? { background: 'linear-gradient(135deg, #d97706, #b45309)' } :
+                  awardRank === 1 ? { background: 'linear-gradient(135deg, #facc15, #eab308)' } :
+                  awardRank === 2 ? { background: 'linear-gradient(135deg, #9ca3af, #6b7280)' } :
+                  awardRank === 3 ? { background: 'linear-gradient(135deg, #d97706, #b45309)' } :
                   undefined
                 }>{r.rank}</span>
                 {/* 头像 + 前三名皇冠 */}
@@ -444,15 +445,15 @@ export default function HomePage() {
                         <circle cx="24" cy="6" r="3.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="1"/>
                         <circle cx="39" cy="11" r="3" fill={crown.body} stroke={crown.bodyStroke} strokeWidth="1"/>
                         <rect x="5" y="26" width="38" height="9" rx="2" fill={crown.band} stroke={crown.bandStroke} strokeWidth="1"/>
-                        <text x="24" y="33.5" textAnchor="middle" fill={crown.numColor} fontSize="8.5" fontWeight="800" fontFamily="'SF Pro Display', system-ui, -apple-system, sans-serif">{r.rank}</text>
-                        {r.rank === 1 && <>
+                        <text x="24" y="33.5" textAnchor="middle" fill={crown.numColor} fontSize="8.5" fontWeight="800" fontFamily="'SF Pro Display', system-ui, -apple-system, sans-serif">{awardRank}</text>
+                        {awardRank === 1 && <>
                           <circle cx="13" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
                           <circle cx="35" cy="30.5" r="1.5" fill={crown.jewel} stroke={crown.jewelStroke} strokeWidth="0.6"/>
                         </>}
                       </svg>
                     </div>
                   )}
-                  <img src={r.member.avatar} alt="" className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gray-100 shadow-sm ${isTop3 ? 'ring-2 ring-offset-1 ' + (r.rank === 1 ? 'ring-amber-300/80' : r.rank === 2 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`} />
+                  <img src={r.member.avatar} alt="" className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gray-100 shadow-sm ${isTop3 ? 'ring-2 ring-offset-1 ' + (awardRank === 1 ? 'ring-amber-300/80' : awardRank === 2 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`} />
                 </div>
                 <span className="flex-1 text-xs sm:text-sm font-medium text-gray-700 truncate flex items-center gap-1">{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</span>
                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
