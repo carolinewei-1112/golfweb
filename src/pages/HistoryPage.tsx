@@ -111,13 +111,21 @@ export default function HistoryPage() {
               style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}
             >
               {/* 球场头图 - 所有信息都在图片上 */}
-              <div className="h-36 sm:h-44 overflow-hidden relative">
+              <div className="h-36 sm:h-44 overflow-hidden relative bg-gray-900">
+                <img
+                  src={getCourseImageUrl(t)}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-70"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
                 <img
                   src={getCourseImageUrl(t)}
                   alt={t.courseName}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&h=300&fit=crop&q=80&auto=format'
+                    ;(e.target as HTMLImageElement).className = 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />

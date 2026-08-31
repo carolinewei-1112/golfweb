@@ -71,13 +71,21 @@ export default function GameDetailPage() {
       {/* Game Info with Course Image */}
       <div className="rounded-2xl sm:rounded-3xl overflow-hidden card-shadow" style={{ background: 'rgba(255, 255, 255, 0.82)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
         {/* 球场头图 */}
-        <div className="h-48 sm:h-60 overflow-hidden relative">
+        <div className="h-48 sm:h-60 overflow-hidden relative bg-gray-900">
+          <img
+            src={getCourseImageUrl(tournament)}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-70"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+          />
           <img
             src={getCourseImageUrl(tournament)}
             alt={tournament.courseName}
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-contain"
             onError={(e) => {
               (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=1200&h=400&fit=crop&q=80&auto=format'
+              ;(e.target as HTMLImageElement).className = 'absolute inset-0 w-full h-full object-cover'
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
