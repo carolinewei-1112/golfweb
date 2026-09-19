@@ -198,8 +198,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
 
   const getHandicapIndex = useCallback((memberId: string) =>
-    calcHandicapIndex(memberId, games, tournaments),
-    [games, tournaments]
+    calcHandicapIndex(memberId, games, tournaments, members),
+    [games, tournaments, members]
   )
 
   const getProgressScore = useCallback((memberId: string, tournamentId: string) =>

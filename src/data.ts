@@ -423,12 +423,23 @@ export function getAvgScore(memberId: string, gameList: Game[], tournamentList: 
   return Math.round(mg.reduce((sum, g) => sum + g.score.grossScore, 0) / mg.length);
 }
 
-/** 获取会员平均差点：所有参赛总杆的平均值减标准杆72 */
-export function getHandicapIndex(memberId: string, gameList: Game[], tournamentList: Tournament[]): number {
+/**
+ * 获取会员平均差点：所有计入杆数的平均值减标准杆72。
+ * 配置了基础杆数的新会员，将基础杆作为初始一场计入；以后每增加一场实际成绩便重新平均。
+ */
+export function getHandicapIndex(
+  memberId: string,
+  gameList: Game[],
+  tournamentList: Tournament[],
+  memberList: Member[] = members
+): number {
   const memberGames = getMemberGames(memberId, gameList, tournamentList);
-  if (memberGames.length === 0) return 0;
+  const baselineScore = memberList.find(member => member.id === memberId)?.baselineScore;
+  const totalScore = memberGames.reduce((sum, game) => sum + game.score.grossScore, 0) + (baselineScore ?? 0);
+  const scoreCount = memberGames.length + (baselineScore == null ? 0 : 1);
+  if (scoreCount === 0) return 0;
 
-  const averageHandicap = memberGames.reduce((sum, game) => sum + game.score.grossScore - 72, 0) / memberGames.length;
+  const averageHandicap = totalScore / scoreCount - 72;
   return Math.round(averageHandicap * 10) / 10;
 }
 
@@ -533,7 +544,7 @@ export function getOverallRanking(gameList?: Game[], tournamentList?: Tournament
       return {
         member: m,
         avgScore: getAvgScore(m.id, gl, tl),
-        handicapIndex: getHandicapIndex(m.id, gl, tl),
+        handicapIndex: getHandicapIndex(m.id, gl, tl, ml),
         gameCount,
         totalGames: totalTournaments,
         participationRate: Math.round((gameCount / totalTournaments) * 100),
@@ -573,7 +584,7 @@ export function getProgressRanking(gameList?: Game[], tournamentList?: Tournamen
       return {
         member,
         avgScore: getAvgScore(s.memberId, gl, tl),
-        handicapIndex: getHandicapIndex(s.memberId, gl, tl),
+        handicapIndex: getHandicapIndex(s.memberId, gl, tl, ml),
         latestProgress: progress,
         latestScore: s.grossScore,
         gameCount,
