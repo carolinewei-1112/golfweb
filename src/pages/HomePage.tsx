@@ -212,7 +212,7 @@ export default function HomePage() {
         const rankedScores = latestGame.scores
           .map(s => {
             const member = getMemberById(s.memberId)
-            const progress = getProgressScore(s.memberId, latestTournament.id, games, tournaments)
+            const progress = getProgressScore(s.memberId, latestTournament.id, games, tournaments, members)
             return { ...s, member, progress }
           })
           .filter(s => s.member && s.progress != null)
@@ -356,7 +356,7 @@ export default function HomePage() {
               const participantAvatars = game?.scores
                 .map(s => ({
                   ...s,
-                  progress: getProgressScore(s.memberId, t.id, games, tournaments)
+                  progress: getProgressScore(s.memberId, t.id, games, tournaments, members)
                 }))
                 .filter(s => s.progress !== null && s.progress >= 0)
                 .sort((a, b) => (b.progress ?? 0) - (a.progress ?? 0))

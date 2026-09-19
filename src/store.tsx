@@ -58,7 +58,7 @@ interface StoreState {
 
 const StoreContext = createContext<StoreState | null>(null)
 
-const STORAGE_KEY = 'golfweb_store_v36'
+const STORAGE_KEY = 'golfweb_store_v40'
 
 function loadStore() {
   try {
@@ -82,6 +82,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const tournaments: Tournament[] = saved?.tournaments ?? initTournaments
   const games: Game[] = saved?.games ?? initGames
   const announcements: Announcement[] = saved?.announcements ?? [
+    { id: 'A006', content: '9月月赛圆满结束！10月月赛预计在24日周/31日周，有事的会员提前举手。', createTime: '2026-09-19T22:00:00.000Z' },
     { id: 'A005', content: '8月月赛已圆满结束！9月月赛预计9月12日周或9月19日周，这两周如果有事的会员提前举手🙋🏻‍♀️。', createTime: '2026-08-28T22:00:00.000Z' },
     { id: 'A004', content: '7月月赛已圆满结束。打了2场的同学，是按2场平均杆计算成绩。', createTime: '2026-07-06T00:00:00.000Z' },
     { id: 'A003', content: '6月月赛预计【6月13日/14日】有安排的会员提前报备，可协调时间！！！', createTime: '2026-05-18T00:00:00.000Z' },
@@ -107,6 +108,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     { id: 'E014', tournamentId: 'T012', category: 'bonus', amount: 600, date: '2026-08-28', note: '月赛冠军 奖金 Archer', createTime: '2026-08-28T20:00:00.000Z' },
     { id: 'E015', tournamentId: 'T012', category: 'bonus', amount: 300, date: '2026-08-28', note: '月赛亚军 奖金 新来的托', createTime: '2026-08-28T20:01:00.000Z' },
     { id: 'E016', tournamentId: 'T012', category: 'prize', amount: 104, date: '2026-08-28', note: '月赛打鸟奖品 球', createTime: '2026-08-28T20:02:00.000Z' },
+    { id: 'E017', tournamentId: 'T013', category: 'meal', amount: 506, date: '2026-09-19', note: '9月月赛聚餐 竹院牛庄（9人共569元：8名会员、1名嘉宾）', createTime: '2026-09-19T20:00:00.000Z' },
   ]
   const expenses: Expense[] = (saved?.expenses && saved.expenses.length > 0) ? saved.expenses : defaultExpenses
 
@@ -201,8 +203,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   )
 
   const getProgressScore = useCallback((memberId: string, tournamentId: string) =>
-    calcProgressScore(memberId, tournamentId, games, tournaments),
-    [games, tournaments]
+    calcProgressScore(memberId, tournamentId, games, tournaments, members),
+    [games, tournaments, members]
   )
 
   const getGrossRanking = useCallback((tournamentId: string) =>

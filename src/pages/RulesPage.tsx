@@ -135,7 +135,7 @@ export default function RulesPage() {
                       S = (X - Y) × R
                     </div>
                     <div className="mt-1.5 flex flex-wrap justify-center gap-x-3 gap-y-0.5 text-[10px] sm:text-xs text-gray-500">
-                      <span><b className="text-gray-700">X</b> = 近6场平均杆数</span>
+                      <span><b className="text-gray-700">X</b> = 近6场平均杆数 / 新会员个人基础杆数</span>
                       <span><b className="text-gray-700">Y</b> = 本场杆数</span>
                       <span><b className="text-gray-700">R</b> = 进步因子</span>
                     </div>
@@ -152,6 +152,7 @@ export default function RulesPage() {
                 </div>
                 <div className="text-[11px] sm:text-xs text-gray-600 space-y-1">
                   <div className="flex items-start gap-1.5"><span className="text-golf-500 mt-0.5">▸</span><span>S {'>'} 0 表示<b className="text-golf-700">进步</b>，S {'<'} 0 表示<b className="text-red-500">退步</b></span></div>
+                  <div className="flex items-start gap-1.5"><span className="text-golf-500 mt-0.5">▸</span><span>新会员无历史月赛时使用登记的个人基础杆数作为 X；每增加一场后，按已有历史月赛平均杆数重新更新 X，最多取最近6场</span></div>
                   <div className="flex items-start gap-1.5"><span className="text-golf-500 mt-0.5">▸</span><span>杆数越低 R 值越大，低杆选手每进步1杆获得更高系数</span></div>
                 </div>
               </div>

@@ -16,6 +16,7 @@ export interface Member {
   gender: '男' | '女';
   joinDate: string;
   initialHandicap: number;
+  baselineScore?: number; // 无历史月赛时用于计算进步系数的基础杆数 X
   avatar: string;
   background?: string;
   tee?: string;
@@ -26,6 +27,7 @@ export interface Member {
  * 第7场起：男士蓝TEE，女士红TEE
  */
 export function getMemberTee(member: Member, gameCount: number = 0): string {
+  if (member.tee) return member.tee;
   if (member.gender === '男') {
     // 男士：前6场白TEE，之后蓝TEE
     return gameCount < 6 ? '白TEE' : '蓝TEE';
@@ -108,6 +110,8 @@ export const members: Member[] = [
   { id: '国弘', name: '国弘', realName: '国弘', nickname: '国弘', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/guohong.png'), background: cosUrl('/images/backgrounds/guohong.jpg') },
   { id: '康序', name: '康序', realName: '康序', nickname: '康序', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/kangxu.png') },
   { id: '颖琪', name: '颖琪', realName: '颖琪', nickname: '颖琪', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: cosUrl('/images/avatars/yingqi.png') },
+  { id: '德里克', name: '德里克', realName: '德里克', nickname: '德里克', gender: '男', joinDate: '2026-09-14', initialHandicap: 27.4, baselineScore: 104.4, tee: '蓝TEE', avatar: '/images/avatars/delike.png' },
+  { id: 'hubert', name: 'hubert', realName: 'hubert', nickname: 'hubert', gender: '男', joinDate: '2026-09-14', initialHandicap: 31.9, baselineScore: 108.9, tee: '蓝TEE', avatar: '/images/avatars/hubert.png' },
 ];
 
 /** 球场名称 → 图片文件名映射 */
@@ -160,6 +164,7 @@ export const tournaments: Tournament[] = [
   { id: 'T010', name: '5月月例赛', courseName: '中山温泉', date: '2026-05-17', slope: 127, rating: 71.0 },
   { id: 'T011', name: '7月月例赛', courseName: '深圳云海谷', date: '2026-07-05', slope: 131, rating: 72.0 },
   { id: 'T012', name: '8月月例赛', courseName: '东莞银利', date: '2026-08-28', slope: 128, rating: 71.0 },
+  { id: 'T013', name: '9月月例赛', courseName: '广州狮子湖', date: '2026-09-19', slope: 130, rating: 71.5 },
 ];
 
 // 比赛成绩数据
@@ -190,6 +195,8 @@ export const initialBirdieRecords: BirdieRecord[] = [
   { id: 'B023', number: 23, memberId: '新来的托', location: '珠海金湾', type: 'course', hole: 7, note: '7号洞', date: '2026-07-31' },
   { id: 'B024', number: 24, memberId: '新来的托', location: '金立', type: 'course', date: '2026-08-10' },
   { id: 'B025', number: 25, memberId: '新来的托', location: '东莞银利', type: 'course', hole: 18, note: '18号洞', date: '2026-08-28' },
+  { id: 'B026', number: 26, memberId: '新来的托', location: '广州狮子湖', type: 'course', hole: 8, note: 'B8', date: '2026-09-05' },
+  { id: 'B027', number: 27, memberId: '新来的托', location: '广州狮子湖', type: 'course', hole: 6, note: 'A6', date: '2026-09-06' },
 ];
 
 // 初始会费收入记录（2026年）
@@ -370,6 +377,20 @@ export const games: Game[] = [
       { memberId: '国弘', grossScore: 105, putts: 0 },
     ]
   },
+  // 9月19日广州狮子湖
+  {
+    tournamentId: 'T013',
+    scores: [
+      { memberId: '新来的托', grossScore: 102, putts: 0 },
+      { memberId: '大面', grossScore: 106, putts: 0 },
+      { memberId: 'lulu酱', grossScore: 122, putts: 0 },
+      { memberId: 'NiKi', grossScore: 97, putts: 0 },
+      { memberId: 'Archer', grossScore: 108, putts: 0 },
+      { memberId: '潇湉', grossScore: 116, putts: 0 },
+      { memberId: '德里克', grossScore: 95, putts: 0 },
+      { memberId: 'hubert', grossScore: 103, putts: 0 },
+    ]
+  },
 ];
 
 // ============ 计算函数（支持动态数据） ============
@@ -425,7 +446,7 @@ function calculateProgressFactor(x: number): number {
 
 /** 进步系数 S = (X - Y) * R
  * Y: 本次成绩
- * X: 过去六次月赛平均成绩（最多取6场）
+ * X: 已有历史月赛的平均成绩（最多取最近6场）；无历史月赛时使用个人基础杆数
  * R: 进步因子
  * 结果为正表示进步，为负表示退步
  */
@@ -433,15 +454,19 @@ export function getProgressScore(
   memberId: string,
   tournamentId: string,
   gameList: Game[],
-  tournamentList: Tournament[]
+  tournamentList: Tournament[],
+  memberList: Member[] = members
 ): number | null {
   const mg = getMemberGames(memberId, gameList, tournamentList);
   const currentGameIdx = mg.findIndex(g => g.tournament.id === tournamentId);
-  if (currentGameIdx <= 0) return null;
+  if (currentGameIdx < 0) return null;
 
-  // 取最近最多6场历史比赛计算平均成绩 X
   const historyGames = mg.slice(Math.max(0, currentGameIdx - 6), currentGameIdx);
-  const x = historyGames.reduce((sum, g) => sum + g.score.grossScore, 0) / historyGames.length;
+  const member = memberList.find(m => m.id === memberId);
+  const x = historyGames.length > 0
+    ? historyGames.reduce((sum, g) => sum + g.score.grossScore, 0) / historyGames.length
+    : member?.baselineScore;
+  if (x == null) return null;
   
   // 本次成绩 Y
   const y = mg[currentGameIdx].score.grossScore;
@@ -483,7 +508,7 @@ export function getProgressStar(
 
   let best: { memberId: string; progress: number } | null = null;
   for (const s of game.scores) {
-    const p = getProgressScore(s.memberId, tournamentId, gameList, tournamentList);
+    const p = getProgressScore(s.memberId, tournamentId, gameList, tournamentList, memberList);
     // 只有非负进步系数才具备获奖资格
     if (p !== null && p >= 0 && (best === null || p > best.progress)) {
       best = { memberId: s.memberId, progress: p };
@@ -543,7 +568,7 @@ export function getProgressRanking(gameList?: Game[], tournamentList?: Tournamen
       const member = ml.find(m => m.id === s.memberId);
       if (!member) return null;
 
-      const progress = getProgressScore(s.memberId, latestTournament.id, gl, tl);
+      const progress = getProgressScore(s.memberId, latestTournament.id, gl, tl, ml);
       if (progress === null) return null;
 
       const gameCount = getMemberGames(s.memberId, gl, tl).length;
