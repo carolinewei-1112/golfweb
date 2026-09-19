@@ -7,7 +7,7 @@ import { Icon, BirdKingBadge } from '../components/Icons'
 export default function MemberDetailPage() {
   const { id } = useParams<{ id: string }>()
   const {
-    getMemberById, getMemberGames, getAvgScore, getLatestHandicapIndex,
+    getMemberById, getMemberGames, getAvgScore, getHandicapIndex,
     getProgressScore,
     games, tournaments, birdieRecords, members,
   } = useStore()
@@ -28,7 +28,7 @@ export default function MemberDetailPage() {
 
   const memberGames = getMemberGames(member.id)
   const avgScore = getAvgScore(member.id)
-  const latestHandicap = getLatestHandicapIndex(member.id)
+  const averageHandicap = getHandicapIndex(member.id)
   const bestScore = memberGames.length > 0 ? Math.min(...memberGames.map(g => g.score.grossScore)) : '-'
   const worstScore = memberGames.length > 0 ? Math.max(...memberGames.map(g => g.score.grossScore)) : '-'
 
@@ -127,7 +127,7 @@ export default function MemberDetailPage() {
               {[
                 { label: '场次', value: `${memberGames.length}/${tournaments.length}`, accent: '#93c5fd' },
                 { label: '均杆', value: avgScore || '-', accent: '#6ee7b7' },
-                { label: '最新差点', value: latestHandicap.toFixed(1), accent: '#fde68a' },
+                { label: '平均差点', value: averageHandicap.toFixed(1), accent: '#fde68a' },
                 { label: '最佳/最差', value: `${bestScore}/${worstScore}`, accent: '#ffffff' },
               ].map((s, i, arr) => (
                 <div key={s.label} className={`flex flex-col items-center py-0.5 ${i < arr.length - 1 ? 'border-r border-white/10' : ''}`}>

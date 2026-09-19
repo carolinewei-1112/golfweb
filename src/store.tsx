@@ -7,7 +7,6 @@ import {
   getMemberGames as calcMemberGames,
   getAvgScore as calcAvgScore,
   getHandicapIndex as calcHandicapIndex,
-  getLatestHandicapIndex as calcLatestHandicapIndex,
   getProgressScore as calcProgressScore,
   getGrossRanking as calcGrossRanking,
   getProgressStar as calcProgressStar,
@@ -50,7 +49,6 @@ interface StoreState {
   overallRanking: ReturnType<typeof calcOverallRanking>
   progressRanking: ReturnType<typeof calcProgressRanking>
   getHandicapIndex: (memberId: string) => number
-  getLatestHandicapIndex: (memberId: string) => number
   getMemberGames: (memberId: string) => { tournament: Tournament; score: ScoreEntry }[]
   getAvgScore: (memberId: string) => number
   getProgressScore: (memberId: string, tournamentId: string) => number | null
@@ -200,13 +198,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
 
   const getHandicapIndex = useCallback((memberId: string) =>
-    calcHandicapIndex(memberId, games, tournaments, members),
-    [games, tournaments, members]
-  )
-
-  const getLatestHandicapIndex = useCallback((memberId: string) =>
-    calcLatestHandicapIndex(memberId, games, tournaments, members),
-    [games, tournaments, members]
+    calcHandicapIndex(memberId, games, tournaments),
+    [games, tournaments]
   )
 
   const getProgressScore = useCallback((memberId: string, tournamentId: string) =>
@@ -286,7 +279,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       addMember, updateMember, addTournament, updateTournament, deleteTournament, updateGameScores, updateGamePhotos, addAnnouncement, deleteAnnouncement,
       addBirdieRecord, deleteBirdieRecord, updateBirdieRecord, getMemberById,
       addMembershipFee, deleteMembershipFee, addExpense, deleteExpense,
-      overallRanking, progressRanking, getMemberGames, getAvgScore, getHandicapIndex, getLatestHandicapIndex,
+      overallRanking, progressRanking, getMemberGames, getAvgScore, getHandicapIndex,
       getProgressScore,
       getGrossRanking, getProgressStar,
     }}>

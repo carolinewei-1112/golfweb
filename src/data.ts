@@ -423,60 +423,13 @@ export function getAvgScore(memberId: string, gameList: Game[], tournamentList: 
   return Math.round(mg.reduce((sum, g) => sum + g.score.grossScore, 0) / mg.length);
 }
 
-/** 获取会员最新差点指数（兼容原有调用名称） */
-export function getHandicapIndex(
-  memberId: string,
-  gameList: Game[],
-  tournamentList: Tournament[],
-  memberList: Member[] = members
-): number {
-  return getLatestHandicapIndex(memberId, gameList, tournamentList, memberList);
-}
+/** 获取会员平均差点：所有参赛总杆的平均值减标准杆72 */
+export function getHandicapIndex(memberId: string, gameList: Game[], tournamentList: Tournament[]): number {
+  const memberGames = getMemberGames(memberId, gameList, tournamentList);
+  if (memberGames.length === 0) return 0;
 
-/**
- * 按世界差点系统（WHS）计算最新差点指数。
- * 当前数据没有逐洞调整杆数和PCC，因此以总杆作为调整后总杆、PCC按0计算。
- * 少于3场时暂时展示会员登记的初始差点。
- */
-export function getLatestHandicapIndex(
-  memberId: string,
-  gameList: Game[],
-  tournamentList: Tournament[],
-  memberList: Member[] = members
-): number {
-  const member = memberList.find(m => m.id === memberId);
-  const recentGames = getMemberGames(memberId, gameList, tournamentList)
-    .sort((a, b) => a.tournament.date.localeCompare(b.tournament.date))
-    .slice(-20);
-
-  if (recentGames.length < 3) return member?.initialHandicap ?? 0;
-
-  const differentials = recentGames
-    .map(({ tournament, score }) => {
-      const differential = (113 / tournament.slope) * (score.grossScore - tournament.rating);
-      return Math.round(differential * 10) / 10;
-    })
-    .sort((a, b) => a - b);
-
-  const count = differentials.length;
-  let usedCount: number;
-  let adjustment = 0;
-
-  if (count === 3) { usedCount = 1; adjustment = -2; }
-  else if (count === 4) { usedCount = 1; adjustment = -1; }
-  else if (count === 5) usedCount = 1;
-  else if (count === 6) { usedCount = 2; adjustment = -1; }
-  else if (count <= 8) usedCount = 2;
-  else if (count <= 11) usedCount = 3;
-  else if (count <= 14) usedCount = 4;
-  else if (count <= 16) usedCount = 5;
-  else if (count <= 18) usedCount = 6;
-  else if (count === 19) usedCount = 7;
-  else usedCount = 8;
-
-  const selected = differentials.slice(0, usedCount);
-  const index = selected.reduce((sum, value) => sum + value, 0) / selected.length + adjustment;
-  return Math.round(Math.min(index, 54) * 10) / 10;
+  const averageHandicap = memberGames.reduce((sum, game) => sum + game.score.grossScore - 72, 0) / memberGames.length;
+  return Math.round(averageHandicap * 10) / 10;
 }
 
 /** 计算进步因子 R = (72/X)^3 * (1 + (72/X)^10) * 10
@@ -580,7 +533,7 @@ export function getOverallRanking(gameList?: Game[], tournamentList?: Tournament
       return {
         member: m,
         avgScore: getAvgScore(m.id, gl, tl),
-        handicapIndex: getHandicapIndex(m.id, gl, tl, ml),
+        handicapIndex: getHandicapIndex(m.id, gl, tl),
         gameCount,
         totalGames: totalTournaments,
         participationRate: Math.round((gameCount / totalTournaments) * 100),
@@ -620,7 +573,7 @@ export function getProgressRanking(gameList?: Game[], tournamentList?: Tournamen
       return {
         member,
         avgScore: getAvgScore(s.memberId, gl, tl),
-        handicapIndex: getHandicapIndex(s.memberId, gl, tl, ml),
+        handicapIndex: getHandicapIndex(s.memberId, gl, tl),
         latestProgress: progress,
         latestScore: s.grossScore,
         gameCount,

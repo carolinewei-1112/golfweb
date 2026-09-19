@@ -78,7 +78,7 @@ export default function RankingPage() {
             <span className="text-xl sm:text-2xl"><Icon name="trophy" className="w-6 h-6" /></span> 总排行榜
           </h1>
           <p className="text-xs sm:text-sm mt-1.5 text-white/85 drop-shadow-sm">
-            {isHandicapTab ? '按WHS最新差点排名，差点越低排名越高' : '按最近一场月赛进步系数排名'}
+            {isHandicapTab ? '按平均差点排名，差点越低排名越高' : '按最近一场月赛进步系数排名'}
           </p>
         </div>
       </div>
@@ -107,7 +107,7 @@ export default function RankingPage() {
           style={isHandicapTab ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
           <Icon name="chart" className="w-4 h-4" />
-          <span>最新差点排行</span>
+          <span>平均差点排行</span>
         </button>
       </div>
 
@@ -235,7 +235,7 @@ export default function RankingPage() {
           <div className="col-span-1">排名</div>
           <div className="col-span-3">会员</div>
           <div className="col-span-2 text-center">
-            {isHandicapTab ? '最新差点' : '进步系数'}
+            {isHandicapTab ? '平均差点' : '进步系数'}
           </div>
           <div className="col-span-4 text-center">
             {isHandicapTab ? '平均杆/最佳杆' : '最近杆数/历史平均'}
