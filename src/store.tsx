@@ -7,6 +7,7 @@ import {
   getMemberGames as calcMemberGames,
   getAvgScore as calcAvgScore,
   getHandicapIndex as calcHandicapIndex,
+  getLatestHandicapIndex as calcLatestHandicapIndex,
   getProgressScore as calcProgressScore,
   getGrossRanking as calcGrossRanking,
   getProgressStar as calcProgressStar,
@@ -49,6 +50,7 @@ interface StoreState {
   overallRanking: ReturnType<typeof calcOverallRanking>
   progressRanking: ReturnType<typeof calcProgressRanking>
   getHandicapIndex: (memberId: string) => number
+  getLatestHandicapIndex: (memberId: string) => number
   getMemberGames: (memberId: string) => { tournament: Tournament; score: ScoreEntry }[]
   getAvgScore: (memberId: string) => number
   getProgressScore: (memberId: string, tournamentId: string) => number | null
@@ -58,7 +60,7 @@ interface StoreState {
 
 const StoreContext = createContext<StoreState | null>(null)
 
-const STORAGE_KEY = 'golfweb_store_v40'
+const STORAGE_KEY = 'golfweb_store_v41'
 
 function loadStore() {
   try {
@@ -202,6 +204,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     [games, tournaments]
   )
 
+  const getLatestHandicapIndex = useCallback((memberId: string) =>
+    calcLatestHandicapIndex(memberId, games, tournaments, members),
+    [games, tournaments, members]
+  )
+
   const getProgressScore = useCallback((memberId: string, tournamentId: string) =>
     calcProgressScore(memberId, tournamentId, games, tournaments, members),
     [games, tournaments, members]
@@ -279,7 +286,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       addMember, updateMember, addTournament, updateTournament, deleteTournament, updateGameScores, updateGamePhotos, addAnnouncement, deleteAnnouncement,
       addBirdieRecord, deleteBirdieRecord, updateBirdieRecord, getMemberById,
       addMembershipFee, deleteMembershipFee, addExpense, deleteExpense,
-      overallRanking, progressRanking, getMemberGames, getAvgScore, getHandicapIndex,
+      overallRanking, progressRanking, getMemberGames, getAvgScore, getHandicapIndex, getLatestHandicapIndex,
       getProgressScore,
       getGrossRanking, getProgressStar,
     }}>

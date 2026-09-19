@@ -217,6 +217,8 @@ export const initialMembershipFees: MembershipFee[] = [
   { id: 'F012', memberId: '新来的托', amount: 3000, year: 2026, type: 'sponsor', note: '创始人托赞助', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:11.000Z' },
   { id: 'F013', memberId: '大面', amount: 1500, year: 2026, type: 'sponsor', note: '宣传委员面赞助', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:12.000Z' },
   { id: 'F014', memberId: '国弘', amount: 500, year: 2026, type: 'sponsor', note: '国弘赞助', paymentDate: '2026-04-16', validityPeriod: '2026年4月 - 2027年4月', createTime: '2026-04-16T00:00:13.000Z' },
+  { id: 'F015', memberId: '德里克', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-09-14', validityPeriod: '2026年9月 - 2027年9月', createTime: '2026-09-14T00:00:00.000Z' },
+  { id: 'F016', memberId: 'hubert', amount: 1800, year: 2026, type: 'regular', note: '2026年会费', paymentDate: '2026-09-14', validityPeriod: '2026年9月 - 2027年9月', createTime: '2026-09-14T00:00:01.000Z' },
 ];
 
 export const games: Game[] = [
@@ -433,6 +435,52 @@ export function getHandicapIndex(memberId: string, gameList: Game[], tournamentL
   const avgHandicap = handicaps.reduce((sum, h) => sum + h, 0) / handicaps.length;
   // 平均差点保留一位小数
   return Math.round(avgHandicap * 10) / 10;
+}
+
+/**
+ * 按世界差点系统（WHS）计算最新差点指数。
+ * 当前数据没有逐洞调整杆数和PCC，因此以总杆作为调整后总杆、PCC按0计算。
+ * 少于3场时暂时展示会员登记的初始差点。
+ */
+export function getLatestHandicapIndex(
+  memberId: string,
+  gameList: Game[],
+  tournamentList: Tournament[],
+  memberList: Member[] = members
+): number {
+  const member = memberList.find(m => m.id === memberId);
+  const recentGames = getMemberGames(memberId, gameList, tournamentList)
+    .sort((a, b) => a.tournament.date.localeCompare(b.tournament.date))
+    .slice(-20);
+
+  if (recentGames.length < 3) return member?.initialHandicap ?? 0;
+
+  const differentials = recentGames
+    .map(({ tournament, score }) => {
+      const differential = (113 / tournament.slope) * (score.grossScore - tournament.rating);
+      return Math.round(differential * 10) / 10;
+    })
+    .sort((a, b) => a - b);
+
+  const count = differentials.length;
+  let usedCount: number;
+  let adjustment = 0;
+
+  if (count === 3) { usedCount = 1; adjustment = -2; }
+  else if (count === 4) { usedCount = 1; adjustment = -1; }
+  else if (count === 5) usedCount = 1;
+  else if (count === 6) { usedCount = 2; adjustment = -1; }
+  else if (count <= 8) usedCount = 2;
+  else if (count <= 11) usedCount = 3;
+  else if (count <= 14) usedCount = 4;
+  else if (count <= 16) usedCount = 5;
+  else if (count <= 18) usedCount = 6;
+  else if (count === 19) usedCount = 7;
+  else usedCount = 8;
+
+  const selected = differentials.slice(0, usedCount);
+  const index = selected.reduce((sum, value) => sum + value, 0) / selected.length + adjustment;
+  return Math.round(Math.min(index, 54) * 10) / 10;
 }
 
 /** 计算进步因子 R = (72/X)^3 * (1 + (72/X)^10) * 10
