@@ -110,8 +110,8 @@ export const members: Member[] = [
   { id: '国弘', name: '国弘', realName: '国弘', nickname: '国弘', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/guohong.png'), background: cosUrl('/images/backgrounds/guohong.jpg') },
   { id: '康序', name: '康序', realName: '康序', nickname: '康序', gender: '男', joinDate: '2024-01-01', initialHandicap: 18, avatar: cosUrl('/images/avatars/kangxu.png') },
   { id: '颖琪', name: '颖琪', realName: '颖琪', nickname: '颖琪', gender: '女', joinDate: '2024-01-01', initialHandicap: 24, avatar: cosUrl('/images/avatars/yingqi.png') },
-  { id: '德里克', name: '德里克', realName: '德里克', nickname: '德里克', gender: '男', joinDate: '2026-09-14', initialHandicap: 27.4, baselineScore: 104.4, tee: '蓝TEE', avatar: '/images/avatars/delike.png' },
-  { id: 'hubert', name: 'hubert', realName: 'hubert', nickname: 'hubert', gender: '男', joinDate: '2026-09-14', initialHandicap: 31.9, baselineScore: 108.9, tee: '蓝TEE', avatar: '/images/avatars/hubert.png' },
+  { id: '德里克', name: '德里克', realName: '德里克', nickname: '德里克', gender: '男', joinDate: '2026-09-14', initialHandicap: 27.4, baselineScore: 99.4, tee: '蓝TEE', avatar: '/images/avatars/delike.png' },
+  { id: 'hubert', name: 'hubert', realName: 'hubert', nickname: 'hubert', gender: '男', joinDate: '2026-09-14', initialHandicap: 31.9, baselineScore: 103.9, tee: '蓝TEE', avatar: '/images/avatars/hubert.png' },
 ];
 
 /** 球场名称 → 图片文件名映射 */
@@ -423,18 +423,14 @@ export function getAvgScore(memberId: string, gameList: Game[], tournamentList: 
   return Math.round(mg.reduce((sum, g) => sum + g.score.grossScore, 0) / mg.length);
 }
 
-/** 获取会员的平均差点指数
- * 每场比赛差点 = 杆数 - 72
- * 平均差点 = 所有参与比赛的差点平均值
- */
-export function getHandicapIndex(memberId: string, gameList: Game[], tournamentList: Tournament[]): number {
-  const mg = getMemberGames(memberId, gameList, tournamentList);
-  if (mg.length === 0) return 0;
-  
-  const handicaps = mg.map(g => g.score.grossScore - 72);
-  const avgHandicap = handicaps.reduce((sum, h) => sum + h, 0) / handicaps.length;
-  // 平均差点保留一位小数
-  return Math.round(avgHandicap * 10) / 10;
+/** 获取会员最新差点指数（兼容原有调用名称） */
+export function getHandicapIndex(
+  memberId: string,
+  gameList: Game[],
+  tournamentList: Tournament[],
+  memberList: Member[] = members
+): number {
+  return getLatestHandicapIndex(memberId, gameList, tournamentList, memberList);
 }
 
 /**
@@ -584,7 +580,7 @@ export function getOverallRanking(gameList?: Game[], tournamentList?: Tournament
       return {
         member: m,
         avgScore: getAvgScore(m.id, gl, tl),
-        handicapIndex: getHandicapIndex(m.id, gl, tl),
+        handicapIndex: getHandicapIndex(m.id, gl, tl, ml),
         gameCount,
         totalGames: totalTournaments,
         participationRate: Math.round((gameCount / totalTournaments) * 100),
@@ -624,7 +620,7 @@ export function getProgressRanking(gameList?: Game[], tournamentList?: Tournamen
       return {
         member,
         avgScore: getAvgScore(s.memberId, gl, tl),
-        handicapIndex: getHandicapIndex(s.memberId, gl, tl),
+        handicapIndex: getHandicapIndex(s.memberId, gl, tl, ml),
         latestProgress: progress,
         latestScore: s.grossScore,
         gameCount,

@@ -60,7 +60,7 @@ interface StoreState {
 
 const StoreContext = createContext<StoreState | null>(null)
 
-const STORAGE_KEY = 'golfweb_store_v41'
+const STORAGE_KEY = 'golfweb_store_v43'
 
 function loadStore() {
   try {
@@ -200,8 +200,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
 
   const getHandicapIndex = useCallback((memberId: string) =>
-    calcHandicapIndex(memberId, games, tournaments),
-    [games, tournaments]
+    calcHandicapIndex(memberId, games, tournaments, members),
+    [games, tournaments, members]
   )
 
   const getLatestHandicapIndex = useCallback((memberId: string) =>

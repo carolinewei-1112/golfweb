@@ -106,7 +106,7 @@ export default function RulesPage() {
               差点系统
             </h3>
             <ul className="space-y-1.5 sm:space-y-2 pl-9 sm:pl-10">
-              {['每场比赛差点 = 杆数 - 标准杆（72杆）', '会员平均差点 = 参与的所有比赛差点平均值', '平均差点保留一位小数，用于排行榜排序', '差点越低，表示水平越高'].map((item, idx) => (
+              {['每场差值 = 113 ÷ Slope ×（调整后总杆 − Course Rating − PCC）', '当前数据以实际总杆作为调整后总杆，PCC按0计算', '按WHS规则从最近最多20场中选取最低差值计算，结果保留一位小数', '不足3场时暂用会员登记的初始差点；差点越低表示水平越高'].map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2">
                   <span className="text-golf-400 mt-1.5 text-[8px]">●</span>
                   <span>{item}</span>

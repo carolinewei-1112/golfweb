@@ -17,6 +17,9 @@ export default function FinancePage() {
   const totalIncome = membershipFees.reduce((sum, f) => sum + f.amount, 0)
   const totalExpense = expenses.reduce((sum, e) => sum + e.amount, 0)
   const balance = totalIncome - totalExpense
+  const regularFees = membershipFees.filter(f => f.type === 'regular')
+  const regularFeeTotal = regularFees.reduce((sum, f) => sum + f.amount, 0)
+  const sponsorFeeTotal = membershipFees.filter(f => f.type === 'sponsor').reduce((sum, f) => sum + f.amount, 0)
 
   return (
     <div className="animate-fade-in space-y-5 sm:space-y-7">
@@ -88,18 +91,18 @@ export default function FinancePage() {
             <div className="space-y-1">
               <div className="flex justify-between items-center">
                 <span className="text-xs sm:text-sm text-golf-500 font-bold tracking-wide">会费</span>
-                <span className="text-xs sm:text-sm font-bold text-golf-700">¥{(1800 * 11).toLocaleString()}</span>
+                <span className="text-xs sm:text-sm font-bold text-golf-700">¥{regularFeeTotal.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-[9px] sm:text-[11px] text-golf-500">
                 <span className="truncate">会员 × ¥1,800</span>
-                <span className="font-medium">11人</span>
+                <span className="font-medium">{regularFees.length}人</span>
               </div>
             </div>
             {/* 赞助费 */}
             <div className="space-y-1 pt-2 sm:pt-2.5 border-t" style={{ borderColor: 'rgba(184, 204, 170, 0.25)' }}>
               <div className="flex justify-between items-center">
                 <span className="text-xs sm:text-sm text-golf-500 font-bold tracking-wide">赞助费</span>
-                <span className="text-xs sm:text-sm font-bold text-golf-700">¥{(3000 + 1500 + 500).toLocaleString()}</span>
+                <span className="text-xs sm:text-sm font-bold text-golf-700">¥{sponsorFeeTotal.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-[9px] sm:text-[11px] text-golf-500">
                 <span className="truncate">创始人-托</span>
