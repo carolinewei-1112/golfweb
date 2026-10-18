@@ -165,6 +165,7 @@ export const tournaments: Tournament[] = [
   { id: 'T011', name: '7月月例赛', courseName: '深圳云海谷', date: '2026-07-05', slope: 131, rating: 72.0 },
   { id: 'T012', name: '8月月例赛', courseName: '东莞银利', date: '2026-08-28', slope: 128, rating: 71.0 },
   { id: 'T013', name: '9月月例赛', courseName: '广州狮子湖', date: '2026-09-19', slope: 130, rating: 71.5 },
+  { id: 'T014', name: '10月月例赛', courseName: '广州假日半岛', date: '2026-10-18', slope: 132, rating: 72.0 },
 ];
 
 // 比赛成绩数据
@@ -197,6 +198,7 @@ export const initialBirdieRecords: BirdieRecord[] = [
   { id: 'B025', number: 25, memberId: '新来的托', location: '东莞银利', type: 'course', hole: 18, note: '18号洞', date: '2026-08-28' },
   { id: 'B026', number: 26, memberId: '新来的托', location: '广州狮子湖', type: 'course', hole: 8, note: 'B8', date: '2026-09-05' },
   { id: 'B027', number: 27, memberId: '新来的托', location: '广州狮子湖', type: 'course', hole: 6, note: 'A6', date: '2026-09-06' },
+  { id: 'B028', number: 28, memberId: '国弘', location: '广州荔湖', type: 'course', hole: 2, note: 'B2', date: '2026-10-11' },
 ];
 
 // 初始会费收入记录（2026年）
@@ -393,6 +395,21 @@ export const games: Game[] = [
       { memberId: 'hubert', grossScore: 103, putts: 0 },
     ]
   },
+  // 10月18日广州假日半岛
+  {
+    tournamentId: 'T014',
+    scores: [
+      { memberId: '新来的托', grossScore: 108, putts: 0 },
+      { memberId: '大面', grossScore: 105, putts: 0 },
+      { memberId: 'lulu酱', grossScore: 124, putts: 0 },
+      { memberId: 'NiKi', grossScore: 96, putts: 0 },
+      { memberId: 'Archer', grossScore: 109, putts: 0 },
+      { memberId: '纯情浩克', grossScore: 114, putts: 0 },
+      { memberId: '德里克', grossScore: 102, putts: 0 },
+      { memberId: 'Raachael', grossScore: 126, putts: 0 },
+      { memberId: '康序', grossScore: 114, putts: 0 },
+    ]
+  },
 ];
 
 // ============ 计算函数（支持动态数据） ============
@@ -441,6 +458,84 @@ export function getHandicapIndex(
 
   const averageHandicap = totalScore / scoreCount - 72;
   return Math.round(averageHandicap * 10) / 10;
+}
+
+/** 按世界差点系统（WHS）计算最新差点指数；少于3场时尚未建立差点 */
+export function getLatestHandicapIndex(
+  memberId: string,
+  gameList: Game[],
+  tournamentList: Tournament[]
+): number | null {
+  const recentGames = getMemberGames(memberId, gameList, tournamentList)
+    .sort((a, b) => a.tournament.date.localeCompare(b.tournament.date))
+    .slice(-20);
+  if (recentGames.length < 3) return null;
+
+  const differentials = recentGames
+    .map(({ tournament, score }) =>
+      Math.round(((113 / tournament.slope) * (score.grossScore - tournament.rating)) * 10) / 10
+    )
+    .sort((a, b) => a - b);
+
+  const count = differentials.length;
+  let usedCount: number;
+  let adjustment = 0;
+  if (count === 3) { usedCount = 1; adjustment = -2; }
+  else if (count === 4) { usedCount = 1; adjustment = -1; }
+  else if (count === 5) usedCount = 1;
+  else if (count === 6) { usedCount = 2; adjustment = -1; }
+  else if (count <= 8) usedCount = 2;
+  else if (count <= 11) usedCount = 3;
+  else if (count <= 14) usedCount = 4;
+  else if (count <= 16) usedCount = 5;
+  else if (count <= 18) usedCount = 6;
+  else if (count === 19) usedCount = 7;
+  else usedCount = 8;
+
+  const selected = differentials.slice(0, usedCount);
+  const index = selected.reduce((sum, value) => sum + value, 0) / selected.length + adjustment;
+  return Math.round(Math.min(index, 54) * 10) / 10;
+}
+
+/** 最新差点排行榜（按WHS差点指数升序） */
+export function getLatestHandicapRanking(
+  gameList?: Game[],
+  tournamentList?: Tournament[],
+  memberList?: Member[]
+) {
+  const gl = gameList ?? games;
+  const tl = tournamentList ?? tournaments;
+  const ml = memberList ?? members;
+  const totalTournaments = tl.length;
+
+  return ml.map(member => {
+    const memberGames = getMemberGames(member.id, gl, tl)
+      .sort((a, b) => a.tournament.date.localeCompare(b.tournament.date));
+    const handicapIndex = getLatestHandicapIndex(member.id, gl, tl);
+    if (handicapIndex === null || memberGames.length === 0) return null;
+
+    const latestGame = memberGames[memberGames.length - 1];
+    const latestDifferential = Math.round(
+      ((113 / latestGame.tournament.slope) *
+        (latestGame.score.grossScore - latestGame.tournament.rating)) * 10
+    ) / 10;
+
+    return {
+      member,
+      handicapIndex,
+      latestDifferential,
+      latestScore: latestGame.score.grossScore,
+      avgScore: getAvgScore(member.id, gl, tl),
+      gameCount: memberGames.length,
+      totalGames: totalTournaments,
+      participationRate: Math.round((memberGames.length / totalTournaments) * 100),
+      bestScore: Math.min(...memberGames.map(game => game.score.grossScore)),
+      worstScore: Math.max(...memberGames.map(game => game.score.grossScore)),
+    };
+  })
+    .filter((item): item is NonNullable<typeof item> => item !== null)
+    .sort((a, b) => a.handicapIndex - b.handicapIndex)
+    .map((item, index) => ({ ...item, rank: index + 1 }));
 }
 
 /** 计算进步因子 R = (72/X)^3 * (1 + (72/X)^10) * 10

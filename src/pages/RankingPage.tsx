@@ -4,7 +4,7 @@ import { useStore } from '../store'
 import { getMemberTee } from '../data'
 import { Icon, BirdKingBadge } from '../components/Icons'
 
-type RankingType = 'handicap' | 'progress'
+type RankingType = 'handicap' | 'latestHandicap' | 'progress'
 
 interface RankingItem {
   rank: number
@@ -22,6 +22,7 @@ interface RankingItem {
   avgProgress?: number
   latestProgress?: number
   latestScore?: number
+  latestDifferential?: number
   avgScore: number
   bestScore: number
   worstScore: number
@@ -30,21 +31,34 @@ interface RankingItem {
 }
 
 export default function RankingPage() {
-  const { overallRanking, progressRanking, birdieRecords, tournaments } = useStore()
-  const [searchParams] = useSearchParams()
-  const defaultTab = searchParams.get('tab') === 'progress' ? 'progress' : 'handicap'
+  const { overallRanking, progressRanking, latestHandicapRanking, birdieRecords, tournaments } = useStore()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const requestedTab = searchParams.get('tab')
+  const defaultTab: RankingType = requestedTab === 'progress' || requestedTab === 'latestHandicap'
+    ? requestedTab
+    : 'handicap'
   const [activeTab, setActiveTab] = useState<RankingType>(defaultTab)
+
+  const changeTab = (tab: RankingType) => {
+    setActiveTab(tab)
+    setSearchParams(tab === 'handicap' ? {} : { tab })
+  }
 
   // 获取最近一场月赛的月份
   const sortedTournaments = [...tournaments].sort((a, b) => b.date.localeCompare(a.date))
   const latestMonth = sortedTournaments.length > 0 ? new Date(sortedTournaments[0].date).getMonth() + 1 : null
 
-  const isHandicapTab = activeTab === 'handicap'
-  const currentRanking: RankingItem[] = isHandicapTab ? overallRanking : progressRanking
-  const podiumRanking = isHandicapTab
-    ? currentRanking.slice(0, 3)
-    : currentRanking.filter(r => r.awardRank != null && r.awardRank <= 3)
-  const getDisplayedRank = (item: RankingItem) => isHandicapTab ? item.rank : item.awardRank
+  const isProgressTab = activeTab === 'progress'
+  const isAverageHandicapTab = activeTab === 'handicap'
+  const isLatestHandicapTab = activeTab === 'latestHandicap'
+  const isHandicapTab = !isProgressTab
+  const currentRanking: RankingItem[] = isProgressTab
+    ? progressRanking
+    : isLatestHandicapTab ? latestHandicapRanking : overallRanking
+  const podiumRanking = isProgressTab
+    ? currentRanking.filter(r => r.awardRank != null && r.awardRank <= 3)
+    : currentRanking.slice(0, 3)
+  const getDisplayedRank = (item: RankingItem) => isProgressTab ? item.awardRank : item.rank
 
   // 鸟王映射：打鸟次数前3名
   const birdKingMap = (() => {
@@ -78,7 +92,11 @@ export default function RankingPage() {
             <span className="text-xl sm:text-2xl"><Icon name="trophy" className="w-6 h-6" /></span> 总排行榜
           </h1>
           <p className="text-xs sm:text-sm mt-1.5 text-white/85 drop-shadow-sm">
-            {isHandicapTab ? '按平均差点排名，差点越低排名越高' : '按最近一场月赛进步系数排名'}
+            {isProgressTab
+              ? '按最近一场月赛进步系数排名'
+              : isLatestHandicapTab
+                ? '按WHS高尔夫规则计算最新差点，差点越低排名越高'
+                : '按平均差点排名，含新会员基础杆，差点越低排名越高'}
           </p>
         </div>
       </div>
@@ -86,28 +104,40 @@ export default function RankingPage() {
       {/* Tab切换 */}
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button
-          onClick={() => setActiveTab('progress')}
+          onClick={() => changeTab('progress')}
           className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
-            !isHandicapTab
+            isProgressTab
               ? 'text-white shadow-md'
               : 'text-gray-600 hover:bg-white/80 card-shadow'
           }`}
-          style={!isHandicapTab ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+          style={isProgressTab ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
           <Icon name="horse" className="w-4 h-4" />
           <span>{latestMonth ? `${latestMonth}月月赛进步排行` : '最近月赛进步排行'}</span>
         </button>
         <button
-          onClick={() => setActiveTab('handicap')}
+          onClick={() => changeTab('handicap')}
           className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
-            isHandicapTab
+            isAverageHandicapTab
               ? 'text-white shadow-md'
               : 'text-gray-600 hover:bg-white/80 card-shadow'
           }`}
-          style={isHandicapTab ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+          style={isAverageHandicapTab ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
         >
           <Icon name="chart" className="w-4 h-4" />
           <span>平均差点排行</span>
+        </button>
+        <button
+          onClick={() => changeTab('latestHandicap')}
+          className={`flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+            isLatestHandicapTab
+              ? 'text-white shadow-md'
+              : 'text-gray-600 hover:bg-white/80 card-shadow'
+          }`}
+          style={isLatestHandicapTab ? { background: 'linear-gradient(135deg, #2e4f24 0%, #4e7e3a 100%)', boxShadow: '0 4px 12px rgba(46, 79, 36, 0.25)' } : { background: 'rgba(255, 255, 255, 0.8)' }}
+        >
+          <Icon name="golfball" className="w-4 h-4" />
+          <span>最新差点排行</span>
         </button>
       </div>
 
@@ -235,10 +265,10 @@ export default function RankingPage() {
           <div className="col-span-1">排名</div>
           <div className="col-span-3">会员</div>
           <div className="col-span-2 text-center">
-            {isHandicapTab ? '平均差点' : '进步系数'}
+            {isProgressTab ? '进步系数' : isLatestHandicapTab ? '最新差点' : '平均差点'}
           </div>
           <div className="col-span-4 text-center">
-            {isHandicapTab ? '平均杆/最佳杆' : '最近杆数/历史平均'}
+            {isProgressTab ? '最近杆数/历史平均' : isLatestHandicapTab ? '最近杆数/差点微分' : '平均杆/最佳杆'}
           </div>
           <div className="col-span-2 text-center">参赛率</div>
         </div>
@@ -248,10 +278,10 @@ export default function RankingPage() {
           <div className="col-span-1">排名</div>
           <div className="col-span-4">会员</div>
           <div className="col-span-2 text-center">
-            {isHandicapTab ? '差点' : '进步'}
+            {isProgressTab ? '进步' : isLatestHandicapTab ? '最新差点' : '平均差点'}
           </div>
           <div className="col-span-3 text-center">
-            {isHandicapTab ? '均杆/最佳' : '杆数/平均'}
+            {isProgressTab ? '杆数/平均' : isLatestHandicapTab ? '杆数/微分' : '均杆/最佳'}
           </div>
         </div>
 
@@ -286,10 +316,12 @@ export default function RankingPage() {
                 {isHandicapTab ? r.handicapIndex : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
               </div>
               <div className="col-span-3 text-center text-[11px]" style={{ color: '#475569' }}>
-                {isHandicapTab ? (
-                  <span>{r.avgScore}<span style={{ color: '#cbd5e1' }}>/</span><span className="text-amber-600 font-semibold">{r.bestScore}</span></span>
-                ) : (
+                {isProgressTab ? (
                   <span>{r.latestScore}<span style={{ color: '#cbd5e1' }}>/</span>{r.avgScore}</span>
+                ) : isLatestHandicapTab ? (
+                  <span>{r.latestScore}<span style={{ color: '#cbd5e1' }}>/</span><span className="text-blue-600 font-semibold">{r.latestDifferential}</span></span>
+                ) : (
+                  <span>{r.avgScore}<span style={{ color: '#cbd5e1' }}>/</span><span className="text-amber-600 font-semibold">{r.bestScore}</span></span>
                 )}
               </div>
             </div>
@@ -320,17 +352,23 @@ export default function RankingPage() {
                 </span>
               </div>
               <div className="col-span-4 flex items-center justify-center">
-                {isHandicapTab ? (
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-sm px-2.5 py-1 rounded-lg" style={{ color: '#475569', background: 'rgba(241,245,249,0.7)' }}>{r.avgScore}</span>
-                    <span style={{ color: '#cbd5e1' }}>/</span>
-                    <span className="text-sm text-amber-600 bg-amber-50 px-2.5 py-1 rounded-lg font-semibold">{r.bestScore}</span>
-                  </div>
-                ) : (
+                {isProgressTab ? (
                   <div className="flex items-center gap-1.5">
                     <span className="text-sm px-2.5 py-1 rounded-lg" style={{ color: '#475569', background: 'rgba(241,245,249,0.7)' }}>{r.latestScore}</span>
                     <span style={{ color: '#cbd5e1' }}>/</span>
                     <span className="text-sm text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg">{r.avgScore}</span>
+                  </div>
+                ) : isLatestHandicapTab ? (
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm px-2.5 py-1 rounded-lg" style={{ color: '#475569', background: 'rgba(241,245,249,0.7)' }}>{r.latestScore}</span>
+                    <span style={{ color: '#cbd5e1' }}>/</span>
+                    <span className="text-sm text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg font-semibold">{r.latestDifferential}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm px-2.5 py-1 rounded-lg" style={{ color: '#475569', background: 'rgba(241,245,249,0.7)' }}>{r.avgScore}</span>
+                    <span style={{ color: '#cbd5e1' }}>/</span>
+                    <span className="text-sm text-amber-600 bg-amber-50 px-2.5 py-1 rounded-lg font-semibold">{r.bestScore}</span>
                   </div>
                 )}
               </div>

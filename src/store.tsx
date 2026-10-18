@@ -4,6 +4,7 @@ import { members as initMembers, tournaments as initTournaments, games as initGa
 import {
   getOverallRanking as calcOverallRanking,
   getProgressRanking as calcProgressRanking,
+  getLatestHandicapRanking as calcLatestHandicapRanking,
   getMemberGames as calcMemberGames,
   getAvgScore as calcAvgScore,
   getHandicapIndex as calcHandicapIndex,
@@ -48,6 +49,7 @@ interface StoreState {
   // 计算属性
   overallRanking: ReturnType<typeof calcOverallRanking>
   progressRanking: ReturnType<typeof calcProgressRanking>
+  latestHandicapRanking: ReturnType<typeof calcLatestHandicapRanking>
   getHandicapIndex: (memberId: string) => number
   getMemberGames: (memberId: string) => { tournament: Tournament; score: ScoreEntry }[]
   getAvgScore: (memberId: string) => number
@@ -58,7 +60,7 @@ interface StoreState {
 
 const StoreContext = createContext<StoreState | null>(null)
 
-const STORAGE_KEY = 'golfweb_store_v43'
+const STORAGE_KEY = 'golfweb_store_v46'
 
 function loadStore() {
   try {
@@ -109,6 +111,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     { id: 'E015', tournamentId: 'T012', category: 'bonus', amount: 300, date: '2026-08-28', note: '月赛亚军 奖金 新来的托', createTime: '2026-08-28T20:01:00.000Z' },
     { id: 'E016', tournamentId: 'T012', category: 'prize', amount: 104, date: '2026-08-28', note: '月赛打鸟奖品 球', createTime: '2026-08-28T20:02:00.000Z' },
     { id: 'E017', tournamentId: 'T013', category: 'meal', amount: 506, date: '2026-09-19', note: '9月月赛聚餐 竹院牛庄（9人共569元：8名会员、1名嘉宾）', createTime: '2026-09-19T20:00:00.000Z' },
+    { id: 'E018', tournamentId: 'T014', category: 'meal', amount: 678.4, date: '2026-10-18', note: '10月月赛聚餐 嘴刁金装大排档（10人共848元：8名会员、2名嘉宾）', createTime: '2026-10-18T20:00:00.000Z' },
   ]
   const expenses: Expense[] = (saved?.expenses && saved.expenses.length > 0) ? saved.expenses : defaultExpenses
 
@@ -183,6 +186,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const progressRanking = useMemo(
     () => calcProgressRanking(games, tournaments, members),
+    [games, tournaments, members]
+  )
+
+  const latestHandicapRanking = useMemo(
+    () => calcLatestHandicapRanking(games, tournaments, members),
     [games, tournaments, members]
   )
 
@@ -279,7 +287,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       addMember, updateMember, addTournament, updateTournament, deleteTournament, updateGameScores, updateGamePhotos, addAnnouncement, deleteAnnouncement,
       addBirdieRecord, deleteBirdieRecord, updateBirdieRecord, getMemberById,
       addMembershipFee, deleteMembershipFee, addExpense, deleteExpense,
-      overallRanking, progressRanking, getMemberGames, getAvgScore, getHandicapIndex,
+      overallRanking, progressRanking, latestHandicapRanking, getMemberGames, getAvgScore, getHandicapIndex,
       getProgressScore,
       getGrossRanking, getProgressStar,
     }}>

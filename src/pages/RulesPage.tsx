@@ -113,6 +113,10 @@ export default function RulesPage() {
                 </li>
               ))}
             </ul>
+            <div className="mt-3 ml-9 sm:ml-10 rounded-xl p-3 text-[10px] sm:text-xs leading-relaxed" style={{ background: 'rgba(221, 228, 213, 0.25)', border: '1px solid rgba(184, 204, 170, 0.25)' }}>
+              <div className="font-bold text-golf-700 mb-1">最新差点排行（WHS规则）</div>
+              <div>单场差点微分 = 113 ÷ Slope ×（总杆 − Course Rating），当前PCC按0计算；取最近最多20场，并按有效场数选取最低若干差点微分计算。少于3场时尚未建立最新差点，不进入该排行。</div>
+            </div>
           </div>
 
           {/* 2. 进步系数计算 */}
