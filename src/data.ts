@@ -674,11 +674,20 @@ export function getProgressRanking(gameList?: Game[], tournamentList?: Tournamen
       const progress = getProgressScore(s.memberId, latestTournament.id, gl, tl, ml);
       if (progress === null) return null;
 
-      const gameCount = getMemberGames(s.memberId, gl, tl).length;
+      const memberGames = getMemberGames(s.memberId, gl, tl)
+        .sort((a, b) => a.tournament.date.localeCompare(b.tournament.date));
+      const gameCount = memberGames.length;
+      const previousSixGames = memberGames
+        .filter(game => game.tournament.date < latestTournament.date)
+        .slice(-6);
+      const recentSixAvg = previousSixGames.length > 0
+        ? Math.round(previousSixGames.reduce((sum, game) => sum + game.score.grossScore, 0) / previousSixGames.length)
+        : null;
 
       return {
         member,
         avgScore: getAvgScore(s.memberId, gl, tl),
+        recentSixAvg,
         handicapIndex: getHandicapIndex(s.memberId, gl, tl, ml),
         latestProgress: progress,
         latestScore: s.grossScore,

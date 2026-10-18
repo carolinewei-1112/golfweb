@@ -23,6 +23,7 @@ interface RankingItem {
   latestProgress?: number
   latestScore?: number
   latestDifferential?: number
+  recentSixAvg?: number | null
   avgScore: number
   bestScore: number
   worstScore: number
@@ -268,7 +269,7 @@ export default function RankingPage() {
             {isProgressTab ? '进步系数' : isLatestHandicapTab ? '最新差点' : '平均差点'}
           </div>
           <div className="col-span-4 text-center">
-            {isProgressTab ? '最近杆数/历史平均' : isLatestHandicapTab ? '最近杆数/差点微分' : '平均杆/最佳杆'}
+            {isProgressTab ? '最近杆数/近6场平均/历史平均' : isLatestHandicapTab ? '最近杆数/差点微分' : '平均杆/最佳杆'}
           </div>
           <div className="col-span-2 text-center">参赛率</div>
         </div>
@@ -281,7 +282,7 @@ export default function RankingPage() {
             {isProgressTab ? '进步' : isLatestHandicapTab ? '最新差点' : '平均差点'}
           </div>
           <div className="col-span-3 text-center">
-            {isProgressTab ? '杆数/平均' : isLatestHandicapTab ? '杆数/微分' : '均杆/最佳'}
+            {isProgressTab ? '杆数/近6/历史' : isLatestHandicapTab ? '杆数/微分' : '均杆/最佳'}
           </div>
         </div>
 
@@ -317,7 +318,7 @@ export default function RankingPage() {
               </div>
               <div className="col-span-3 text-center text-[11px]" style={{ color: '#475569' }}>
                 {isProgressTab ? (
-                  <span>{r.latestScore}<span style={{ color: '#cbd5e1' }}>/</span>{r.avgScore}</span>
+                  <span>{r.latestScore}<span style={{ color: '#cbd5e1' }}>/</span><span className="text-violet-600 font-semibold">{r.recentSixAvg ?? '--'}</span><span style={{ color: '#cbd5e1' }}>/</span>{r.avgScore}</span>
                 ) : isLatestHandicapTab ? (
                   <span>{r.latestScore}<span style={{ color: '#cbd5e1' }}>/</span><span className="text-blue-600 font-semibold">{r.latestDifferential}</span></span>
                 ) : (
@@ -355,6 +356,8 @@ export default function RankingPage() {
                 {isProgressTab ? (
                   <div className="flex items-center gap-1.5">
                     <span className="text-sm px-2.5 py-1 rounded-lg" style={{ color: '#475569', background: 'rgba(241,245,249,0.7)' }}>{r.latestScore}</span>
+                    <span style={{ color: '#cbd5e1' }}>/</span>
+                    <span className="text-sm text-violet-600 bg-violet-50 px-2.5 py-1 rounded-lg font-semibold">{r.recentSixAvg ?? '--'}</span>
                     <span style={{ color: '#cbd5e1' }}>/</span>
                     <span className="text-sm text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg">{r.avgScore}</span>
                   </div>
