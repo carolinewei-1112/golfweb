@@ -369,7 +369,7 @@ export default function GameDetailPage() {
               <div className="flex-1 min-w-0">
                 <div className="text-xs sm:text-sm font-medium text-gray-800 truncate flex items-center gap-1">{item.member.name}{birdKingMap.has(item.member.id) && <BirdKingBadge rank={birdKingMap.get(item.member.id)!} />}</div>
                 {item.score.excludedFromRanking ? (
-                  <div className="text-[10px] sm:text-xs text-red-500 truncate">不参排名 · {item.score.rankingNote}</div>
+                  <div className="text-[10px] sm:text-xs text-red-500 truncate">{item.score.rankingNote} 不参与排名</div>
                 ) : (
                   <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(item.member, getMemberGames(item.member.id).length)}</div>
                 )}
@@ -377,12 +377,11 @@ export default function GameDetailPage() {
               <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
                   <span className="w-14 sm:w-16 text-right text-xs sm:text-sm font-bold text-gray-900">{item.grossScore} 杆</span>
                   <span className={`w-12 sm:w-14 text-right text-[10px] sm:text-xs font-semibold ${
-                    item.score.excludedFromRanking ? 'text-red-500' :
                     item.progress == null ? 'text-gray-400' :
                     item.progress > 0 ? 'text-green-700' :
                     item.progress < 0 ? 'text-red-600' : 'text-gray-500'
                   }`}>
-                    {item.score.excludedFromRanking ? '不参' : item.progress == null ? '--' : `${item.progress > 0 ? '↑' : item.progress < 0 ? '↓' : ''}${Math.abs(item.progress)}`}
+                    {item.progress == null ? '--' : `${item.progress > 0 ? '↑' : item.progress < 0 ? '↓' : ''}${Math.abs(item.progress)}`}
                   </span>
                 </div>
             </Link>

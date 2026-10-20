@@ -254,7 +254,7 @@ export default function MemberDetailPage() {
                   <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">{d.tournament.courseName}</span>
                 </div>
                 <div className={`text-[10px] sm:text-xs mt-0.5 truncate ${d.score.excludedFromRanking ? 'text-red-500' : 'text-gray-400'}`}>
-                  {d.tournament.date}{d.score.excludedFromRanking && ` · 不参排名（${d.score.rankingNote}）`}
+                  {d.tournament.date}{d.score.excludedFromRanking && ` · ${d.score.rankingNote} 不参与排名`}
                 </div>
               </div>
               <div className="flex items-center gap-1.5 sm:gap-3 ml-2 flex-shrink-0">
@@ -273,8 +273,8 @@ export default function MemberDetailPage() {
                 </div>
                 <div className="text-center w-[56px] sm:w-[72px]">
                   <div className="text-[10px] sm:text-xs text-gray-400">进步系数</div>
-                  <div className={`text-xs sm:text-sm font-bold px-1.5 py-0.5 rounded-full ${d.score.excludedFromRanking ? 'text-red-500 bg-red-50' : d.progress == null ? 'text-gray-400' : d.progress > 0 ? 'text-golf-700 bg-golf-50' : d.progress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
-                    {d.score.excludedFromRanking ? '不参' : d.progress == null ? '--' : `${d.progress > 0 ? '↑' : d.progress < 0 ? '↓' : ''}${Math.abs(d.progress)}`}
+                  <div className={`text-xs sm:text-sm font-bold px-1.5 py-0.5 rounded-full ${d.progress == null ? 'text-gray-400' : d.progress > 0 ? 'text-golf-700 bg-golf-50' : d.progress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
+                    {d.progress == null ? '--' : `${d.progress > 0 ? '↑' : d.progress < 0 ? '↓' : ''}${Math.abs(d.progress)}`}
                   </div>
                 </div>
               </div>

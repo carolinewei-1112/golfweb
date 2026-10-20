@@ -312,13 +312,13 @@ export default function RankingPage() {
                 <div className="min-w-0">
                   <div className="text-xs font-semibold truncate flex items-center gap-1" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
                   <div className="text-[10px] mt-0.5 truncate" style={{ color: r.excludedFromRanking ? '#ef4444' : '#94a3b8' }}>
-                    {r.excludedFromRanking ? `不参排名 · ${r.rankingNote}` : getMemberTee(r.member, r.gameCount)}
+                    {r.excludedFromRanking ? `${r.rankingNote} 不参与排名` : getMemberTee(r.member, r.gameCount)}
                   </div>
                 </div>
               </div>
-              <div className={`col-span-2 text-center text-xs font-bold px-1.5 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.excludedFromRanking ? 'text-red-500' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
+              <div className={`col-span-2 text-center text-xs font-bold px-1.5 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
                 style={{ background: isHandicapTab ? 'rgba(220,252,231,0.6)' : undefined }}>
-                {isHandicapTab ? r.handicapIndex : r.excludedFromRanking ? '不参' : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
+                {isHandicapTab ? r.handicapIndex : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
               </div>
               <div className="col-span-3 text-center text-[11px]" style={{ color: '#475569' }}>
                 {isProgressTab ? (
@@ -348,14 +348,14 @@ export default function RankingPage() {
                 <div className="min-w-0">
                   <div className="text-sm font-semibold flex items-center gap-1 truncate" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
                   <div className="text-xs mt-0.5 truncate" style={{ color: r.excludedFromRanking ? '#ef4444' : '#94a3b8' }}>
-                    {r.excludedFromRanking ? `不参排名 · ${r.rankingNote}` : getMemberTee(r.member, r.gameCount)}
+                    {r.excludedFromRanking ? `${r.rankingNote} 不参与排名` : getMemberTee(r.member, r.gameCount)}
                   </div>
                 </div>
               </div>
               <div className="col-span-2 flex items-center justify-center">
-                <span className={`text-sm font-bold px-3 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.excludedFromRanking ? 'text-red-500 bg-red-50' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
-                  style={{ background: isHandicapTab ? 'rgba(220,252,231,0.6)' : r.excludedFromRanking ? undefined : r.latestProgress != null && r.latestProgress > 0 ? 'rgba(220,252,231,0.6)' : r.latestProgress != null && r.latestProgress < 0 ? 'rgba(255,228,230,0.6)' : undefined }}>
-                  {isHandicapTab ? r.handicapIndex : r.excludedFromRanking ? '不参排名' : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
+                <span className={`text-sm font-bold px-3 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
+                  style={{ background: isHandicapTab ? 'rgba(220,252,231,0.6)' : r.latestProgress != null && r.latestProgress > 0 ? 'rgba(220,252,231,0.6)' : r.latestProgress != null && r.latestProgress < 0 ? 'rgba(255,228,230,0.6)' : undefined }}>
+                  {isHandicapTab ? r.handicapIndex : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
                 </span>
               </div>
               <div className="col-span-4 flex items-center justify-center">
