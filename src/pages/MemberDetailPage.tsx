@@ -255,7 +255,7 @@ export default function MemberDetailPage() {
                 </div>
                 <div className="text-[10px] sm:text-xs mt-0.5 truncate">
                   <span className="text-gray-400">{d.tournament.date}</span>
-                  {d.score.excludedFromRanking && <span className="text-red-500"> · {d.score.rankingNote} 不参与排名</span>}
+                  {d.score.excludedFromRanking && <span className="text-red-500"> · {d.score.rankingNote}不参与排名</span>}
                 </div>
               </div>
               <div className="flex items-center gap-1.5 sm:gap-3 ml-2 flex-shrink-0">

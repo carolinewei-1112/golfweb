@@ -411,7 +411,7 @@ export const games: Game[] = [
         grossScore: 114,
         putts: 0,
         excludedFromRanking: true,
-        rankingNote: '打白TEE犯规',
+        rankingNote: '打白TEE',
       },
       { memberId: '德里克', grossScore: 102, putts: 0 },
       { memberId: 'Raachael', grossScore: 126, putts: 0 },

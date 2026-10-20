@@ -60,7 +60,7 @@ interface StoreState {
 
 const StoreContext = createContext<StoreState | null>(null)
 
-const STORAGE_KEY = 'golfweb_store_v48'
+const STORAGE_KEY = 'golfweb_store_v49'
 
 function loadStore() {
   try {
@@ -113,6 +113,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     { id: 'E016', tournamentId: 'T012', category: 'prize', amount: 104, date: '2026-08-28', note: '月赛打鸟奖品 球', createTime: '2026-08-28T20:02:00.000Z' },
     { id: 'E017', tournamentId: 'T013', category: 'meal', amount: 506, date: '2026-09-19', note: '9月月赛聚餐 竹院牛庄（9人共569元：8名会员、1名嘉宾）', createTime: '2026-09-19T20:00:00.000Z' },
     { id: 'E018', tournamentId: 'T014', category: 'meal', amount: 678.4, date: '2026-10-18', note: '10月月赛聚餐 嘴刁金装大排档（10人共848元：8名会员、2名嘉宾）', createTime: '2026-10-18T20:00:00.000Z' },
+    { id: 'E019', tournamentId: 'T014', category: 'bonus', amount: 600, date: '2026-10-18', note: '10月月赛冠军 奖金 康序', createTime: '2026-10-18T20:01:00.000Z' },
+    { id: 'E020', tournamentId: 'T014', category: 'bonus', amount: 300, date: '2026-10-18', note: '10月月赛季军 奖金 NiKi', createTime: '2026-10-18T20:02:00.000Z' },
+    { id: 'E021', tournamentId: 'T014', category: 'bonus', amount: 100, date: '2026-10-18', note: '10月月赛亚军 奖金 大面', createTime: '2026-10-18T20:03:00.000Z' },
   ]
   const expenses: Expense[] = (saved?.expenses && saved.expenses.length > 0) ? saved.expenses : defaultExpenses
 

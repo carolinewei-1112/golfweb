@@ -459,7 +459,7 @@ export default function HomePage() {
                   <div className="text-xs sm:text-sm font-medium text-gray-700 truncate flex items-center gap-1">
                     {r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}
                   </div>
-                  {r.excludedFromRanking && <div className="text-[10px] text-red-500 truncate">{r.rankingNote} 不参与排名</div>}
+                  {r.excludedFromRanking && <div className="text-[10px] text-red-500 truncate">{r.rankingNote}不参与排名</div>}
                 </div>
                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                   r.latestProgress >= 0

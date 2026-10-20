@@ -369,7 +369,7 @@ export default function GameDetailPage() {
               <div className="flex-1 min-w-0">
                 <div className="text-xs sm:text-sm font-medium text-gray-800 truncate flex items-center gap-1">{item.member.name}{birdKingMap.has(item.member.id) && <BirdKingBadge rank={birdKingMap.get(item.member.id)!} />}</div>
                 {item.score.excludedFromRanking ? (
-                  <div className="text-[10px] sm:text-xs text-red-500 truncate">{item.score.rankingNote} 不参与排名</div>
+                  <div className="text-[10px] sm:text-xs text-red-500 truncate">{item.score.rankingNote}不参与排名</div>
                 ) : (
                   <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(item.member, getMemberGames(item.member.id).length)}</div>
                 )}

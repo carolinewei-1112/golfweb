@@ -312,7 +312,7 @@ export default function RankingPage() {
                 <div className="min-w-0">
                   <div className="text-xs font-semibold truncate flex items-center gap-1" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
                   <div className="text-[10px] mt-0.5 truncate" style={{ color: r.excludedFromRanking ? '#ef4444' : '#94a3b8' }}>
-                    {r.excludedFromRanking ? `${r.rankingNote} 不参与排名` : getMemberTee(r.member, r.gameCount)}
+                    {r.excludedFromRanking ? `${r.rankingNote}不参与排名` : getMemberTee(r.member, r.gameCount)}
                   </div>
                 </div>
               </div>
@@ -348,7 +348,7 @@ export default function RankingPage() {
                 <div className="min-w-0">
                   <div className="text-sm font-semibold flex items-center gap-1 truncate" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
                   <div className="text-xs mt-0.5 truncate" style={{ color: r.excludedFromRanking ? '#ef4444' : '#94a3b8' }}>
-                    {r.excludedFromRanking ? `${r.rankingNote} 不参与排名` : getMemberTee(r.member, r.gameCount)}
+                    {r.excludedFromRanking ? `${r.rankingNote}不参与排名` : getMemberTee(r.member, r.gameCount)}
                   </div>
                 </div>
               </div>
