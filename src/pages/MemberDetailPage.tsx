@@ -62,7 +62,7 @@ export default function MemberDetailPage() {
       .sort((a, b) => (b.progress ?? 0) - (a.progress ?? 0))
       .map((p, i) => ({ ...p, rank: i + 1 }))
     const rank = g.score.excludedFromRanking
-      ? '不参'
+      ? '-'
       : progressList.find(p => p.memberId === member.id)?.rank ?? '-'
     return {
       tournament: g.tournament,
@@ -253,8 +253,9 @@ export default function MemberDetailPage() {
                   </span>
                   <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">{d.tournament.courseName}</span>
                 </div>
-                <div className={`text-[10px] sm:text-xs mt-0.5 truncate ${d.score.excludedFromRanking ? 'text-red-500' : 'text-gray-400'}`}>
-                  {d.tournament.date}{d.score.excludedFromRanking && ` · ${d.score.rankingNote} 不参与排名`}
+                <div className="text-[10px] sm:text-xs mt-0.5 truncate">
+                  <span className="text-gray-400">{d.tournament.date}</span>
+                  {d.score.excludedFromRanking && <span className="text-red-500"> · {d.score.rankingNote} 不参与排名</span>}
                 </div>
               </div>
               <div className="flex items-center gap-1.5 sm:gap-3 ml-2 flex-shrink-0">
