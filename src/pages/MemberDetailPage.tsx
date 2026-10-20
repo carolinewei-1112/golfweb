@@ -48,11 +48,12 @@ export default function MemberDetailPage() {
   }))
 
   const detailData = memberGames.slice(-12).reverse().map(g => {
-    // 计算该场比赛所有参赛者的进步系数，按进步系数降序排名
+    // 计算该场比赛所有具备排名资格者的进步系数，按进步系数降序排名
     const game = games.find(gm => gm.tournamentId === g.tournament.id)
-    const playerCount = game?.scores.length ?? 0
+    const eligibleScores = (game?.scores ?? []).filter(score => !score.excludedFromRanking)
+    const playerCount = eligibleScores.length
     const topN = playerCount <= 5 ? 2 : 3 // 参赛≤5人只有前2名，否则前3名
-    const progressList = (game?.scores ?? [])
+    const progressList = eligibleScores
       .map(s => ({
         memberId: s.memberId,
         progress: getProgressScore(s.memberId, g.tournament.id),
@@ -60,7 +61,9 @@ export default function MemberDetailPage() {
       .filter(p => p.progress !== null)
       .sort((a, b) => (b.progress ?? 0) - (a.progress ?? 0))
       .map((p, i) => ({ ...p, rank: i + 1 }))
-    const rank = progressList.find(p => p.memberId === member.id)?.rank ?? '-'
+    const rank = g.score.excludedFromRanking
+      ? '不参'
+      : progressList.find(p => p.memberId === member.id)?.rank ?? '-'
     return {
       tournament: g.tournament,
       score: g.score,
@@ -250,7 +253,9 @@ export default function MemberDetailPage() {
                   </span>
                   <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">{d.tournament.courseName}</span>
                 </div>
-                <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5">{d.tournament.date}</div>
+                <div className={`text-[10px] sm:text-xs mt-0.5 truncate ${d.score.excludedFromRanking ? 'text-red-500' : 'text-gray-400'}`}>
+                  {d.tournament.date}{d.score.excludedFromRanking && ` · 不参排名（${d.score.rankingNote}）`}
+                </div>
               </div>
               <div className="flex items-center gap-1.5 sm:gap-3 ml-2 flex-shrink-0">
                 <div className="text-center w-[38px] sm:w-[46px]">
@@ -259,7 +264,7 @@ export default function MemberDetailPage() {
                     d.rank === 1 ? 'text-amber-500' :
                     d.rank === 2 ? 'text-gray-500' :
                     d.rank === 3 && d.topN >= 3 ? 'text-amber-700' :
-                    'text-gray-800'
+                    d.score.excludedFromRanking ? 'text-red-500' : 'text-gray-800'
                   }`}>{d.rank}</div>
                 </div>
                 <div className="text-center w-[38px] sm:w-[46px]">
@@ -268,8 +273,8 @@ export default function MemberDetailPage() {
                 </div>
                 <div className="text-center w-[56px] sm:w-[72px]">
                   <div className="text-[10px] sm:text-xs text-gray-400">进步系数</div>
-                  <div className={`text-xs sm:text-sm font-bold px-1.5 py-0.5 rounded-full ${d.progress == null ? 'text-gray-400' : d.progress > 0 ? 'text-golf-700 bg-golf-50' : d.progress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
-                    {d.progress == null ? '--' : `${d.progress > 0 ? '↑' : d.progress < 0 ? '↓' : ''}${Math.abs(d.progress)}`}
+                  <div className={`text-xs sm:text-sm font-bold px-1.5 py-0.5 rounded-full ${d.score.excludedFromRanking ? 'text-red-500 bg-red-50' : d.progress == null ? 'text-gray-400' : d.progress > 0 ? 'text-golf-700 bg-golf-50' : d.progress < 0 ? 'text-red-500 bg-red-50' : 'text-gray-500'}`}>
+                    {d.score.excludedFromRanking ? '不参' : d.progress == null ? '--' : `${d.progress > 0 ? '↑' : d.progress < 0 ? '↓' : ''}${Math.abs(d.progress)}`}
                   </div>
                 </div>
               </div>

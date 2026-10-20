@@ -433,8 +433,8 @@ export default function HomePage() {
                   awardRank === 1 ? { background: 'linear-gradient(135deg, #facc15, #eab308)' } :
                   awardRank === 2 ? { background: 'linear-gradient(135deg, #9ca3af, #6b7280)' } :
                   awardRank === 3 ? { background: 'linear-gradient(135deg, #d97706, #b45309)' } :
-                  undefined
-                }>{r.rank}</span>
+                  r.excludedFromRanking ? { background: '#fef2f2', color: '#ef4444' } : undefined
+                }>{r.rank ?? '—'}</span>
                 {/* 头像 + 前三名皇冠 */}
                 <div className={`relative flex-shrink-0 ${isTop3 ? 'mt-1.5' : ''}`}>
                   {isTop3 && crown && (
@@ -455,13 +455,18 @@ export default function HomePage() {
                   )}
                   <img src={r.member.avatar} alt="" className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gray-100 shadow-sm ${isTop3 ? 'ring-2 ring-offset-1 ' + (awardRank === 1 ? 'ring-amber-300/80' : awardRank === 2 ? 'ring-slate-300/70' : 'ring-orange-400/60') : ''}`} />
                 </div>
-                <span className="flex-1 text-xs sm:text-sm font-medium text-gray-700 truncate flex items-center gap-1">{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</span>
+                <span className="flex-1 min-w-0 text-xs sm:text-sm font-medium text-gray-700 truncate flex items-center gap-1">
+                  {r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}
+                  {r.excludedFromRanking && <span className="text-[10px] text-red-500">不参排名</span>}
+                </span>
                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-                  r.latestProgress >= 0 
-                    ? 'text-golf-700 bg-golf-50' 
-                    : 'text-red-600 bg-red-50'
+                  r.excludedFromRanking
+                    ? 'text-red-500 bg-red-50'
+                    : r.latestProgress >= 0
+                      ? 'text-golf-700 bg-golf-50'
+                      : 'text-red-600 bg-red-50'
                 }`}>
-                  {r.latestProgress >= 0 ? '+' : ''}{r.latestProgress.toFixed(1)}
+                  {r.excludedFromRanking ? '白TEE犯规' : `${r.latestProgress >= 0 ? '+' : ''}${r.latestProgress.toFixed(1)}`}
                 </span>
               </div>
               );

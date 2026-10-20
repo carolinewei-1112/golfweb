@@ -15,7 +15,6 @@ export default function GameDetailPage() {
   const { id } = useParams<{ id: string }>()
   const {
     tournaments, games, getMemberById,
-    getGrossRanking,
     getProgressScore, getMemberGames,
     birdieRecords,
   } = useStore()
@@ -33,8 +32,6 @@ export default function GameDetailPage() {
   const game = games.find(g => g.tournamentId === id)
   const [sortBy, setSortBy] = useState<SortBy>('progress')
 
-  const grossRanking = getGrossRanking(id)
-
   // 获取完整数据（包含杆数和进步系数）
   const sortedRanking = (game?.scores ?? [])
     .map(s => {
@@ -44,6 +41,8 @@ export default function GameDetailPage() {
     })
     .filter(r => r.member)
     .sort((a, b) => {
+      const exclusionOrder = Number(Boolean(a.score.excludedFromRanking)) - Number(Boolean(b.score.excludedFromRanking))
+      if (exclusionOrder !== 0) return exclusionOrder
       if (sortBy === 'gross') {
         return a.grossScore - b.grossScore
       } else {
@@ -51,16 +50,19 @@ export default function GameDetailPage() {
       }
     })
 
+  let eligibleRank = 0
   let eligibleProgressRank = 0
-  const fullRanking = sortedRanking.map((r, i) => {
-    const rank = i + 1
-    const awardRank = sortBy === 'gross'
-      ? rank
-      : r.progress !== null && r.progress >= 0 ? ++eligibleProgressRank : null
+  const fullRanking = sortedRanking.map(r => {
+    const rank = r.score.excludedFromRanking ? null : ++eligibleRank
+    const awardRank = r.score.excludedFromRanking
+      ? null
+      : sortBy === 'gross'
+        ? rank
+        : r.progress !== null && r.progress >= 0 ? ++eligibleProgressRank : null
     return { ...r, rank, awardRank }
   })
 
-  const playerCount = fullRanking.length
+  const playerCount = fullRanking.filter(r => !r.score.excludedFromRanking).length
   const topN = playerCount <= 5 ? 2 : 3  // 参赛≤5人只有前2名，否则前3名
 
   // 提取月份
@@ -146,7 +148,7 @@ export default function GameDetailPage() {
 
       {/* 本场亮点：进步黑马 / 退步红马 / 鸟哥 三模块统一风格 */}
       {(() => {
-        const withProgress = fullRanking.filter(r => r.progress != null)
+        const withProgress = fullRanking.filter(r => r.progress != null && !r.score.excludedFromRanking)
         const awardEligiblePlayers = withProgress.filter(r => (r.progress ?? -1) >= 0)
         const bestPlayer = awardEligiblePlayers.length > 0 ? awardEligiblePlayers.reduce((best, r) => (r.progress ?? -999) > (best.progress ?? -999) ? r : best) : null
         const worstPlayer = withProgress.length > 0 ? withProgress.reduce((worst, r) => (r.progress ?? 999) < (worst.progress ?? 999) ? r : worst) : null
@@ -338,8 +340,8 @@ export default function GameDetailPage() {
                 displayedRank === 1 && topN >= 1 ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm' :
                 displayedRank === 2 && topN >= 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-sm' :
                 displayedRank === 3 && topN >= 3 ? 'bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-sm' :
-                'bg-gray-100 text-gray-500'
-              }`}>{item.rank}</span>
+                item.score.excludedFromRanking ? 'bg-red-50 text-red-500' : 'bg-gray-100 text-gray-500'
+              }`}>{item.rank ?? '—'}</span>
               {/* 头像 + 前三名皇冠 */}
               <div className={`relative flex-shrink-0 ${isTopN ? 'mt-1.5' : ''}`}>
                 {isTopN && crown && (
@@ -366,16 +368,21 @@ export default function GameDetailPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-xs sm:text-sm font-medium text-gray-800 truncate flex items-center gap-1">{item.member.name}{birdKingMap.has(item.member.id) && <BirdKingBadge rank={birdKingMap.get(item.member.id)!} />}</div>
-                <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(item.member, getMemberGames(item.member.id).length)}</div>
+                {item.score.excludedFromRanking ? (
+                  <div className="text-[10px] sm:text-xs text-red-500 truncate">不参排名 · {item.score.rankingNote}</div>
+                ) : (
+                  <div className="text-[10px] sm:text-xs text-gray-400">{getMemberTee(item.member, getMemberGames(item.member.id).length)}</div>
+                )}
               </div>
               <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
                   <span className="w-14 sm:w-16 text-right text-xs sm:text-sm font-bold text-gray-900">{item.grossScore} 杆</span>
                   <span className={`w-12 sm:w-14 text-right text-[10px] sm:text-xs font-semibold ${
-                    item.progress == null ? 'text-gray-400' : 
-                    item.progress > 0 ? 'text-green-700' : 
+                    item.score.excludedFromRanking ? 'text-red-500' :
+                    item.progress == null ? 'text-gray-400' :
+                    item.progress > 0 ? 'text-green-700' :
                     item.progress < 0 ? 'text-red-600' : 'text-gray-500'
                   }`}>
-                    {item.progress == null ? '--' : `${item.progress > 0 ? '↑' : item.progress < 0 ? '↓' : ''}${Math.abs(item.progress)}`}
+                    {item.score.excludedFromRanking ? '不参' : item.progress == null ? '--' : `${item.progress > 0 ? '↑' : item.progress < 0 ? '↓' : ''}${Math.abs(item.progress)}`}
                   </span>
                 </div>
             </Link>

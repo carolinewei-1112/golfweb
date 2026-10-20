@@ -7,8 +7,10 @@ import { Icon, BirdKingBadge } from '../components/Icons'
 type RankingType = 'handicap' | 'latestHandicap' | 'progress'
 
 interface RankingItem {
-  rank: number
+  rank: number | null
   awardRank?: number | null
+  excludedFromRanking?: boolean
+  rankingNote?: string
   member: {
     id: string
     name: string
@@ -302,19 +304,21 @@ export default function RankingPage() {
                   getDisplayedRank(r) === 1 ? { background: 'linear-gradient(135deg, #FBBF24, #D97706)' } :
                   getDisplayedRank(r) === 2 ? { background: 'linear-gradient(135deg, #94A3B8, #64748B)' } :
                   getDisplayedRank(r) === 3 ? { background: 'linear-gradient(135deg, #F97316, #C2410C)' } :
-                  { background: '#F1F5F9' }
-                }>{r.rank}</span>
+                  r.excludedFromRanking ? { background: '#FEF2F2', color: '#EF4444' } : { background: '#F1F5F9' }
+                }>{r.excludedFromRanking ? '—' : r.rank}</span>
               </div>
               <div className="col-span-4 flex items-center gap-1.5 min-w-0">
                 <img src={r.member.avatar} alt="" className="w-8 h-8 rounded-xl bg-slate-100 flex-shrink-0 object-cover" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }} />
                 <div className="min-w-0">
                   <div className="text-xs font-semibold truncate flex items-center gap-1" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
-                  <div className="text-[10px] mt-0.5" style={{ color: '#94a3b8' }}>{getMemberTee(r.member, r.gameCount)}</div>
+                  <div className="text-[10px] mt-0.5 truncate" style={{ color: r.excludedFromRanking ? '#ef4444' : '#94a3b8' }}>
+                    {r.excludedFromRanking ? `不参排名 · ${r.rankingNote}` : getMemberTee(r.member, r.gameCount)}
+                  </div>
                 </div>
               </div>
-              <div className={`col-span-2 text-center text-xs font-bold px-1.5 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
+              <div className={`col-span-2 text-center text-xs font-bold px-1.5 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.excludedFromRanking ? 'text-red-500' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
                 style={{ background: isHandicapTab ? 'rgba(220,252,231,0.6)' : undefined }}>
-                {isHandicapTab ? r.handicapIndex : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
+                {isHandicapTab ? r.handicapIndex : r.excludedFromRanking ? '不参' : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
               </div>
               <div className="col-span-3 text-center text-[11px]" style={{ color: '#475569' }}>
                 {isProgressTab ? (
@@ -336,20 +340,22 @@ export default function RankingPage() {
                   getDisplayedRank(r) === 1 ? { background: 'linear-gradient(135deg, #FBBF24, #D97706)' } :
                   getDisplayedRank(r) === 2 ? { background: 'linear-gradient(135deg, #94A3B8, #64748B)' } :
                   getDisplayedRank(r) === 3 ? { background: 'linear-gradient(135deg, #F97316, #C2410C)' } :
-                  { background: '#F1F5F9' }
-                }>{r.rank}</span>
+                  r.excludedFromRanking ? { background: '#FEF2F2', color: '#EF4444' } : { background: '#F1F5F9' }
+                }>{r.excludedFromRanking ? '—' : r.rank}</span>
               </div>
               <div className="col-span-3 flex items-center gap-2.5 min-w-0">
                 <img src={r.member.avatar} alt="" className="w-9 h-9 rounded-xl bg-slate-100 object-cover flex-shrink-0" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }} />
                 <div className="min-w-0">
                   <div className="text-sm font-semibold flex items-center gap-1 truncate" style={{ color: '#1e293b' }}>{r.member.name}{birdKingMap.has(r.member.id) && <BirdKingBadge rank={birdKingMap.get(r.member.id)!} />}</div>
-                  <div className="text-xs mt-0.5 truncate" style={{ color: '#94a3b8' }}>{getMemberTee(r.member, r.gameCount)}</div>
+                  <div className="text-xs mt-0.5 truncate" style={{ color: r.excludedFromRanking ? '#ef4444' : '#94a3b8' }}>
+                    {r.excludedFromRanking ? `不参排名 · ${r.rankingNote}` : getMemberTee(r.member, r.gameCount)}
+                  </div>
                 </div>
               </div>
               <div className="col-span-2 flex items-center justify-center">
-                <span className={`text-sm font-bold px-3 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
-                  style={{ background: isHandicapTab ? 'rgba(220,252,231,0.6)' : r.latestProgress != null && r.latestProgress > 0 ? 'rgba(220,252,231,0.6)' : r.latestProgress != null && r.latestProgress < 0 ? 'rgba(255,228,230,0.6)' : undefined }}>
-                  {isHandicapTab ? r.handicapIndex : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
+                <span className={`text-sm font-bold px-3 py-1 rounded-lg ${isHandicapTab ? 'text-emerald-700' : r.excludedFromRanking ? 'text-red-500 bg-red-50' : r.latestProgress == null ? 'text-slate-400' : r.latestProgress > 0 ? 'text-emerald-700' : r.latestProgress < 0 ? 'text-rose-600' : 'text-slate-500'}`}
+                  style={{ background: isHandicapTab ? 'rgba(220,252,231,0.6)' : r.excludedFromRanking ? undefined : r.latestProgress != null && r.latestProgress > 0 ? 'rgba(220,252,231,0.6)' : r.latestProgress != null && r.latestProgress < 0 ? 'rgba(255,228,230,0.6)' : undefined }}>
+                  {isHandicapTab ? r.handicapIndex : r.excludedFromRanking ? '不参排名' : r.latestProgress == null ? '--' : `${r.latestProgress > 0 ? '↑' : r.latestProgress < 0 ? '↓' : ''}${Math.abs(r.latestProgress)}`}
                 </span>
               </div>
               <div className="col-span-4 flex items-center justify-center">

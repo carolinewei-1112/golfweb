@@ -51,6 +51,8 @@ export interface ScoreEntry {
   memberId: string;
   grossScore: number;
   putts: number;
+  excludedFromRanking?: boolean;
+  rankingNote?: string;
 }
 
 export interface Game {
@@ -404,7 +406,13 @@ export const games: Game[] = [
       { memberId: 'lulu酱', grossScore: 124, putts: 0 },
       { memberId: 'NiKi', grossScore: 96, putts: 0 },
       { memberId: 'Archer', grossScore: 109, putts: 0 },
-      { memberId: '纯情浩克', grossScore: 114, putts: 0 },
+      {
+        memberId: '纯情浩克',
+        grossScore: 114,
+        putts: 0,
+        excludedFromRanking: true,
+        rankingNote: '打白TEE犯规',
+      },
       { memberId: '德里克', grossScore: 102, putts: 0 },
       { memberId: 'Raachael', grossScore: 126, putts: 0 },
       { memberId: '康序', grossScore: 114, putts: 0 },
@@ -584,19 +592,20 @@ export function getProgressScore(
   return Math.round(s * 100) / 100;
 }
 
-/** 获取比赛的总杆数排名 */
+/** 获取比赛的总杆数排名；不参排名的成绩保留展示，但不分配名次 */
 export function getGrossRanking(tournamentId: string, gameList: Game[], tournamentList: Tournament[], memberList: Member[]) {
   const game = gameList.find(g => g.tournamentId === tournamentId);
   if (!game) return [];
   const tournament = tournamentList.find(t => t.id === tournamentId)!;
 
+  let rank = 0;
   return game.scores
     .map(s => {
       const member = memberList.find(m => m.id === s.memberId)!;
       return { ...s, member, tournament };
     })
-    .sort((a, b) => a.grossScore - b.grossScore)
-    .map((s, i) => ({ ...s, rank: i + 1 }));
+    .sort((a, b) => Number(Boolean(a.excludedFromRanking)) - Number(Boolean(b.excludedFromRanking)) || a.grossScore - b.grossScore)
+    .map(s => ({ ...s, rank: s.excludedFromRanking ? null : ++rank }));
 }
 
 /** 获取比赛的进步系数之星（进步系数最大者） */
@@ -611,6 +620,7 @@ export function getProgressStar(
 
   let best: { memberId: string; progress: number } | null = null;
   for (const s of game.scores) {
+    if (s.excludedFromRanking) continue;
     const p = getProgressScore(s.memberId, tournamentId, gameList, tournamentList, memberList);
     // 只有非负进步系数才具备获奖资格
     if (p !== null && p >= 0 && (best === null || p > best.progress)) {
@@ -691,6 +701,8 @@ export function getProgressRanking(gameList?: Game[], tournamentList?: Tournamen
         handicapIndex: getHandicapIndex(s.memberId, gl, tl, ml),
         latestProgress: progress,
         latestScore: s.grossScore,
+        excludedFromRanking: s.excludedFromRanking ?? false,
+        rankingNote: s.rankingNote,
         gameCount,
         totalGames: totalTournaments,
         participationRate: Math.round((gameCount / totalTournaments) * 100),
@@ -699,12 +711,13 @@ export function getProgressRanking(gameList?: Game[], tournamentList?: Tournamen
       };
     })
     .filter((x): x is NonNullable<typeof x> => x !== null)
-    .sort((a, b) => b.latestProgress - a.latestProgress);
+    .sort((a, b) => Number(Boolean(a.excludedFromRanking)) - Number(Boolean(b.excludedFromRanking)) || b.latestProgress - a.latestProgress);
 
+  let rank = 0;
   let awardRank = 0;
-  return ranking.map((r, i) => ({
+  return ranking.map(r => ({
     ...r,
-    rank: i + 1,
-    awardRank: r.latestProgress >= 0 ? ++awardRank : null,
+    rank: r.excludedFromRanking ? null : ++rank,
+    awardRank: !r.excludedFromRanking && r.latestProgress >= 0 ? ++awardRank : null,
   }));
 }
